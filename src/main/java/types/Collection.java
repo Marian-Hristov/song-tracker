@@ -5,7 +5,7 @@ public class Collection {
     private String name;
     private Compilation[] compilation;
 
-    public Collection(String id, String name, Compilation[] compilation){
+    public Collection(String id, String name, Compilation[] compilation) {
         this.id = id;
         this.name = name;
         this.compilation = compilation;

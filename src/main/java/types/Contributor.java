@@ -4,7 +4,7 @@ public class Contributor {
     private String id;
     private String name;
 
-    public Contributor(String id, String name){
+    public Contributor(String id, String name) {
         this.id = id;
         this.name = name;
     }

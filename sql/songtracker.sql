@@ -1,12 +1,23 @@
 
--- recordings / contributions
+-- dropping the tables
 drop table musicalContributions;
 drop table productionContributions;
 drop table productionRoles;
+drop table recordingsamples;
+drop table compilationSamples;
+drop table distributions;
+drop table collectionCompilations;
+
 drop table recordings;
 drop table contributors;
 drop table musicianRoles;
+drop table compilations;
+drop table segment;
+drop table recordlabels;
+drop table markets;
+drop table collections;
 
+-- recordings / contrubutions
 create table productionRoles(
     role_id char(5) primary key,
     role_name varchar2(100) not null
@@ -49,10 +60,7 @@ create table musicalContributions (
 );
 
 -- compilations / samples
-drop table compilations;
-drop table segment;
-drop table recordingsamples;
-drop table compilationsamples;
+
 
 create table compilations (
     compilation_id char(5) primary key,
@@ -92,12 +100,8 @@ create table compilationsamples (
     foreign key (segment_id) references segment (segment_id)
 );
 
+
 -- Album / Distribution
-drop table recordlabels;
-drop table markets;
-drop table collections;
-drop table distributions;
-drop table collectioncompilations;
 
 create table recordlabels (
     label_id char(5) primary key,
@@ -120,14 +124,14 @@ create table distributions (
     release_date date not null,
     label_id char(5),
     market_id char(5),
-    foreign key (collections) references collections (collection_id),
-    foreign key (recordlabels) references recordlabels (label_id),
-    foreign key (markets) references markets (market_id)
+    foreign key (collection_id) references collections (collection_id),
+    foreign key (label_id) references recordlabels (label_id),
+    foreign key (market_id) references markets (market_id)
 );
 
 create table collectioncompilations (
     collection_id char(5),
     compilation_id char(5),
-    foreign key (collections) references collections (collection_id),
-    foreign key (compilations) references compilations (compilation_id)
+    foreign key (collection_id) references collections (collection_id),
+    foreign key (compilation_id) references compilations (compilation_id)
 );

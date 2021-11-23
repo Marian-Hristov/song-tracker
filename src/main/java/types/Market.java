@@ -4,7 +4,7 @@ public class Market {
     private String id;
     private String name;
 
-    public Market(String id, String name){
+    public Market(String id, String name) {
         this.id = id;
         this.name = name;
     }

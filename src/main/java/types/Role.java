@@ -4,7 +4,7 @@ public abstract class Role {
     protected String id;
     protected String name;
 
-    public Role(String id, String name){
+    public Role(String id, String name) {
         this.id = id;
         this.name = name;
     }

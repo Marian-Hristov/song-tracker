@@ -4,7 +4,7 @@ public class Compilation {
     private Segment<Compilation>[] sampledCompilations;
     private Segment<Recording>[] sampledRecordings;
 
-    public Compilation(Segment<Compilation>[] sampledCompilations, Segment<Recording>[] sampledRecordings){
+    public Compilation(Segment<Compilation>[] sampledCompilations, Segment<Recording>[] sampledRecordings) {
         this.sampledCompilations = sampledCompilations;
         this.sampledRecordings = sampledRecordings;
     }

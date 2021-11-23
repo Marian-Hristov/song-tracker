@@ -2,5 +2,5 @@ package types;
 
 public class Distribution {
     private String id;
-    private Collection
+    private Collection collection;
 }

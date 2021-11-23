@@ -43,7 +43,7 @@ public class Recording {
         this.duration = duration;
     }
 
-    public String getDurationString(){
+    public String getDurationString() {
 //        Duration of 1hour 2minutes 47seconds
 //        duration = 3767
         int hours = (duration - (duration % 3600)) / 3600;
