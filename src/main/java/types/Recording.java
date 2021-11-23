@@ -45,12 +45,12 @@ public class Recording {
 
     public String getDurationString(){
 //        Duration of 1hour 2minutes 47seconds
-//        duration = 3707
-//        int hours = duration % 3600
-//        int minutes = (duration - 3600*hours) % 60
-//        int seconds = duration - 3600*hours - 60*minutes
-//        TODO: finish getDurationString() method
-        return "";
+//        duration = 3767
+        int hours = (duration - (duration % 3600)) / 3600;
+        int seconds = (duration - hours * 3600) % 60;
+        int minutes = (duration - hours * 3600 - seconds) / 60;
+        return (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + "."
+                + (seconds < 10 ? "0" + seconds : seconds);
     }
 
     public Map<Role, ArrayList<Contributor>> getContributions() {
