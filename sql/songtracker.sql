@@ -19,7 +19,7 @@ drop table collections;
 
 -- recordings / contrubutions
 create table productionRoles(
-    role_id char(5) primary key,
+    role_id char(5) primary key default,
     role_name varchar2(100) not null
 );
 
