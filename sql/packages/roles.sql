@@ -1,8 +1,8 @@
 create or replace package role_mgmt as
     procedure addRole(category varchar2, new_role_name varchar2);
-    procedure removeRole(category varchar2, deleted_role_id char);
     function roleExists(category varchar2, searched_role_id char)
         return number(1);
+    procedure removeRole(category varchar2, deleted_role_id char);
 end role_mgmt;
 
 create or replace package body role_mgmt as
@@ -22,13 +22,36 @@ create or replace package body role_mgmt as
             raise_application_error(-20002, 'specified category does not exist');
         end if;
     end;
+    -- Checking if a specified user exists
+    function roleExists(category varchar2, searched_role_id char)
+    return number(1)
+    is
+        found musicianRoles.role_name%type;
+    begin
+        if (category is null or searched_role_id is null) then
+            raise_application_error(-20001, 'one or more arguments are null or empty');
+        end if;
+        if category = 'm' then
+            select into found from musicianRoles where role_id = searched_role_id;
+        elsif category = 'p' then
+            select into found from productionRoles where role_id = searched_role_id;
+        else
+            raise_application_error(-20002, 'specified category does not exist');
+        end if;
+        return 0;
+        exception
+            when no_data_found then
+                return 1;
+    end;
     -- Remove a role
     procedure removeRole(category varchar2, deleted_role_id char) is
     begin
         if (category is null or deleted_role_id is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
+        elsif (roleExists(category, deleted_role_id) = 1) then
+            raise_application_error(-20003, 'cannot delete role that does not exist');
         end if;
-        if category = 'musician' then
+        if category = 'm' then
             -- Major problem, when we delete a contribution from a recording
             -- that only has one contribution, then we need to delete that 
             -- recording and if the recording is part of a sample that is 
@@ -54,38 +77,17 @@ create or replace package body role_mgmt as
 
             -- this makes sense because not all recordings are used in a 
             -- compilation, some may not be used but still kept in the DB
-            delete from musicalcontributions
+            delete from musicalContributions
             where contributor_id = deleted_role_id;
             delete from musicianRoles
             where role_id = deleted_role_id;
-        elsif category = 'production' then
-            delete from productioncontributions
+        elsif category = 'p' then
+            delete from productionContributions
             where contributor_id = deleted_role_id;
             delete from productionRoles
             where role_id = deleted_role_id;
         else
             raise_application_error(-20002, 'specified category does not exist');
         end if;
-    end;
-    -- Checking if a specified user exists
-    function roleExists(category varchar2, searched_role_id char)
-    return number(1)
-    is
-        found musicianRoles.role_name%type;
-    begin
-        if (category is null or searched_role_id is null) then
-            raise_application_error(-20001, 'one or more arguments are null or empty');
-        end if;
-        if category = 'musician' then
-            select into found from musicianRoles where role_id = searched_role_id;
-        elsif category = 'production' then
-            select into found from productionRoles where role_id = searched_role_id;
-        else
-            raise_application_error(-20002, 'specified category does not exist');
-        end if;
-        return 0;
-        exception
-            when no_data_found then
-                return 1;
     end;
 end role_mgmt;
