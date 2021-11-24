@@ -1,4 +1,4 @@
-package com.example.songtracker;
+package dawson.songtracker;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

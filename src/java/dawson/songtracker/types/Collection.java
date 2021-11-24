@@ -1,11 +1,11 @@
-package types;
+package dawson.songtracker.types;
 
 public class Collection {
     private String id;
     private String name;
     private Compilation[] compilation;
 
-    public Collection(String id, String name, Compilation[] compilation){
+    public Collection(String id, String name, Compilation[] compilation) {
         this.id = id;
         this.name = name;
         this.compilation = compilation;

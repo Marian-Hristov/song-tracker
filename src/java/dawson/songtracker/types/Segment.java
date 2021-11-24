@@ -1,6 +1,6 @@
-package types;
+package dawson.songtracker.types;
 
-public class Segment<T>{
+public class Segment<T> {
     private String id;
     private Compilation mainTrack;
     private T componentTrack;
@@ -9,7 +9,7 @@ public class Segment<T>{
     private int componentTrackOffset;
     private int durationOfComponent;
 
-    public Segment (String id, Compilation mainTrack, T componentTrack, int mainTrackOffset, int durationInMainTrack, int componentTrackOffset, int durationOfComponent){
+    public Segment(String id, Compilation mainTrack, T componentTrack, int mainTrackOffset, int durationInMainTrack, int componentTrackOffset, int durationOfComponent) {
         this.id = id;
         this.mainTrack = mainTrack;
         this.componentTrack = componentTrack;
