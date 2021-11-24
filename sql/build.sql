@@ -93,6 +93,7 @@ create sequence collection_id_seq
 
 
 -- dropping the tables
+drop table stusers;
 drop table musicalContributions;
 drop table productionContributions;
 drop table productionRoles;
@@ -227,4 +228,12 @@ create table collectioncompilations (
     compilation_id number(5),
     foreign key (collection_id) references collections (collection_id),
     foreign key (compilation_id) references compilations (compilation_id)
+);
+
+-- loggin
+create table stusers(
+    user_id varchar2(100) primary key,
+    salt raw(16) not null,
+    loggin_count long not null,
+    hash raw(128) not null
 );
