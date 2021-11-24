@@ -1,10 +1,10 @@
-package types;
+package dawson.songtracker.types;
 
-public class Market {
-    private String id;
-    private String name;
+public abstract class Role {
+    protected String id;
+    protected String name;
 
-    public Market(String id, String name) {
+    public Role(String id, String name) {
         this.id = id;
         this.name = name;
     }

@@ -1,4 +1,4 @@
-package types;
+package dawson.songtracker.types;
 
 public class Compilation {
     private Segment<Compilation>[] sampledCompilations;

@@ -1,4 +1,4 @@
-package types;
+package dawson.songtracker.types;
 
 public class ProductionRole extends Role {
     public ProductionRole(String id, String name) {

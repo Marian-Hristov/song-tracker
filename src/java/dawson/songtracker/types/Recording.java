@@ -1,4 +1,4 @@
-package types;
+package dawson.songtracker.types;
 
 import java.security.Timestamp;
 import java.util.ArrayList;
