@@ -1,5 +1,5 @@
 create or replace procedure createCompilation(
-name in varchar2,
+name in compilations.name%type,
 id out compilations.compilation_id%type
 )
 as
