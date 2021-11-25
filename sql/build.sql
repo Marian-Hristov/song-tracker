@@ -102,6 +102,7 @@ drop table recordingsamples cascade constraints purge;
 drop table compilationSamples cascade constraints purge;
 drop table distributions cascade constraints purge;
 drop table collectionCompilations cascade constraints purge;
+drop table compilationsContributors;
 
 drop table recordings cascade constraints purge;
 drop table contributors cascade constraints purge;
@@ -144,7 +145,7 @@ create table productionContributions (
 
 create table musicianRoles (
     role_id number(5) default musician_id_seq.nextval primary key,
-    musician_name varchar2(100) not null
+    role_name varchar2(100) not null
 );
 
 create table musicalContributions (
