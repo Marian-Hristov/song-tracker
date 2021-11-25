@@ -7,7 +7,7 @@ create or replace contributor_mgmt as
 end contributor_mgmt;
 
 create or replace package body contributor_mgmt as
-    -- Checkinf if a contributor exists
+    -- Checking if a contributor exists
     function contributorExists(searched_contributor_name varchar2)
     return number
     is
@@ -16,7 +16,7 @@ create or replace package body contributor_mgmt as
         if searched_contributor_name is null then
             raise_application_error(-20001, 'one or more arguments are null or empty');
         end if;
-        select contributor_id into found from contributors where contributor_id = searched_contributor_name;
+        select contributor_id into found from contributors where contributor_name = searched_contributor_name;
         return 0;
         exception
             when no_data_found then
@@ -41,7 +41,7 @@ create or replace package body contributor_mgmt as
     begin
         if deleted_contributor_name is null then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (contributorExists(category, deleted_contributor_name) = 1) then
+        elsif (contributorExists(deleted_contributor_name) = 1) then
             raise_application_error(-20003, 'cannot delete contributor that does not exist');
         end if;
         -- Getting the id of the contributor base on the name
