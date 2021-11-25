@@ -34,7 +34,7 @@ create or replace package body role_mgmt as
         if (category is null or new_role_name is null) then
             raise_application_error(-20001, 'one or many arguments are null or empty');
         end if;
-        if(roleExists(new_role_name) = 1) then
+        if(roleExists(new_role_name) = 0) then
             raise_application_error(-20004, 'role already exists');
         end if;
         if category = 'musician' then
