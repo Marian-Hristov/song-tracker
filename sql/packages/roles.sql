@@ -9,7 +9,7 @@ end role_mgmt;
 create or replace package body role_mgmt as
     -- Checking if a specified user exists
     function roleExists(category varchar2, searched_role_name varchar2)
-    return number(1)
+    return number
     is
         found musicianRoles.role_name%type;
     begin
