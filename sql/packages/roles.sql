@@ -2,7 +2,8 @@ create or replace package role_mgmt as
     function roleExists(category varchar2, searched_role_name varchar2)
         return number(1);
     procedure addRole(category varchar2, new_role_name varchar2);
-    procedure removeRole(category varchar2, deleted_role_id number);
+    procedure removeRole(category varchar2, deleted_role_name varchar2);
+    procedure updateRole(category varchar2, updated_role_name varchar2);
 end role_mgmt;
 
 create or replace package body role_mgmt as
@@ -47,8 +48,9 @@ create or replace package body role_mgmt as
         end if;
     end;
     -- Remove a role
-    procedure removeRole(category varchar2, deleted_role_name number) is
-    found musicianRoles.role_id%type;
+    procedure removeRole(category varchar2, deleted_role_name varchar2) 
+    is
+        found musicianRoles.role_id%type;
     begin
         if (category is null or deleted_role_name is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
@@ -67,6 +69,34 @@ create or replace package body role_mgmt as
         elsif category = 'p' then
             -- Getting the id of the role based on the name
             select role_id into found from productionRoles where role_name = deleted_role_name;
+            -- Deleting role from contribution bridging table
+            delete from productionContributions
+            where contributor_id = found;
+            -- Deleting role in role table
+            delete from productionRoles
+            where role_id = found;
+        else
+            raise_application_error(-20002, 'specified category does not exist');
+        end if;
+    end;
+    -- Updating a role
+    procedure updateRole(category varchar2, old_role_name varchar2, new_role_name varchar2)
+    is
+        found musicianRoles.role_id%type;
+    begin
+        if (category is null or updated_role_name is null) then
+            raise_application_error(-20001, 'one or more arguments are null or empty');
+        elsif (roleExists(category, updated_role_name) = 1) then
+            raise_application_error(-20003, 'cannot update role that does not exist');
+        end if;
+        if category = 'm' then
+            -- Getting the id of the role based on the name
+            select role_id into found from musicianRoles where role_name = updated_role_name;
+            -- Updating role name
+            update musicianRoles set role_name = 
+        elsif category = 'p' then
+            -- Getting the id of the role based on the name
+            select role_id into found from productionRoles where role_name = updated_role_name;
             -- Deleting role from contribution bridging table
             delete from productionContributions
             where contributor_id = found;
