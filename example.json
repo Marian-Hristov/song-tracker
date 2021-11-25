@@ -1,0 +1,43 @@
+{
+    "co-producer": [
+        "Jam Master Jay",
+        "Rev Run"
+    ],
+    "duration": ["3:03"],
+    "engineer": [
+        "Steve Ett",
+        "Peter Millius",
+        "Jay Burnett",
+        "Andy Wallace"
+    ],
+    "keyboard": ["Jam Master Jay"],
+    "label": [
+        "Profile Records",
+        "Arista Records",
+        "Def Jam Recordings"
+    ],
+    "performer": [
+        "Jam Master Jay",
+        "D.M.C.",
+        "Run-D.M.C."
+    ],
+    "market": ["worldwide"],
+    "mastering": ["Howie Weinberg"],
+    "masterPlace": ["Masterdisk, New York, NY"],
+    "recorded": ["1986-01-01"],
+    "recordingPlace": [
+        "Chung King Studios",
+        "Shakedown Sound Studios",
+        "Sound Track Recording",
+        "Magic VEnture Studios",
+        "New York City, New York"
+    ],
+    "releaseDate": ["1987-02-08"],
+    "writter": [
+        "Larry Smith",
+        "Rick Rubin",
+        "Jam Master Jay",
+        "Rev Run",
+        "D.M.C."
+    ]
+}
