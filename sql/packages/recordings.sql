@@ -4,9 +4,9 @@ create or replace package recording_mgmt as
         return number(1);
     function recordingExistsInMusical(searched_recording_id char)
         return number(1);
-    procedure removeRecording(removed_recording_id char);
     function recordingExists(searched_recording_id char)
         return number(1);
+    procedure removeRecording(removed_recording_id char);
 end recording_mgmt;
 
 create or replace package body recording_mgmt as
@@ -56,4 +56,20 @@ create or replace package body recording_mgmt as
             when no_data_found then
                 return 1;
     end;
+    -- Check if a recording exists
+    function recordingExists(searched_recording_id char)
+    return number(1)
+    is
+        found recordings.recording_id%type;
+    begin
+        if(searched_recording_id is null) then
+            raise_application_error(-20001, 'one or more arguments are null or empty');
+        end if;
+        select recording_id into found from recordings where recording_id = searched_recording_id;
+        return 0;
+        exception
+            when no_data_found then
+                return 1;
+    end;
+    -- TODO Do procedure to remove a recording
 end recording_mgmt;

@@ -32,9 +32,9 @@ create or replace package body role_mgmt as
             raise_application_error(-20001, 'one or more arguments are null or empty');
         end if;
         if category = 'm' then
-            select into found from musicianRoles where role_id = searched_role_id;
+            select role_id into found from musicianRoles where role_id = searched_role_id;
         elsif category = 'p' then
-            select into found from productionRoles where role_id = searched_role_id;
+            select role_id into found from productionRoles where role_id = searched_role_id;
         else
             raise_application_error(-20002, 'specified category does not exist');
         end if;
