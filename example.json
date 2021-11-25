@@ -25,6 +25,13 @@
     "mastering": ["Howie Weinberg"],
     "masterPlace": ["Masterdisk, New York, NY"],
     "recorded": ["1986-01-01"],
+    "recordingPlace": [
+        "Chung King Studios",
+        "Shakedown Sound Studios",
+        "Sound Track Recording",
+        "Magic VEnture Studios",
+        "New York City, New York"
+    ]
     "releaseDate": ["1987-02-08"],
     "writter": [
         "Larry Smith",
