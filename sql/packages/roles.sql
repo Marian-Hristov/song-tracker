@@ -78,11 +78,6 @@ create or replace package body role_mgmt as
         else
             raise_application_error(-20002, 'specified category does not exist');
         end if;
-        -- TODO we need to catch the error when we try to delete a value that doesn't exist specific contributions
-        exception 
-            when no_data_found then
-                -- we just want to catch the error, so the program continues with deletions
-                ;
     end;
     -- Updating a role
     procedure updateRole(category varchar2, old_role_name varchar2, new_role_name varchar2)
