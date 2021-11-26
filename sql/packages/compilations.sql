@@ -101,12 +101,17 @@ create or replace package body compilation_mgmt as
             where compilation_id = compilation_id
             and compilation_used = sample_id
             and segment_id = segment_id;
-            -- TODO: throw an error if no sample was delete
+            if(sql%notfound) then
+                raise_application_error(-20001, 'the sample could not be deleted because it is not used in the compilation');
+            end if;
         elsif (sample_type = 'r') then
             delete from recordingSamples
             where compilation_id = compilation_id
             and recording_id = sample_id
             and segment_id = segment_id;
+            if(sql%notfound) then
+                raise_application_error(-20001, 'the sample could not be deleted because it is not used in the compilation');
+            end if;
         else
             raise_application_error(-20001, 'the sample type must be either (c)ompilation or (r)ecording');
         end if;
