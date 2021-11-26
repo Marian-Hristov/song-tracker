@@ -94,24 +94,23 @@ create sequence collection_id_seq
 
 commit;
 -- dropping the tables
-drop table stusers cascade constraints purge;
-drop table musicalContributions cascade constraints purge;
-drop table productionContributions cascade constraints purge;
-drop table productionRoles cascade constraints purge;
-drop table recordingsamples cascade constraints purge;
-drop table compilationSamples cascade constraints purge;
-drop table distributions cascade constraints purge;
-drop table collectionCompilations cascade constraints purge;
-drop table compilationsContributors;
+drop table stusers;
+drop table musicalContributions;
+drop table productionContributions;
+drop table productionRoles;
+drop table recordingsamples;
+drop table compilationSamples;
+drop table distributions;
+drop table collectionCompilations;
 
-drop table recordings cascade constraints purge;
-drop table contributors cascade constraints purge;
-drop table musicianRoles cascade constraints purge;
-drop table compilations cascade constraints purge;
-drop table segment cascade constraints purge;
-drop table recordlabels cascade constraints purge;
-drop table markets cascade constraints purge;
-drop table collections cascade constraints purge;
+drop table recordings;
+drop table contributors;
+drop table musicianRoles;
+drop table compilations;
+drop table segment;
+drop table recordlabels;
+drop table markets;
+drop table collections;
 
 commit;
 
@@ -147,7 +146,8 @@ create table musicianRoles (
     role_id number(5) default musician_id_seq.nextval primary key,
     role_name varchar2(100) not null
 );
-
+-- TODO: ethical problem! to be marked as a contributor in a song you need to be a contributor in a recording that is part of that song
+-- if you just take compilations and mix them together you won't get credited in your own song.
 create table musicalContributions (
     recording_id number(5),
     contributor_id number(5),
@@ -216,12 +216,6 @@ create table collections (
     collection_name varchar2(100) not null
 );
 
-create table compilationscontributors (
-    compilation_id number(5),
-    contributor_id number(5),
-    foreign key (compilation_id) references compilations (compilation_id),
-    foreign key (contributor_id) references contributors (contributor_id)
-);
 
 create table distributions (
     distribution_id number(5) default distribution_id_seq.nextval primary key,
