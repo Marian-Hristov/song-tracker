@@ -34,7 +34,7 @@ create or replace package body contributor_mgmt as
         insert into contributor
         values (contributor_id_seq.nextval, new_contributor_name);
     end;
-    -- Remove a role
+    -- Remove a contributor
     procedure removeContributor(deleted_contributor_name varchar2)
     is
         found contributors.contributor_id%type;
@@ -54,14 +54,9 @@ create or replace package body contributor_mgmt as
         -- Deleting contributor in contributors table
         delete from contributors
         where contributor_id = found;
-        -- TODO we need to catch the error when we try to delete a value that doesn't exist specific contributions
-        exception 
-            when no_data_found then
-                -- we just want to catch the error, so the program continues with deletions
-                ;
     end;
-    -- Updating a role
-    procedure updateRole(old_contributor_name varchar2, new_contributor_name varchar2)
+    -- Updating a contributor
+    procedure updateContributor(old_contributor_name varchar2, new_contributor_name varchar2)
     is
         found contributors.contributor_id%type;
     begin
