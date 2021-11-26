@@ -52,12 +52,6 @@ create or replace package body label_mgmt as
         -- Deleting label in recordLabels table
         delete from recordLabels
         where label_id = found;
-        -- TODO does the situation under apply?
-        -- TODO we need to catch the error when we try to delete a value that doesn't exist specific contributions
-        exception 
-            when no_data_found then
-                -- we just want to catch the error, so the program continues with deletions
-                ;
     end;
     -- Updating a role
     procedure updateRole(old_label_name varchar2, new_label_name varchar2)
