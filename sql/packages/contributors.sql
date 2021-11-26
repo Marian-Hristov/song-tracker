@@ -45,7 +45,7 @@ create or replace package body contributor_mgmt as
             raise_application_error(-20003, 'cannot delete contributor that does not exist');
         end if;
         -- Getting the id of the contributor base on the name
-        select contributor_id into found from contributors where contributor_id = deleted_contributor_name;
+        select contributor_id into found from contributors where contributor_name = deleted_contributor_name;
         -- Deleting the contributor from contribution tables
         delete from musicalContributions
         where contributor_id = found;
@@ -68,7 +68,7 @@ create or replace package body contributor_mgmt as
             raise_application_error(-20003, 'cannot update contributor to contributor that already exists');
         end if;
         -- Getting the id of the contributor based on the name
-        select contributor_id into found from contributors where contributor_id = old_contributor_name;
+        select contributor_id into found from contributors where contributor_name = old_contributor_name;
         -- Updating contributor name
         update contributors set contributor_name = new_contributor_name where contributor_id = found;
     end;

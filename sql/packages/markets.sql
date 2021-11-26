@@ -1,21 +1,21 @@
 create or replace package market_mgmt as
-    function marketExists(searched_market_id char)
-    return number(1);
+    function marketExists(searched_market_name)
+        return number(1);
     procedure addMarket(new_market varchar2);
-    procedure removeMarket(removed_market_id varchar2);
+    procedure removeMarket(removed_market_name varchar2);
     procedure updateMarket(old_market_name varchar2, new_market_name varchar2);
 end market_mgmt;
 
 create or replace package body market_mgmt as
     -- Check if a market exists
-    function marketExists(searched_market_id char) 
+    function marketExists(searched_market_name char) 
     is
         found markets.market_id%type;
     begin
-        if searched_market_id is null then
+        if searched_market_name is null then
             raise_application_error(-20001, 'one or more arguments are null or empty');
         end if;
-        select into found from marktes where market_id = searched_market_id;
+        select market_id into found from markets where market_name = searched_market_name;
         return 0;
         exception
             when dup_val_on_index then
@@ -44,7 +44,7 @@ create or replace package body market_mgmt as
             raise_application_error(-20003, 'cannot delete market that does not exist');
         end if;
         -- Getting the id of the market base on the name
-        select market_id into found from markets where market_id = deleted_market_name;
+        select market_id into found from markets where market_name = deleted_market_name;
         -- Deleting market in markets table
         delete from markets
         where market_id = found;
@@ -62,7 +62,7 @@ create or replace package body market_mgmt as
             raise_application_error(-20003, 'cannot update market to market that already exists');
         end if;
         -- Getting the id of the market based on the name
-        select market_id into found from markets where market_id = old_market_name;
+        select market_id into found from markets where market_name = old_market_name;
         -- Updating market name
         update markets set market_name = new_market_name where market_id = found;
     end;
