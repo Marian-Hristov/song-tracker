@@ -67,7 +67,7 @@ create or replace package body recording_mgmt as
             raise_application_error(-20001, 'one or more arguments are null or empty');
         else    
             select into foundM
-            from musicalContr ibutions
+            from musicalContributions
             where recording_id = searched_recording_id;
         end if;
         return 0;
