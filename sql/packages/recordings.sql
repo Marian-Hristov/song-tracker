@@ -93,13 +93,18 @@ create or replace package body recording_mgmt as
         delete from recordings where recording_id = removed_recording_id;
     end;
     -- Updating a recording
-    procedure updateRecording(changed_recording_id number, new_recording_name varchar2, new_creation_time timestamp, new_recording_duration number) is
+    procedure updateRecording(changed_recording_id number, new_recording_name varchar2, new_creation_time timestamp, new_recording_duration number) 
+    is
+        found recordings.recording_id%type;
     begin
         if (changed_recording_id is null or new_recording_name is null or new_creation_time is null or new_recording_duration is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
         end if;
+        -- checking if the given recording id exists
+        select into found from recordings where recording_id = changed_recording_id;
+        -- checking if another similar record already exists
         if (recordingExists(new_recording_name, new_creation_time, new_recording_duration) = 0) then
-            raise_application_error(-20004, 'recording already exists');
+            raise_application_error(-20004, 'cannot update recording to recording already exists');
         end if;
         update recordings 
         set
@@ -107,6 +112,9 @@ create or replace package body recording_mgmt as
         creation_time = new_creation_time,
         duration = new_recording_duration
         where recording_id = changed_recording_id;
+        exception
+            when no_data_found then
+                raise_application_error(-20003, 'cannot update recording that does not exist');
     end;
 end recording_mgmt;
 /
