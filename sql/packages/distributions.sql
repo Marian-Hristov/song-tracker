@@ -7,7 +7,7 @@ create or replace package distribution_mgmt as
         return number(1);
     procedure addDistribution(ref_collection_name varchar2, ref_label_name varchar2, ref_market_name varchar2);
     procedure removeDistribution(deleted_distribution_id varchar2);
-    procedure updateDistribution(old_distribution_name varchar2, new_distribution_name varchar2);
+    procedure updateDistribution(changed_distribution_id varchar2, ref_collection_name varchar2, ref_label_name varchar2, ref_market_name varchar2);
 end distribution_mgmt;
 
 create or replace package body distribution_mgmt as
@@ -26,17 +26,18 @@ create or replace package body distribution_mgmt as
             raise_application_error(-20006, 'collection id cannot be 0, all ids start at 1');
         end if;
         -- Checking if the collection exists
+        -- TODO all these select intos, should we just group them and then on if any on of them is null we throw a less specific exception?
         select collection_id into foundCollection from collections where collection_id = searched_collection_id;
         if foundCollection is null then
-            raise_application_error(-20005, 'could not find referenced collection, cannot add distribution');
+            raise_application_error(-20005, 'could not find referenced collection, could not make change to distributions');
         end if;
         select label_id into foundLabel from recordLabels where label_name = ref_label_name;
         if foundLabel is null then
-            raise_application_error(-20005, 'could not find referenced label, cannot add distribution');
+            raise_application_error(-20005, 'could not find referenced label, could not make change to distributions');
         end if;
         select market_id into foundMarket from markets where market_name = ref_market_name;
         if foundMarket is null then
-            raise_application_error(-20005, 'could not find referenced market, cannot add distribution');
+            raise_application_error(-20005, 'could not find referenced market, could not make change to distributions');
         end if;
         myArray(1) := foundCollection;
         myArray(2) := foundLabel;
@@ -75,25 +76,13 @@ create or replace package body distribution_mgmt as
         foundCollection collections.collection_id%type;
         foundLabel recordLabels.label_id%type;
         foundMarket markets.market_id%type;
+        ids custArr;
     begin
         if (ref_collection_id is null or  release_date is null or ref_label_name is null or ref_market_name is null) then
             raise_application_error(-20001, 'one or many arguments are null or empty');
         end if;
-        if(distributionExists(ref_collection_id , release_date, ref_label_name, ref_market_name) = 1) then
+        if (distributionExists(ref_collection_id , release_date, ref_label_name, ref_market_name) = 1) then
             raise_application_error(-20004, 'distribution already exists');
-        end if;
-        -- TODO all these select intos, should we just group them and then on if any on of them is null we throw a less specific exception?
-        select into foundCollection from collections where collection_id = ref_collection_id;
-        if foundCollection is null then
-            raise_application_error(-20005, 'could not find referenced collection, cannot add distribution');
-        end if;
-        select into foundLabel from recordLabels where label_name = ref_label_name;
-        if foundLabel is null then
-            raise_application_error(-20005, 'could not find referenced label, cannot add distribution');
-        end if;
-        select into foundMarket from markets where market_name = ref_market_name;
-        if foundMarket is null then
-            raise_application_error(-20005, 'could not find referenced market, cannot add distribution');
         end if;
         insert into distributions
         values (distribution_id_seq.nextval, foundCollection, release_date, foundLabel, foundMarket);
@@ -115,4 +104,19 @@ create or replace package body distribution_mgmt as
         delete from distributions where distribution_id = foundDistribution;
     end;
     -- Update a distribution
+    procedure updateDistribution(changed_distribution_id varchar2, new_ref_collection_name varchar2, new_release_date date, new_ref_label_name varchar2, new_ref_market_name varchar2)
+    is
+        foundDistribution distributions.distribution_id%type;
+        foundCollection collections.collection_id%type;
+        foundLabel recordLabels.label_id%type;
+        foundMarket markets.market_id%type;
+    begin
+        if (changed_distribution_id is null or new_ref_collection_name is null or new_release_date is null or new_ref_label_name is null or new_ref_market_name is null) then
+                    raise_application_error(-20001, 'one or many arguments are null or empty');
+        end if;
+        -- TODO solve conflict: we get collection name from procedure but here we need collection id, what do?
+        if (distributionExists(changed_distribution_id , release_date, ref_label_name, ref_market_name) = 1) then
+            raise_application_error(-20004, 'distribution already exists');
+        end if;
+    end;
 end distribution_mgmt;
