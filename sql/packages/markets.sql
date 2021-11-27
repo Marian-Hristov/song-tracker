@@ -27,7 +27,7 @@ create or replace package body market_mgmt as
         if new_market is null then
             raise_application_error(-20002, 'one or more arguments are null');
         end if;
-        if (marketExists(new_market) = 1) then
+        if (marketExists(new_market) = 0) then
                 raise_application_error(-20003, 'cannot add already existing market');
         end if;
         insert into markets
@@ -40,7 +40,7 @@ create or replace package body market_mgmt as
     begin
         if deleted_market_name is null then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (marketExists(deleted_market_name) = 1) then
+        elsif (marketExists(deleted_market_name) = 0) then
             raise_application_error(-20003, 'cannot delete market that does not exist');
         end if;
         -- Getting the id of the market base on the name
@@ -56,9 +56,9 @@ create or replace package body market_mgmt as
     begin
         if(old_market_name is null or new_market_name is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (marketExists(old_market_name) = 1) then
+        elsif (marketExists(old_market_name) = 0) then
             raise_application_error(-20003, 'cannot update market that does not exist');
-        elsif (marketExists(new_market_name) = 1) then
+        elsif (marketExists(new_market_name) = 0) then
             raise_application_error(-20003, 'cannot update market to market that already exists');
         end if;
         -- Getting the id of the market based on the name

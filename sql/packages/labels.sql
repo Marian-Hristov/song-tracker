@@ -28,7 +28,7 @@ create or replace package body label_mgmt as
         if new_label_name is null then
             raise_application_error(-20001, 'one or many arguments are null or empty');
         end if;
-        if(labelExists(new_label_name) = 1) then
+        if(labelExists(new_label_name) = 0) then
             raise_application_error(-20004, 'label already exists');
         end if;
         insert into recordLabels
@@ -41,7 +41,7 @@ create or replace package body label_mgmt as
     begin
         if deleted_label_name is null then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (labelExists(deleted_label_name) = 1) then
+        elsif (labelExists(deleted_label_name) = 0) then
             raise_application_error(-20003, 'cannot delete label that does not exist');
         end if;
         -- Getting the id of the label base on the name
@@ -60,9 +60,9 @@ create or replace package body label_mgmt as
     begin
         if(old_label_name is null or new_label_name is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (labelExists(old_label_name) = 1) then
+        elsif (labelExists(old_label_name) = 0) then
             raise_application_error(-20003, 'cannot update label that does not exist');
-        elsif (labelExists(new_label_name) = 1) then
+        elsif (labelExists(new_label_name) = 0) then
             raise_application_error(-20003, 'cannot update label to label that already exists');
         end if;
         -- Getting the id of the label based on the name
