@@ -9,9 +9,17 @@ drop sequence compilation_id_seq;
 drop sequence recording_id_seq;
 drop sequence contributor_id_seq;
 drop sequence collection_id_seq;
+drop sequence log_id_seq;
 
 commit;
 -- creating the sequences
+create sequence log_id_seq
+    increment by 1
+    start with 1
+    minvalue 1
+    nocycle
+    cache 2;
+
 create sequence distribution_id_seq
     increment by 1
     start with 1
@@ -94,7 +102,7 @@ create sequence collection_id_seq
 
 commit;
 -- dropping the tables
-drop table stusers;
+drop table STLogs;
 drop table musicalContributions;
 drop table productionContributions;
 drop table productionRoles;
@@ -146,8 +154,7 @@ create table musicianRoles (
     role_id number(5) default musician_id_seq.nextval primary key,
     role_name varchar2(100) not null
 );
--- TODO: ethical problem! to be marked as a contributor in a song you need to be a contributor in a recording that is part of that song
--- if you just take compilations and mix them together you won't get credited in your own song.
+
 create table musicalContributions (
     recording_id number(5),
     contributor_id number(5),
@@ -235,12 +242,10 @@ create table collectioncompilations (
     foreign key (compilation_id) references compilations (compilation_id)
 );
 
--- loggin
-create table stusers(
-    user_id varchar2(100) primary key,
-    salt raw(16) not null,
-    loggin_count long not null,
-    hash raw(128) not null
+-- login
+create table STLogs (
+    log_id number(5) default log_id_seq.nextval primary key,
+    log_message varchar2(1000) not null
 );
 
 commit;
