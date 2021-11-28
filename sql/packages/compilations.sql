@@ -17,7 +17,8 @@ create or replace package compilation_mgmt as
     );
     procedure deleteCompilation(compilation_id in compilations.compilation_id%type);
     procedure updateCompilation(compilation_id in compilations.compilation_id%type,compilation_name in compilations.compilation_name%type);
-    procedure addContributorToCompilation(compilation_id in compilations.compilation_id, contributor_id in contributors.contributor_id, role_id in productionRoles.role_id, role_type char);
+    procedure addContributorToCompilation(compilation_id in compilations.compilation_id%type, contributor_id in contributors.contributor_id%type, role_id in compilationRoles.role_id%type);
+    procedure removeContributorFromCompilation(compilation_id in compilations.compilation_id%type,contributor_id in contributors.contributor_id%type,role_id in compilationRoles.role_id%type);
 
 end compilation_mgmt;
 /
@@ -138,18 +139,30 @@ create or replace package body compilation_mgmt as
         update compilations set compilation_name = compilation_name where compilation_id = compilation_id;
     end;
     procedure addContributorToCompilation(
-    compilation_id in compilations.compilation_id,
-    contributor_id in contributors.contributor_id,
-    role_id in productionRoles.role_id,
-    role_type char
-    );
+    compilation_id in compilations.compilation_id%type,
+    contributor_id in contributors.contributor_id%type,
+    role_id in compilationRoles.role_id%type
+    )
     as
     begin
-        if(role_type is null or compilation_id < 1 or contributor_id < 1 role_id < 1) then
+        if(compilation_id < 1 or contributor_id < 1 or role_id < 1) then
             raise_application_error(-20001, 'one or more of the parameters for the procedure addContributorToCompilation is invalid');
         end if;
-        if(role_type = 'p') then
-            insert into production
+        insert into compilationContributions values (compilation_id, contributor_id, role_id);
     end;
+
+    procedure removeContributorFromCompilation(
+        compilation_id in compilations.compilation_id%type,
+        contributor_id in contributors.contributor_id%type,
+        role_id in compilationRoles.role_id%type
+    )
+    as
+    begin
+        if(compilation_id < 1 or contributor_id < 1 or role_id < 1) then
+            raise_application_error(-20001, 'one or more of the parameters for the procedure removeContributorFromCompilation is invalid');
+        end if;
+        delete from compilationContributions where compilation_id = compilation_id and contributor_id = contributor_id and role_id = role_id;
+    end;
+
 
 end compilation_mgmt;
