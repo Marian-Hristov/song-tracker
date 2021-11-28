@@ -1,16 +1,16 @@
 create or replace package role_mgmt as
-    function roleExists(category varchar2, searched_role_name varchar2)
+    function roleExists(category char, searched_role_name musicianRoles.role_name%type)
         return number;
-    procedure addRole(category varchar2, new_role_name varchar2);
-    procedure removeRole(category varchar2, deleted_role_name varchar2);
-    procedure updateRole(category varchar2, old_role_name varchar2, new_role_name varchar2);
+    procedure addRole(category char, new_role_name musicianRoles.role_name%type);
+    procedure removeRole(category char, deleted_role_name musicianRoles.role_name%type);
+    procedure updateRole(category char, old_role_name musicianRoles.role_name%type, new_role_name musicianRoles.role_name%type);
 end role_mgmt;
 /
 commit;
 /
 create or replace package body role_mgmt as
     -- Checking if a specified role exists
-    function roleExists (category varchar2, searched_role_name varchar2)
+    function roleExists (category char, searched_role_name musicianRoles.role_name%type)
     return number
     is
         found musicianRoles.role_name%type;
@@ -31,7 +31,7 @@ create or replace package body role_mgmt as
                 return 1;
     end;
     -- Add a role
-    procedure addRole(category varchar2, new_role_name varchar2) is
+    procedure addRole(category char, new_role_name musicianRoles.role_name%type) is
     begin
         if (category is null or new_role_name is null) then
             raise_application_error(-20001, 'one or many arguments are null or empty');
@@ -39,24 +39,24 @@ create or replace package body role_mgmt as
         if(roleExists(category, new_role_name) = 0) then
             raise_application_error(-20004, 'role already exists');
         end if;
-        if category = 'musician' then
-            insert into musicianRoles
-            values (musician_id_seq.nextval, new_role_name);
-        elsif category = 'production' then
-            insert into productionRoles
-            values (production_id_seq.nextval, new_role_name);
+        if category = 'm' then
+            insert into musicianRoles (role_name)
+            values (new_role_name);
+        elsif category = 'p' then
+            insert into productionRoles (role_name)
+            values (new_role_name);
         else
             raise_application_error(-20002, 'specified category does not exist');
         end if;
     end;
     -- Remove a role
-    procedure removeRole(category varchar2, deleted_role_name varchar2) 
+    procedure removeRole(category char, deleted_role_name musicianRoles.role_name%type) 
     is
         found musicianRoles.role_id%type;
     begin
         if (category is null or deleted_role_name is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (roleExists(category, deleted_role_name) = 0) then
+        elsif (roleExists(category, deleted_role_name) = 1) then
             raise_application_error(-20003, 'cannot delete role that does not exist');
         end if;
         if category = 'm' then
@@ -82,13 +82,13 @@ create or replace package body role_mgmt as
         end if;
     end;
     -- Updating a role
-    procedure updateRole(category varchar2, old_role_name varchar2, new_role_name varchar2)
+    procedure updateRole(category char, old_role_name musicianRoles.role_name%type, new_role_name musicianRoles.role_name%type)
     is
         found musicianRoles.role_id%type;
     begin
         if (category is null or old_role_name is null or new_role_name is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (roleExists(category, old_role_name) = 0) then
+        elsif (roleExists(category, old_role_name) = 1) then
             raise_application_error(-20003, 'cannot update role that does not exist');
         elsif (roleExists(category, new_role_name) = 0) then
             raise_application_error(-20003, 'cannot update role to role that already exists');
