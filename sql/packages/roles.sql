@@ -1,14 +1,16 @@
 create or replace package role_mgmt as
     function roleExists(category varchar2, searched_role_name varchar2)
-        return number(1);
+        return number;
     procedure addRole(category varchar2, new_role_name varchar2);
     procedure removeRole(category varchar2, deleted_role_name varchar2);
     procedure updateRole(category varchar2, old_role_name varchar2, new_role_name varchar2);
 end role_mgmt;
-
+/
+commit;
+/
 create or replace package body role_mgmt as
     -- Checking if a specified role exists
-    function roleExists(category varchar2, searched_role_name varchar2)
+    function roleExists (category varchar2, searched_role_name varchar2)
     return number
     is
         found musicianRoles.role_name%type;
@@ -34,7 +36,7 @@ create or replace package body role_mgmt as
         if (category is null or new_role_name is null) then
             raise_application_error(-20001, 'one or many arguments are null or empty');
         end if;
-        if(roleExists(new_role_name) = 1) then
+        if(roleExists(category, new_role_name) = 0) then
             raise_application_error(-20004, 'role already exists');
         end if;
         if category = 'musician' then
@@ -54,7 +56,7 @@ create or replace package body role_mgmt as
     begin
         if (category is null or deleted_role_name is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (roleExists(category, deleted_role_name) = 1) then
+        elsif (roleExists(category, deleted_role_name) = 0) then
             raise_application_error(-20003, 'cannot delete role that does not exist');
         end if;
         if category = 'm' then
@@ -86,9 +88,9 @@ create or replace package body role_mgmt as
     begin
         if (category is null or old_role_name is null or new_role_name is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (roleExists(category, old_role_name) = 1) then
+        elsif (roleExists(category, old_role_name) = 0) then
             raise_application_error(-20003, 'cannot update role that does not exist');
-        elsif (roleExists(category, new_role_name) = 1) then
+        elsif (roleExists(category, new_role_name) = 0) then
             raise_application_error(-20003, 'cannot update role to role that already exists');
         end if;
         if category = 'm' then
@@ -106,3 +108,5 @@ create or replace package body role_mgmt as
         end if;
     end;
 end role_mgmt;
+/
+commit;
