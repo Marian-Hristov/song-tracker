@@ -2,6 +2,7 @@ create or replace package collection_mgmt as
     procedure createCollection (collection_name in collections.collection_name%type, collection_id out collections.collection_id%type);
     procedure addCompilationToCollection(collection_id in collections.collection_id%type, compilation_id in compilations.compilation_id%type);
     procedure removeCompilationFromCollection( collection_id in collections.collection_id%type, compilation_id in compilations.compilation_id%type);
+    procedure updateCompilation(collection_id in collections.collection_id%type, collection_name in collections.collection_name%type);
 end collection_mgmt;
 /
 create or replace package body collection_mgmt as
@@ -46,8 +47,13 @@ create or replace package body collection_mgmt as
             raise_application_error(-20001, 'the collection_id or the compilation_id is bellow 1');
         end if;
         delete from collectionCompilations where collection_id = collection_id and compilation_id = compilation_id;
-        if(sql%notfound) then
-            raise_application_error(-20001, 'the compilation could not be removed from the collection because it is not in it');
+    end;
+    procedure updateCompilation(collection_id in collections.collection_id%type, collection_name in collections.collection_name%type)
+    as
+    begin
+         if (collection_id < 1 or compilation_id < 1) then
+            raise_application_error(-20001, 'the collection_id or the compilation_id is bellow 1');
         end if;
+        update collections set collection_name = collection_name where collection_id = collection_id;
     end;
 end collection_mgmt;
