@@ -262,5 +262,40 @@ create table STLogs (
     log_id number(5) default log_id_seq.nextval primary key,
     log_message varchar2(1000) not null
 );
+-- triggers
+create or replace trigger before_insert_update_delete_compilations
+before insert or update or delete
+on compilations
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table compilations values compilation_id: '||:new.compilation_id||
+        ', compilation_name: '||:new.compilation_name||
+        ', creation_time: '||:new.creation_time||
+        ', duration: '||:new.duration);
+    end if;
+    if updating then
+        
+        insert into STLogs (log_message) values (user ||
+        ' updated table compilations. Old values compilation_id: '||:new.compilation_id||
+        ', compilation_name: '||:new.compilation_name||
+        ', creation_time: '||:new.creation_time||
+        ', duration: '||:new.duration||
+        '. New values compilation_id: '||:old.compilation_id||
+        ', compilation_name: '||:old.compilation_name||
+        ', creation_time: '||:old.creation_time||
+        ', duration: '||:old.duration);
+    end if;
 
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table compilations values compilation_id: '||:old.compilation_id||
+        ', compilation_name: '||:old.compilation_name||
+        ', creation_time: '||:old.creation_time||
+        ', duration: '||:old.duration);
+    end if;
+
+end;
 commit;
