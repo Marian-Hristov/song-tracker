@@ -17,6 +17,7 @@ create or replace package compilation_mgmt as
     );
     procedure deleteCompilation(compilation_id in compilations.compilation_id%type);
     procedure updateCompilation(compilation_id in compilations.compilation_id%type,compilation_name in compilations.compilation_name%type);
+    procedure addContributorToCompilation(compilation_id in compilations.compilation_id, contributor_id in contributors.contributor_id, role_id in productionRoles.role_id, role_type char);
 
 end compilation_mgmt;
 /
@@ -136,4 +137,19 @@ create or replace package body compilation_mgmt as
     begin
         update compilations set compilation_name = compilation_name where compilation_id = compilation_id;
     end;
+    procedure addContributorToCompilation(
+    compilation_id in compilations.compilation_id,
+    contributor_id in contributors.contributor_id,
+    role_id in productionRoles.role_id,
+    role_type char
+    );
+    as
+    begin
+        if(role_type is null or compilation_id < 1 or contributor_id < 1 role_id < 1) then
+            raise_application_error(-20001, 'one or more of the parameters for the procedure addContributorToCompilation is invalid');
+        end if;
+        if(role_type = 'p') then
+            insert into production
+    end;
+
 end compilation_mgmt;

@@ -1,4 +1,4 @@
 2021-11-26
-should we check for dup_value_on_index when inserting?
-should we check for sql%notfound when select into?
-way to check if insert fails? do we need to?
+should we check for dup_value_on_index when inserting?: no who ever called the procedure should know that they made a mistake
+should we check for sql%notfound when select into?: no, sql automatically throws an error when you select into and finds nothing
+way to check if insert fails? do we need to?: no need to check if an insert fails. SQL throws an error for us. Whoever called the procedure should handle that error

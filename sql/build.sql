@@ -110,6 +110,7 @@ drop table recordingsamples;
 drop table compilationSamples;
 drop table distributions;
 drop table collectionCompilations;
+drop table compilationContributions;
 
 drop table recordings;
 drop table contributors;
@@ -119,12 +120,18 @@ drop table segment;
 drop table recordlabels;
 drop table markets;
 drop table collections;
+drop table compilationRoles;
 
 commit;
 
 -- recordings / contributions
 create table productionRoles(
     role_id number(5) default production_id_seq.nextval primary key,
+    role_name varchar2(100) not null
+);
+
+create table musicianRoles (
+    role_id number(5) default musician_id_seq.nextval primary key,
     role_name varchar2(100) not null
 );
 
@@ -150,11 +157,6 @@ create table productionContributions (
     foreign key (role_id) references productionRoles (role_id)
 );
 
-create table musicianRoles (
-    role_id number(5) default musician_id_seq.nextval primary key,
-    role_name varchar2(100) not null
-);
-
 create table musicalContributions (
     recording_id number(5),
     contributor_id number(5),
@@ -166,13 +168,26 @@ create table musicalContributions (
 
 -- compilations / samples
 
-
 create table compilations (
     compilation_id number(5) default compilation_id_seq.nextval primary key,
     compilation_name varchar2(100) not null,
     creation_time timestamp(0) not null,
     duration number(5,1) not null,
     constraint check_positive_duration_compilation check(duration >= 0)
+);
+
+create table compilationRoles(
+    role_id number(5) primary key,
+    role_name varchar2(100)
+);
+
+create table compilationContributions(
+    compilation_id number(5),
+    contributor_id number(5),
+    role_id number(5),
+    foreign key (compilation_id) references compilations (compilation_id),
+    foreign key (contributor_id) references contributors (contributor_id),
+    foreign key (role_id) references compilationRoles (role_id)
 );
 
 create table segment (
