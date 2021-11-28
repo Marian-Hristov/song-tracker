@@ -138,7 +138,7 @@ create table musicianRoles (
 create table recordings (
     recording_id number(5) default recording_id_seq.nextval primary key,
     recording_name varchar2(100) not null,
-    create_time timestamp(0) not null,
+    creation_time timestamp(0) not null,
     duration number(5,1) not null,
     constraint check_positive_duration_recording check(duration >= 0)
 );
