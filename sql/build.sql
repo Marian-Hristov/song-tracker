@@ -264,6 +264,8 @@ create table STLogs (
     log_time timestamp default localTimestamp(0) not null
 );
 -- triggers
+
+-- compilations/samples
 create or replace trigger before_insert_update_delete_compilations
 before insert or update or delete
 on compilations
@@ -454,6 +456,213 @@ begin
         ', duration_in_main_track: '||:old.duration_in_main_track||
         ', component_track_offset: '||:old.component_track_offset||
         ', duration_of_component: '||:old.duration_of_component);
+    end if;
+end;
+
+-- album / distribution
+
+create or replace trigger before_insert_update_delete_recordLabels
+before insert or update or delete
+on recordLabels
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table recordLabels values label_id: '||:new.label_id||
+        ', label_name: '||:new.label_name);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table recordLabels. Old values label_id: '||:old.label_id||
+        ', label_name: '||:old.label_name||
+        '. New values label_id: '||:new.label_id||
+        ', label_name: '||:new.label_name);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table recordLabels values label_id: '||:old.label_id||
+        ', label_name: '||:old.label_name);
+    end if;
+end;
+
+create or replace trigger before_insert_update_delete_markets
+before insert or update or delete
+on markets
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table markets values market_id: '||:new.market_id||
+        ', market_name: '||:new.market_name);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table markets. Old values market_id: '||:old.market_id||
+        ', market_name: '||:old.market_name||
+        '. New values market_id: '||:new.market_id||
+        ', market_name: '||:new.market_name);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table markets values market_id: '||:old.market_id||
+        ', market_name: '||:old.market_name);
+    end if;
+end;
+
+create or replace trigger before_insert_update_delete_distributions
+before insert or update or delete
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table distributions values distribution_id: '||:new.distribution_id||
+        ', collection_id: '||:new.collection_id||
+        ', release_date: '||:new.release_date||
+        ', label_id: '||:new.label_id||
+        ', market_id: '||:new.market_id);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table distributions. Old values distribution_id: '||:old.distribution_id||
+        ', collection_id: '||:old.collection_id||
+        ', release_date: '||:old.release_date||
+        ', label_id: '||:old.label_id||
+        ', market_id: ':old.market_id
+        '. New values distribution_id: '||:new.distribution_id||
+        ', collection_id: '||:new.collection_id||
+        ', release_date: '||:new.release_date||
+        ', label_id: '||:new.label_id||
+        ', market_id: '||:new.market_id);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table distributions values distribution_id: '||:old.distribution_id||
+        ', collection_id: '||:old.collection_id||
+        ', release_date: '||:old.release_date||
+        ', label_id: '||:old.label_id||
+        ', market_id: '||:old.market_id);
+    end if;
+end;
+
+create or replace trigger before_insert_update_delete_collections
+before insert or update or delete
+on collections
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table collections values collection_id: '||:new.collection_id||
+        ', collection_name: '||:new.collection_name);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table collections. Old values collection_id: '||:old.collection_id||
+        ', collection_name: '||:old.collection_name||
+        '. New values collection_id: '||:new.collection_id||
+        ', collection_name: '||:new.collection_name);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table collections values collection_id: '||:old.collection_id||
+        ', collection_name: '||:old.collection_name);
+    end if;
+end;
+
+create or replace trigger before_insert_update_delete_collectionCompilations
+before insert or update or delete
+on collectionCompilations
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table collectionCompilations values collection_id: '||:new.collection_id||
+        ', compilation_id: '||:new.compilation_id);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table collectionCompilations. Old values collection_id: '||:old.collection_id||
+        ', compilation_id: '||:old.compilation_id||
+        '. New values collection_id: '||:new.collection_id||
+        ', compilation_id: '||:new.compilation_id);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table collectionCompilations values collection_id: '||:old.collection_id||
+        ', compilation_id: '||:old.compilation_id);
+    end if;
+end;
+
+-- recordings / contributors
+create or replace trigger before_insert_update_delete_productionRoles
+before insert or update or delete
+on productionRoles
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table productionRoles values role_id: '||:new.role_id||
+        ', role_name: '||:new.role_name);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table productionRoles. Old values role_id: '||:old.role_id||
+        ', role_name: '||:old.role_name||
+        '. New values role_id: '||:new.role_id||
+        ', role_name: '||:new.role_name);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table productionRoles values role_id: '||:old.role_id||
+        ', role_name: '||:old.role_name);
+    end if;
+end;
+
+create or replace trigger before_insert_update_delete_productionContributors
+before insert or update or delete
+on productionContributors
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table productionContributors values recording_id: '||:new.recording_id||
+        ', contributor_id: '||:new.contributor_id||
+        ', role_id: '||:new.role_id);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table productionContributors. Old values recording_id: '||:old.recording_id||
+        ', contributor_id: '||:old.contributor_id||
+        ', role_id: '||:old.role_id||
+        '. New values recording_id: '||:new.recording_id||
+        ', contributor_id: '||:new.contributor_id||
+        ', role_id: '||:new.role_id);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table productionContributors values recording_id: '||:old.recording_id||
+        ', contributor_id: '||:old.contributor_id||
+        ', role_id: '||:old.role_id);
     end if;
 end;
 commit;
