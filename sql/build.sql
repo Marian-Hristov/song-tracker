@@ -672,4 +672,155 @@ begin
     end if;
 end;
 /
+create or replace trigger before_insert_update_delete_recordings
+before insert or update or delete
+on recordings
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table recordings values recording_id: '||:new.recording_id||
+        ', recording_name: '||:new.recording_name||
+        ', creation_time: '||:new.creation_time||
+        ', duration: '||:new.duration);
+    end if;
+    if updating then
+        
+        insert into STLogs (log_message) values (user ||
+        ' updated table recordings. Old values recording_id: '||:old.recording_id||
+        ', recording_name: '||:old.recording_name||
+        ', creation_time: '||:old.creation_time||
+        ', duration: '||:old.duration||
+        '. New values recording_id: '||:new.recording_id||
+        ', recording_name: '||:new.recording_name||
+        ', creation_time: '||:new.creation_time||
+        ', duration: '||:new.duration);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table recordings values recording_id: '||:old.recording_id||
+        ', recording_name: '||:old.recording_name||
+        ', creation_time: '||:old.creation_time||
+        ', duration: '||:old.duration);
+    end if;
+end;
+/
+create or replace trigger before_insert_update_delete_productionContributions
+before insert or update or delete
+on productionContributions
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table productionContributions values recording_id: '||:new.recording_id||
+        ', contributor_id: '||:new.contributor_id||
+        ', role_id: '||:new.role_id);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table productionContributions. Old values recording_id: '||:old.recording_id||
+        ', contributor_id: '||:old.contributor_id||
+        ', role_id: '||:old.role_id||
+        '. New values recording_id: '||:new.recording_id||
+        ', contributor_id: '||:new.contributor_id||
+        ', role_id: '||:new.role_id);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table productionContributions values recording_id: '||:old.recording_id||
+        ', contributor_id: '||:old.contributor_id||
+        ', role_id: '||:old.role_id);
+    end if;
+end;
+/
+create or replace trigger before_insert_update_delete_musicalContributions
+before insert or update or delete
+on musicalContributions
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table musicalContributions values recording_id: '||:new.recording_id||
+        ', contributor_id: '||:new.contributor_id||
+        ', role_id: '||:new.role_id);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table musicalContributions. Old values recording_id: '||:old.recording_id||
+        ', contributor_id: '||:old.contributor_id||
+        ', role_id: '||:old.role_id||
+        '. New values recording_id: '||:new.recording_id||
+        ', contributor_id: '||:new.contributor_id||
+        ', role_id: '||:new.role_id);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table musicalContributions values recording_id: '||:old.recording_id||
+        ', contributor_id: '||:old.contributor_id||
+        ', role_id: '||:old.role_id);
+    end if;
+end;
+/
+create or replace trigger before_insert_update_delete_productionRoles
+before insert or update or delete
+on productionRoles
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table productionRoles values role_id: '||:new.role_id||
+        ', role_name: '||:new.role_name);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table productionRoles. Old values role_id: '||:old.role_id||
+        ', role_name: '||:old.role_name||
+        '. New values role_id: '||:new.role_id||
+        ', role_name: '||:new.role_name);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table productionRoles values role_id: '||:old.role_id||
+        ', role_name: '||:old.role_name);
+    end if;
+end;
+/
+create or replace trigger before_insert_update_delete_musicianRoles
+before insert or update or delete
+on musicianRoles
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table musicianRoles values role_id: '||:new.role_id||
+        ', role_name: '||:new.role_name);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table musicianRoles. Old values role_id: '||:old.role_id||
+        ', role_name: '||:old.role_name||
+        '. New values role_id: '||:new.role_id||
+        ', role_name: '||:new.role_name);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table musicianRoles values role_id: '||:old.role_id||
+        ', role_name: '||:old.role_name);
+    end if;
+end;
+/
 commit;
