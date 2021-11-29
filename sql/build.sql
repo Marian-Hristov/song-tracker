@@ -264,7 +264,7 @@ create table STLogs (
     log_time timestamp default localTimestamp(0) not null
 );
 -- triggers
-
+/
 -- compilations/samples
 create or replace trigger before_insert_update_delete_compilations
 before insert or update or delete
@@ -300,7 +300,7 @@ begin
         ', duration: '||:old.duration);
     end if;
 end;
-
+/
 create or replace trigger before_insert_update_delete_compilationcontributions
 before insert or update or delete
 on compilationContributions
@@ -331,7 +331,7 @@ begin
         ', role_id: '||:old.role_id);
     end if;
 end;
-
+/
 create or replace trigger before_insert_update_delete_compilationRoles
 before insert or update or delete
 on compilationRoles
@@ -358,7 +358,7 @@ begin
         ', role_name: '||:old.role_name);
     end if;
 end;
-
+/
 create or replace trigger before_insert_update_delete_recordingSamples
 before insert or update or delete
 on recordingSamples
@@ -389,7 +389,7 @@ begin
         ', segment_id: '||:old.segment_id);
     end if;
 end;
-
+/
 create or replace trigger before_insert_update_delete_compilationSamples
 before insert or update or delete
 on compilationSamples
@@ -420,9 +420,10 @@ begin
         ', segment_id: '||:old.segment_id);
     end if;
 end;
-
+/
 create or replace trigger before_insert_update_delete_segment
 before insert or update or delete
+on segment
 for each row
 declare
 begin
@@ -441,7 +442,7 @@ begin
         ', main_track_offset: '||:old.main_track_offset||
         ', duration_in_main_track: '||:old.duration_in_main_track||
         ', component_track_offset: '||:old.component_track_offset||
-        ', duration_of_component: ':old.duration_of_component
+        ', duration_of_component: '||:old.duration_of_component||
         '. New values segment_id: '||:new.segment_id||
         ', main_track_offset: '||:new.main_track_offset||
         ', duration_in_main_track: '||:new.duration_in_main_track||
@@ -458,7 +459,9 @@ begin
         ', duration_of_component: '||:old.duration_of_component);
     end if;
 end;
-
+/
+commit;
+/
 -- album / distribution
 
 create or replace trigger before_insert_update_delete_recordLabels
@@ -487,7 +490,7 @@ begin
         ', label_name: '||:old.label_name);
     end if;
 end;
-
+/
 create or replace trigger before_insert_update_delete_markets
 before insert or update or delete
 on markets
@@ -514,9 +517,10 @@ begin
         ', market_name: '||:old.market_name);
     end if;
 end;
-
+/
 create or replace trigger before_insert_update_delete_distributions
 before insert or update or delete
+on distributions
 for each row
 declare
 begin
@@ -535,7 +539,7 @@ begin
         ', collection_id: '||:old.collection_id||
         ', release_date: '||:old.release_date||
         ', label_id: '||:old.label_id||
-        ', market_id: ':old.market_id
+        ', market_id: '||:old.market_id||
         '. New values distribution_id: '||:new.distribution_id||
         ', collection_id: '||:new.collection_id||
         ', release_date: '||:new.release_date||
@@ -552,7 +556,7 @@ begin
         ', market_id: '||:old.market_id);
     end if;
 end;
-
+/
 create or replace trigger before_insert_update_delete_collections
 before insert or update or delete
 on collections
@@ -579,7 +583,7 @@ begin
         ', collection_name: '||:old.collection_name);
     end if;
 end;
-
+/
 create or replace trigger before_insert_update_delete_collectionCompilations
 before insert or update or delete
 on collectionCompilations
@@ -606,7 +610,9 @@ begin
         ', compilation_id: '||:old.compilation_id);
     end if;
 end;
-
+/
+commit;
+/
 -- recordings / contributors
 create or replace trigger before_insert_update_delete_productionRoles
 before insert or update or delete
@@ -634,23 +640,23 @@ begin
         ', role_name: '||:old.role_name);
     end if;
 end;
-
-create or replace trigger before_insert_update_delete_productionContributors
+/
+create or replace trigger before_insert_update_delete_productionContributions
 before insert or update or delete
-on productionContributors
+on productionContributions
 for each row
 declare
 begin
     if inserting then
         insert into STLogs (log_message) values (user ||
-        ' inserted into table productionContributors values recording_id: '||:new.recording_id||
+        ' inserted into table productionContributions values recording_id: '||:new.recording_id||
         ', contributor_id: '||:new.contributor_id||
         ', role_id: '||:new.role_id);
     end if;
     if updating then
 
         insert into STLogs (log_message) values (user ||
-        ' updated table productionContributors. Old values recording_id: '||:old.recording_id||
+        ' updated table productionContributions. Old values recording_id: '||:old.recording_id||
         ', contributor_id: '||:old.contributor_id||
         ', role_id: '||:old.role_id||
         '. New values recording_id: '||:new.recording_id||
@@ -660,9 +666,10 @@ begin
 
     if deleting then
         insert into STLogs (log_message) values (user ||
-        ' deleted from table productionContributors values recording_id: '||:old.recording_id||
+        ' deleted from table productionContributions values recording_id: '||:old.recording_id||
         ', contributor_id: '||:old.contributor_id||
         ', role_id: '||:old.role_id);
     end if;
 end;
+/
 commit;
