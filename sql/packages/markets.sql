@@ -34,9 +34,7 @@ create or replace package body market_mgmt as
         values (new_market);
     end; 
     -- Remove a market
-    procedure removeMarket(removed_market_id markets.market_id%type)
-    is
-        found markets.market_id%type;
+    procedure removeMarket(removed_market_id markets.market_id%type) is
     begin
         if removed_market_id is null then
             raise_application_error(-20001, 'one or more arguments are null or empty');
@@ -45,7 +43,7 @@ create or replace package body market_mgmt as
         end if;
         -- Deleting market in markets table
         delete from markets
-        where market_id = found;
+        where market_id = removed_market_id;
     end;
     -- Update market
     procedure updateMarket(old_market_name markets.market_name%type, new_market_name markets.market_name%type)
