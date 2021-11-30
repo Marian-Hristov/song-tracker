@@ -1,4 +1,4 @@
-package dawson.songtracker.types;
+package dawson.songtracker.types.recordings_contributions;
 
 public class Contributor {
     private String id;

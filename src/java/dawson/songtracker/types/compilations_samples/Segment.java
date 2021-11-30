@@ -1,4 +1,6 @@
-package dawson.songtracker.types;
+package dawson.songtracker.types.compilations_samples;
+
+import dawson.songtracker.types.compilations_samples.Compilation;
 
 public class Segment<T> {
     private String id;

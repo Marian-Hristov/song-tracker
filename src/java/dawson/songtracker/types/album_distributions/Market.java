@@ -1,20 +1,16 @@
-package dawson.songtracker.types;
+package dawson.songtracker.types.album_distributions;
 
-public class RecordLabel {
-    private String id;
+public class Market {
+    private final String id;
     private String name;
 
-    public RecordLabel(String id, String name) {
+    public Market(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

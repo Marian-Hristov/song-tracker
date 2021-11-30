@@ -1,4 +1,4 @@
-package dawson.songtracker.types;
+package dawson.songtracker.types.recordings_contributions;
 
 import java.security.Timestamp;
 import java.util.ArrayList;
