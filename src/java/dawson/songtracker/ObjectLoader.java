@@ -1,6 +1,7 @@
 package dawson.songtracker;
-import dawson.songtracker.types.compilations_samples.CompilationRole;
-import dawson.songtracker.types.recordings_contributions.*;
+import dawson.songtracker.types.Components.Recording;
+import dawson.songtracker.types.Roles.CompilationRole;
+import dawson.songtracker.types.Roles.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -89,4 +90,5 @@ public class ObjectLoader {
         } while(rs.next());
         return musicalContributions;
     }
+
 }

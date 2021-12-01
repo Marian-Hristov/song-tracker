@@ -1,4 +1,4 @@
-package dawson.songtracker.types.album_distributions;
+package dawson.songtracker.types.Distributions;
 
 public class RecordLabel {
     private final String id;

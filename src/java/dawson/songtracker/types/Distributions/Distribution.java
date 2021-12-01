@@ -1,6 +1,5 @@
-package dawson.songtracker.types.album_distributions;
+package dawson.songtracker.types.Distributions;
 
-import dawson.songtracker.types.album_distributions.Collection;
 import javafx.scene.control.Label;
 
 import java.sql.Date;

@@ -1,4 +1,4 @@
-package dawson.songtracker.types.album_distributions;
+package dawson.songtracker.types.Distributions;
 
 public class Market {
     private final String id;

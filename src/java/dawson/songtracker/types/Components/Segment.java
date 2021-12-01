@@ -1,10 +1,7 @@
-package dawson.songtracker.types.compilations_samples;
-
-import dawson.songtracker.types.SongComponent;
-import dawson.songtracker.types.compilations_samples.Compilation;
+package dawson.songtracker.types.Components;
 
 public class Segment<T extends SongComponent > {
-    private final String id;
+    private final int id;
     private final Compilation mainTrack;
     private final T componentTrack;
     private int mainTrackOffset;
@@ -12,7 +9,7 @@ public class Segment<T extends SongComponent > {
     private int componentTrackOffset;
     private int durationOfComponent;
 
-    public Segment(String id, Compilation mainTrack, T componentTrack, int mainTrackOffset, int durationInMainTrack, int componentTrackOffset, int durationOfComponent) {
+    public Segment(int id, Compilation mainTrack, T componentTrack, int mainTrackOffset, int durationInMainTrack, int componentTrackOffset, int durationOfComponent) {
         this.id = id;
         this.mainTrack = mainTrack;
         this.componentTrack = componentTrack;
@@ -22,7 +19,7 @@ public class Segment<T extends SongComponent > {
         this.durationOfComponent = durationOfComponent;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -64,5 +61,18 @@ public class Segment<T extends SongComponent > {
 
     public Compilation getMainTrack() {
         return mainTrack;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Segment<?> segment)) return false;
+
+        return id == segment.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

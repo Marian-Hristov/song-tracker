@@ -1,10 +1,10 @@
-package dawson.songtracker.types.recordings_contributions;
+package dawson.songtracker.types.Roles;
 
-public abstract class Role {
-    protected int id;
-    protected String name;
+public class Contributor {
+    private final int id;
+    private String name;
 
-    public Role(int id, String name) {
+    public Contributor(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -13,20 +13,20 @@ public abstract class Role {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Role role)) return false;
+        if (!(o instanceof Contributor that)) return false;
 
-        return id == role.id;
+        return id == that.id;
     }
 
     @Override
