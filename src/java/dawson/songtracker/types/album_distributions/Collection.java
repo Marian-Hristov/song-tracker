@@ -10,7 +10,7 @@ public class Collection {
     private ArrayList<Compilation> compilations;
 
     public Collection(String id, String name, ArrayList<Compilation> compilations) {
-        if(compilations == null){
+        if (compilations == null) {
             throw new NullPointerException("the compilation array list is null");
         }
         this.id = id;
@@ -23,21 +23,21 @@ public class Collection {
     }
 
     public void setCompilation(ArrayList<Compilation> compilations) {
-        if(compilations == null) {
+        if (compilations == null) {
             throw new NullPointerException("the compilation array list is null");
         }
         this.compilations = compilations;
     }
 
-    public void addComilation(Compilation compilation){
-        if(compilation == null){
+    public void addCompilation(Compilation compilation) {
+        if (compilation == null) {
             throw new NullPointerException("The compilation is null");
         }
         this.compilations.add(compilation);
     }
 
-    public void removeCompilation(Compilation compilation){
-        if(compilation == null){
+    public void removeCompilation(Compilation compilation) {
+        if (compilation == null) {
             throw new NullPointerException("The compilation is null");
         }
         this.compilations.remove(compilation);
@@ -48,7 +48,7 @@ public class Collection {
     }
 
     public void setName(String name) {
-        if(name == null){
+        if (name == null) {
             throw new NullPointerException("The name is null");
         }
         this.name = name;

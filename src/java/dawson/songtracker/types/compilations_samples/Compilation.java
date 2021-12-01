@@ -35,11 +35,11 @@ public class Compilation extends SongComponent {
         this.sampledCompilations = sampledCompilations;
     }
 
-    public void addSampleRecoding(Segment<Recording> recordingSegment){
+    public void addSampleRecoding(Segment<Recording> recordingSegment) {
         this.sampledRecordings.add(recordingSegment);
     }
 
-    public void addSampleCompilation(Segment<Compilation> sampledCompilations){
+    public void addSampleCompilation(Segment<Compilation> sampledCompilations) {
         this.sampledCompilations.add(sampledCompilations);
     }
 }

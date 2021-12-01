@@ -3,7 +3,7 @@ package dawson.songtracker.types.compilations_samples;
 import dawson.songtracker.types.SongComponent;
 import dawson.songtracker.types.compilations_samples.Compilation;
 
-public class Segment<T extends SongComponent > {
+public class Segment<T extends SongComponent> {
     private final String id;
     private final Compilation mainTrack;
     private final T componentTrack;
