@@ -7,7 +7,7 @@ module dawson.songtracker {
 
     opens dawson.songtracker to javafx.fxml;
     exports dawson.songtracker;
-    exports dawson.songtracker.types.recordings_contributions;
-    exports dawson.songtracker.types.album_distributions;
-    exports dawson.songtracker.types.compilations_samples;
+    exports dawson.songtracker.types.Roles;
+    exports dawson.songtracker.types.Distributions;
+    exports dawson.songtracker.types.Components;
 }

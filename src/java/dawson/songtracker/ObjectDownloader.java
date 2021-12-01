@@ -1,7 +1,8 @@
 package dawson.songtracker;
 
-import dawson.songtracker.types.compilations_samples.CompilationRole;
-import dawson.songtracker.types.recordings_contributions.*;
+import dawson.songtracker.types.Components.Recording;
+import dawson.songtracker.types.Roles.CompilationRole;
+import dawson.songtracker.types.Roles.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Map;
 public class ObjectDownloader {
     private final Connection connection;
 
-    public ObjectDownloaderoader(Connection connection) {
+    public ObjectDownloader(Connection connection) {
         this.connection = connection;
     }
 
@@ -32,7 +33,7 @@ public class ObjectDownloader {
         return new ProductionRole(id, rs.getString("role_name"));
     }
 
-    public CompilationRole loadConpilationRole(int id) throws SQLException {
+    public CompilationRole loadCompilationRole(int id) throws  SQLException{
         PreparedStatement ps = this.connection.prepareStatement("select * from compilationRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
@@ -99,4 +100,5 @@ public class ObjectDownloader {
         } while (rs.next());
         return musicalContributions;
     }
+
 }
