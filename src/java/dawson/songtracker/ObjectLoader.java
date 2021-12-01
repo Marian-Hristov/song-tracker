@@ -27,7 +27,7 @@ public class ObjectLoader {
         if(!rs.next()) throw new IllegalArgumentException("the production role with id: "+id+" doesn't exist");
         return new ProductionRole(id, rs.getString("role_name"));
     }
-    public CompilationRole loadConpilationRole(int id) throws  SQLException{
+    public CompilationRole loadCompilationRole(int id) throws  SQLException{
         PreparedStatement ps = this.connection.prepareStatement("select * from compilationRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
