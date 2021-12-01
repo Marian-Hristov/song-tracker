@@ -1,34 +1,39 @@
 package dawson.songtracker.types;
 
 import dawson.songtracker.types.recordings_contributions.Contributor;
+import dawson.songtracker.types.recordings_contributions.MusicianRole;
+import dawson.songtracker.types.recordings_contributions.ProductionRole;
 import dawson.songtracker.types.recordings_contributions.Role;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public abstract class SongComponent {
     protected final int id;
     protected String name;
     protected final Timestamp creationTime;
     protected int duration;
-    protected Map<Role, ArrayList<Contributor>> contributions;
+    protected Map<MusicianRole, ArrayList<Contributor>> musicalContributions;
+    protected Map<ProductionRole, ArrayList<Contributor>> productionContributions;
 
-    public SongComponent(int id, String name, Timestamp creationTime, int duration, Map<Role, ArrayList<Contributor>> contributions) {
+    public SongComponent(int id, String name, Timestamp creationTime, int duration, Map<MusicianRole, ArrayList<Contributor>> musicalContributions, Map<ProductionRole, ArrayList<Contributor>> productionContributions) {
         if(name == null){
             throw new NullPointerException("the name is null");
         }
         if(creationTime == null){
             throw new NullPointerException("the creationTime is null");
         }
-        if(contributions == null){
+        if(musicalContributions == null || productionContributions == null){
             throw new NullPointerException("the contributions are null");
         }
         this.id = id;
         this.name = name;
         this.creationTime = creationTime;
         this.duration = duration;
-        this.contributions = contributions;
+        this.productionContributions = productionContributions;
+        this.musicalContributions = musicalContributions;
     }
 
     public int getId() {
@@ -61,12 +66,12 @@ public abstract class SongComponent {
                 + (seconds < 10 ? "0" + seconds : seconds);
     }
 
-    public Map<Role, ArrayList<Contributor>> getContributions() {
-        return contributions;
+    public Map<MusicianRole, ArrayList<Contributor>> getMusicalContributions() {
+        return musicalContributions;
     }
 
-    public void setContributions(Map<Role, ArrayList<Contributor>> contributions) {
-        this.contributions = contributions;
+    public Map<ProductionRole, ArrayList<Contributor>> getProductionContributions() {
+        return productionContributions;
     }
 
     public void addContribution(Role role, Contributor contributor){
@@ -76,12 +81,24 @@ public abstract class SongComponent {
         if(contributor == null){
             throw new NullPointerException("the contributor is null");
         }
-        if(this.contributions.containsKey(role)){
-            this.contributions.get(role).add(contributor);
+        if(role instanceof MusicianRole musicianRole){
+            if(this.musicalContributions.containsKey(musicianRole)){
+                this.musicalContributions.get(musicianRole).add(contributor);
+            } else {
+                ArrayList<Contributor> roleContributions = new ArrayList<>();
+                roleContributions.add(contributor);
+                this.musicalContributions.put(musicianRole, roleContributions);
+            }
+        } else if (role instanceof ProductionRole productionRole){
+            if(this.productionContributions.containsKey(productionRole)){
+                this.productionContributions.get(productionRole).add(contributor);
+            } else {
+                ArrayList<Contributor> roleContributions = new ArrayList<>();
+                roleContributions.add(contributor);
+                this.productionContributions.put(productionRole, roleContributions);
+            }
         } else {
-            ArrayList<Contributor> roleContributions = new ArrayList<>();
-            roleContributions.add(contributor);
-            this.contributions.put(role, roleContributions);
+            throw new UnsupportedOperationException("This type or role is not yet implemented");
         }
     }
 
@@ -92,6 +109,12 @@ public abstract class SongComponent {
         if(contributor == null){
             throw new NullPointerException("the contributor is null");
         }
-        this.contributions.get(role).remove(contributor);
+        if(role instanceof ProductionRole){
+            if(!this.productionContributions.get(role).remove(contributor)) throw new NoSuchElementException("this contributor is not present in the contributions");
+        } else if (role instanceof MusicianRole){
+            if(!this.musicalContributions.get(role).remove(contributor)) throw new NoSuchElementException("this contributor is not present in the contributions");
+        } else {
+            throw new UnsupportedOperationException("This type or role is not yet implemented");
+        }
     }
 }

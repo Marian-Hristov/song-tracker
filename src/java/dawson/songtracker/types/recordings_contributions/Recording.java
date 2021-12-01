@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Recording extends SongComponent {
-    public Recording(int id, String name, Timestamp creationTime, int duration, Map<Role, ArrayList<Contributor>> contributions){
-        super(id, name, creationTime, duration, contributions);
+
+    public Recording(int id, String name, Timestamp creationTime, int duration, Map<MusicianRole, ArrayList<Contributor>> musicalContributions, Map<ProductionRole, ArrayList<Contributor>> productionContributions) {
+        super(id, name, creationTime, duration, musicalContributions, productionContributions);
     }
 
     public void setDuration(int duration) {
