@@ -49,7 +49,7 @@ public class Collection {
 
     public void setName(String name) {
         if(name == null){
-            throw new NullPointerException("The compilation is null");
+            throw new NullPointerException("The name is null");
         }
         this.name = name;
     }

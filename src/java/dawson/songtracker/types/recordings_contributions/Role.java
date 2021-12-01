@@ -1,20 +1,16 @@
 package dawson.songtracker.types.recordings_contributions;
 
 public abstract class Role {
-    protected String id;
+    protected int id;
     protected String name;
 
-    public Role(String id, String name) {
+    public Role(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -25,4 +21,16 @@ public abstract class Role {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role role)) return false;
+
+        return id == role.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

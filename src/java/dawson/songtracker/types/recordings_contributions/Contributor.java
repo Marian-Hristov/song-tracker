@@ -1,19 +1,15 @@
 package dawson.songtracker.types.recordings_contributions;
 
 public class Contributor {
-    private String id;
+    private final int id;
     private String name;
 
-    public Contributor(String id, String name) {
+    public Contributor(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -23,5 +19,18 @@ public class Contributor {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contributor that)) return false;
+
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

@@ -8,5 +8,4 @@ public class ObjectLoader {
         this.connection = connection;
     }
 
-    public
 }

@@ -1,11 +1,12 @@
 package dawson.songtracker.types.compilations_samples;
 
+import dawson.songtracker.types.SongComponent;
 import dawson.songtracker.types.compilations_samples.Compilation;
 
-public class Segment<T> {
-    private String id;
-    private Compilation mainTrack;
-    private T componentTrack;
+public class Segment<T extends SongComponent > {
+    private final String id;
+    private final Compilation mainTrack;
+    private final T componentTrack;
     private int mainTrackOffset;
     private int durationInMainTrack;
     private int componentTrackOffset;
@@ -23,10 +24,6 @@ public class Segment<T> {
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public int getDurationOfComponent() {
@@ -65,15 +62,7 @@ public class Segment<T> {
         return componentTrack;
     }
 
-    public void setComponentTrack(T componentTrack) {
-        this.componentTrack = componentTrack;
-    }
-
     public Compilation getMainTrack() {
         return mainTrack;
-    }
-
-    public void setMainTrack(Compilation mainTrack) {
-        this.mainTrack = mainTrack;
     }
 }
