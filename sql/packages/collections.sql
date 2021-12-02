@@ -5,6 +5,8 @@ create or replace package collection_mgmt as
     procedure updateCompilation(collection_id in collections.collection_id%type, collection_name in collections.collection_name%type);
 end collection_mgmt;
 /
+commit;
+/
 create or replace package body collection_mgmt as
 
     procedure createCollection(
@@ -48,12 +50,15 @@ create or replace package body collection_mgmt as
         end if;
         delete from collectionCompilations where collection_id = collection_id and compilation_id = compilation_id;
     end;
-    procedure updateCompilation(collection_id in collections.collection_id%type, collection_name in collections.collection_name%type)
+    
+    create or replace procedure updateCompilation(collection_id in collections.collection_id%type, collection_name in collections.collection_name%type)
     as
     begin
-         if (collection_id < 1 or compilation_id < 1) then
+         if (collection_id < 1) then
             raise_application_error(-20001, 'the collection_id or the compilation_id is bellow 1');
         end if;
         update collections set collection_name = collection_name where collection_id = collection_id;
     end;
 end collection_mgmt;
+/
+commit;

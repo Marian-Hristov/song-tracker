@@ -22,6 +22,8 @@ create or replace package compilation_mgmt as
 
 end compilation_mgmt;
 /
+commit;
+/
 create or replace package body compilation_mgmt as
 
     procedure createCompilation(
@@ -166,3 +168,5 @@ create or replace package body compilation_mgmt as
 
 
 end compilation_mgmt;
+/
+commit;

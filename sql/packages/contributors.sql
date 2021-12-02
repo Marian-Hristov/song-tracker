@@ -1,11 +1,13 @@
-create or replace contributor_mgmt as
+create or replace package contributor_mgmt as
     function contributorExists(searched_contributor_name varchar2)
-        return number(1);
+        return number;
     procedure addContributor(new_contributor_name varchar2);
     procedure removeContributor(deleted_contributor_name varchar2);
     procedure updateContributor(old_contributor_name varchar2, new_contributor_name varchar2);
 end contributor_mgmt;
-
+/
+commit;
+/
 create or replace package body contributor_mgmt as
     -- Checking if a contributor exists
     function contributorExists(searched_contributor_name varchar2)
@@ -31,7 +33,7 @@ create or replace package body contributor_mgmt as
         if(contributorExists(new_contributor_name) = 1) then
             raise_application_error(-20004, 'contributor already exists');
         end if;
-        insert into contributor
+        insert into contributors
         values (contributor_id_seq.nextval, new_contributor_name);
     end;
     -- Remove a contributor
@@ -73,3 +75,5 @@ create or replace package body contributor_mgmt as
         update contributors set contributor_name = new_contributor_name where contributor_id = found;
     end;
 end contributor_mgmt;
+/
+commit;
