@@ -5,11 +5,11 @@ import dawson.songtracker.types.Components.Compilation;
 import java.util.ArrayList;
 
 public class Collection {
-    private final String id;
+    private final int id;
     private String name;
     private ArrayList<Compilation> compilations;
 
-    public Collection(String id, String name, ArrayList<Compilation> compilations) {
+    public Collection(int id, String name, ArrayList<Compilation> compilations) {
         if (compilations == null) {
             throw new NullPointerException("the compilation array list is null");
         }
@@ -54,7 +54,20 @@ public class Collection {
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Collection collection)) return false;
+
+        return id == collection.id;
+    }
+
+    @Override
+    public int hashCode() {
         return id;
     }
 }

@@ -24,9 +24,9 @@ public class Contributor {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Contributor that)) return false;
+        if (!(o instanceof Contributor contributor)) return false;
 
-        return id == that.id;
+        return id == contributor.id;
     }
 
     @Override
