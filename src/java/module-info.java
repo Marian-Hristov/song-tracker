@@ -6,6 +6,9 @@ module dawson.songtracker {
 
 
     opens dawson.songtracker to javafx.fxml;
+    opens dawson.songtracker.controllers to javafx.fxml;
+    opens dawson.songtracker.utils to javafx.fxml;
+
     exports dawson.songtracker;
     exports dawson.songtracker.types.Roles;
     exports dawson.songtracker.types.Distributions;
