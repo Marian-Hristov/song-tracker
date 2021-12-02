@@ -8,11 +8,9 @@ import java.sql.*;
 
 public class ObjectUploader{
     private final Connection connection;
-    private final ObjectDownloader downloader;
 
     public ObjectUploader(Connection connection){
         this.connection = connection;
-        this.downloader = new ObjectDownloader(connection);
     }
 
 //     if (user == null) {
@@ -68,11 +66,11 @@ public class ObjectUploader{
         }
 
         try{
-            PreparedStatement insertRole = this.connection.prepareStatement("EXECUTE ROLE_MGMT.REMOVEROLE(?, ?)");
-            insertRole.setString(1, Character.toString(category));
-            insertRole.setString(2, name);
+            PreparedStatement deleteRole = this.connection.prepareStatement("EXECUTE ROLE_MGMT.REMOVEROLE(?, ?)");
+            deleteRole.setString(1, Character.toString(category));
+            deleteRole.setString(2, name);
 
-            if(insertRole.executeUpdate() != 1){
+            if(deleteRole.executeUpdate() != 1){
                 throw new SQLException("Could remove role");
             }
 
@@ -88,12 +86,12 @@ public class ObjectUploader{
             throw new IllegalArgumentException("One or more given names are invalid or null");
         }
         try{
-            PreparedStatement insertRole = this.connection.prepareStatement("EXECUTE ROLE_MGMT.REMOVEROLE(?, ?, ?)");
-            insertRole.setString(1, Character.toString(category));
-            insertRole.setString(2, oldName);
-            insertRole.setString(3, newName);
+            PreparedStatement updateRole = this.connection.prepareStatement("EXECUTE ROLE_MGMT.UPDATEROLE(?, ?, ?)");
+            updateRole.setString(1, Character.toString(category));
+            updateRole.setString(2, oldName);
+            updateRole.setString(3, newName);
 
-            if(insertRole.executeUpdate() != 1){
+            if(updateRole.executeUpdate() != 1){
                 throw new SQLException("Could update role");
             }
 
@@ -102,5 +100,47 @@ public class ObjectUploader{
             this.connection.rollback();
             e.printStackTrace();
         }
+    }
+
+    public void addContributor(String name) throws SQLException{
+        if(name == null || name.equals("")){
+            throw new IllegalArgumentException("Given name is empty or null");
+        }
+        try{
+            PreparedStatement insertContributor = this.connection.prepareStatement("EXECUTE CONTRIBUTOR_MGMT.ADDCONTRIBUTOR(?)");
+            insertContributor.setString(1, name);
+
+            if(insertContributor.executeUpdate() != 1){
+                throw new SQLException("Could not add contributor");
+            }
+
+            this.connection.commit();
+        } catch (Exception e) {
+            this.connection.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteContributor(String name) throws SQLException{
+        if(name == null || name.equals("")){
+            throw new IllegalArgumentException("Given name is empty or null");
+        }
+        try{
+            PreparedStatement deleteContributor = this.connection.prepareStatement("EXECUTE CONTRIBUTOR_MGMT.REMOVECONTRIBUTOR(?)");
+            deleteContributor.setString(1, name);
+
+            if(deleteContributor.executeUpdate() != 1){
+                throw new SQLException("Could not delete contributor");
+            }
+
+            this.connection.commit();
+        } catch (Exception e) {
+            this.connection.rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void updateContributor(String oldName, String newName) throws SQLException{
+
     }
 }

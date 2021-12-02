@@ -2,7 +2,7 @@ create or replace package collection_mgmt as
     procedure createCollection (collection_name in collections.collection_name%type, collection_id out collections.collection_id%type);
     procedure addCompilationToCollection(collection_id in collections.collection_id%type, compilation_id in compilations.compilation_id%type);
     procedure removeCompilationFromCollection( collection_id in collections.collection_id%type, compilation_id in compilations.compilation_id%type);
-    procedure updateCompilation(collection_id in collections.collection_id%type, collection_name in collections.collection_name%type);
+    procedure updateCollection(collection_id in collections.collection_id%type, collection_name in collections.collection_name%type);
 end collection_mgmt;
 /
 commit;
@@ -51,7 +51,7 @@ create or replace package body collection_mgmt as
         delete from collectionCompilations where collection_id = collection_id and compilation_id = compilation_id;
     end;
     
-    create or replace procedure updateCompilation(collection_id in collections.collection_id%type, collection_name in collections.collection_name%type)
+    procedure updateCollection(collection_id in collections.collection_id%type, collection_name in collections.collection_name%type)
     as
     begin
          if (collection_id < 1) then
