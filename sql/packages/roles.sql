@@ -22,6 +22,8 @@ create or replace package body role_mgmt as
             select role_id into found from musicianRoles where role_name = searched_role_name;
         elsif category = 'p' then
             select role_id into found from productionRoles where role_name = searched_role_name;
+        elsif category = 'c' then
+            select role_id into found from compilationRoles where role_name = searched_role_name;
         else
             raise_application_error(-20002, 'specified category does not exist');
         end if;
@@ -44,6 +46,9 @@ create or replace package body role_mgmt as
             values (new_role_name);
         elsif category = 'p' then
             insert into productionRoles (role_name)
+            values (new_role_name);
+        elsif category = 'c' then
+            insert into compilationRoles (role_name)
             values (new_role_name);
         else
             raise_application_error(-20002, 'specified category does not exist');
@@ -73,6 +78,15 @@ create or replace package body role_mgmt as
             select role_id into found from productionRoles where role_name = deleted_role_name;
             -- Deleting role from contribution bridging table
             delete from productionContributions
+            where role_id = found;
+            -- Deleting role in role table
+            delete from productionRoles
+            where role_id = found;
+        elsif category = 'c' then
+            -- Getting the id of the role based on the name
+            select role_id into found from compilationRoles where role_name = deleted_role_name;
+            -- Deleting role from contribution bridging table
+            delete from compilationContributions
             where role_id = found;
             -- Deleting role in role table
             delete from productionRoles
