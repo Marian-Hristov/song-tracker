@@ -7,28 +7,34 @@ public class Segment<T extends SongComponent> {
     private int mainTrackOffset;
     private int durationInMainTrack;
     private int componentTrackOffset;
-    private int durationOfComponent;
+    private int durationOfComponentUsed;
 
     public Segment(int id, Compilation mainTrack, T componentTrack, int mainTrackOffset, int durationInMainTrack, int componentTrackOffset, int durationOfComponent) {
+        if(mainTrack == null){
+            throw new NullPointerException("the mainTrack is null");
+        }
+        if(componentTrack == null){
+            throw new NullPointerException("The componentTrack is null");
+        }
         this.id = id;
         this.mainTrack = mainTrack;
         this.componentTrack = componentTrack;
         this.mainTrackOffset = mainTrackOffset;
         this.durationInMainTrack = durationInMainTrack;
         this.componentTrackOffset = componentTrackOffset;
-        this.durationOfComponent = durationOfComponent;
+        this.durationOfComponentUsed = durationOfComponent;
     }
 
     public int getId() {
         return id;
     }
 
-    public int getDurationOfComponent() {
-        return durationOfComponent;
+    public int getDurationOfComponentUsed() {
+        return durationOfComponentUsed;
     }
 
-    public void setDurationOfComponent(int durationOfComponent) {
-        this.durationOfComponent = durationOfComponent;
+    public void setDurationOfComponentUsed(int durationOfComponentUsed) {
+        this.durationOfComponentUsed = durationOfComponentUsed;
     }
 
     public int getComponentTrackOffset() {
