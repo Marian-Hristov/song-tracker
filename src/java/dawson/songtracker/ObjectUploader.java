@@ -10,9 +10,9 @@ public class ObjectUploader{
     private final Connection connection;
     private final ObjectDownloader downloader;
 
-    public ObjectUploader(Connection connection){
+    public ObjectUploader(Connection connection) throws SQLException {
         this.connection = connection;
-        this.downloader = new ObjectDownloader(connection);
+        this.downloader = ObjectDownloader.getInstance();
     }
 
 //     if (user == null) {

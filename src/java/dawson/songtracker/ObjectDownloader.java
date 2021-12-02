@@ -8,15 +8,26 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 
 public class ObjectDownloader {
     private final Connection connection;
+    private static ObjectDownloader instance = null;
 
-    public ObjectDownloader(Connection connection) {
+    private ObjectDownloader(Connection connection) {
         this.connection = connection;
     }
 
+    public static ObjectDownloader getInstance() throws SQLException {
+        if(instance == null){
+            instance = new ObjectDownloader(DBConnection.getConnection());
+            return instance;
+        }
+        return instance;
+    }
+
+    // Roles
     public MusicianRole loadMusicianRole(int id) throws SQLException {
         PreparedStatement ps = this.connection.prepareStatement("select * from musicianRoles where role_id = ?");
         ps.setInt(1, id);
@@ -49,22 +60,44 @@ public class ObjectDownloader {
         return new Contributor(id, rs.getString("contributor_name"));
     }
 
+    // Components
+    public ArrayList<Recording> loadAllRecordings() throws SQLException {
+        PreparedStatement ps = this.connection.prepareStatement("select * from recordings");
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Recording> allRecordings = new ArrayList<>();
+        while(rs.next()){
+            int id = rs.getInt("recording_id");
+            Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(id) == null ? new HashMap<>() : loadProductionContributions(id);
+            Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(id) == null ? new HashMap<>() : loadMusicalContributions(id);
+            allRecordings.add(new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions));
+        }
+        return allRecordings;
+    }
+
     public Recording loadRecording(int id) throws SQLException {
         PreparedStatement ps = this.connection.prepareStatement("select * from recordings where recording_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) throw new IllegalArgumentException("the recording with id: " + id + " doesn't exist");
-        Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(id);
-        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(id);
+        if (!rs.next()) return null;
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(id) == null ? new HashMap<>() : loadProductionContributions(id);
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(id) == null ? new HashMap<>() : loadMusicalContributions(id);
         return new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
     }
 
+    private boolean recordingExists(int id) throws SQLException {
+        PreparedStatement ps = this.connection.prepareStatement("select * from recordings where recording_id = ?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    }
+
     private Map<ProductionRole, ArrayList<Contributor>> loadProductionContributions(int recordingId) throws SQLException {
+        if(!recordingExists(recordingId)) throw new NoSuchElementException("the recording with id: "+recordingId+" doesn't exist");
         PreparedStatement ps = this.connection.prepareStatement("select * from productionContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next())
-            throw new IllegalArgumentException("the recording with id: " + recordingId + " doesn't exist or doesn't have a production contribution");
+        if (!rs.next()) return null;
+
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
         do {
             ProductionRole productionRole = loadProductionRole(rs.getInt("role_id"));
@@ -81,11 +114,11 @@ public class ObjectDownloader {
     }
 
     private Map<MusicianRole, ArrayList<Contributor>> loadMusicalContributions(int recordingId) throws SQLException {
+        if(!recordingExists(recordingId)) throw new NoSuchElementException("the recording with id: "+recordingId+" doesn't exist");
         PreparedStatement ps = this.connection.prepareStatement("select * from musicalContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next())
-            throw new IllegalArgumentException("the recording with id: " + recordingId + " doesn't exist or doesn't have a musical contribution");
+        if (!rs.next()) return null;
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         do {
             MusicianRole musicianRole = loadMusicianRole(rs.getInt("role_id"));

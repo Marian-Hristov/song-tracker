@@ -22,4 +22,12 @@ public abstract class Role {
     }
 
     public abstract boolean equals(Object o);
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
