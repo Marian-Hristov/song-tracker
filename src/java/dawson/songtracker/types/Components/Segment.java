@@ -1,12 +1,7 @@
 package dawson.songtracker.types.Components;
 
-<<<<<<< HEAD:src/java/dawson/songtracker/types/compilations_samples/Segment.java
 public class Segment<T extends SongComponent> {
-    private final String id;
-=======
-public class Segment<T extends SongComponent > {
     private final int id;
->>>>>>> 6f16a1d1542452be9323fe69b19507173588d7f4:src/java/dawson/songtracker/types/Components/Segment.java
     private final Compilation mainTrack;
     private final T componentTrack;
     private int mainTrackOffset;

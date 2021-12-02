@@ -8,11 +8,13 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class Recording extends SongComponent {
-    private Map<MusicianRole, ArrayList<Contributor>> musicalContributions;
-    private Map<ProductionRole, ArrayList<Contributor>> productionContributions;
+    private final Map<MusicianRole, ArrayList<Contributor>> musicalContributions;
+    private final Map<ProductionRole, ArrayList<Contributor>> productionContributions;
 
     public Recording(int id, String name, Timestamp creationTime, int duration, Map<MusicianRole, ArrayList<Contributor>> musicalContributions, Map<ProductionRole, ArrayList<Contributor>> productionContributions) {
         super(id, name, creationTime, duration);
+        if(productionContributions == null) throw new NullPointerException("the productionContributions is null");
+        if(musicalContributions == null) throw new NullPointerException("the musicalContributions is null");
         this.productionContributions = productionContributions;
         this.musicalContributions = musicalContributions;
     }
@@ -65,12 +67,18 @@ public class Recording extends SongComponent {
 
     @Override
     public ArrayList<Contributor> getContributorsInRole(Role role) {
-        if(role instanceof ProductionRole){
-            if(this.productionContributions.get(role) == null)
+        if(role == null){
+            throw new NullPointerException("the role is null");
         }
-        if(!(role instanceof CompilationRole)) throw new UnsupportedOperationException("this role is not supported in a compilation");
-        if(this.contributions.get(role) == null) throw new NoSuchElementException("this role hasn't been assigned in this contribution");
-        return this.contributions.get(role);
+        if(role instanceof ProductionRole productionRole){
+            if(this.productionContributions.get(productionRole) == null) throw new NoSuchElementException("this production role is not yet used in this recording");
+            return this.productionContributions.get(productionRole);
+        } else if (role instanceof MusicianRole musicianRole){
+            if(this.musicalContributions.get(musicianRole) == null) throw new NoSuchElementException("this musician role is not yet used in this recording ");
+            return this.musicalContributions.get(musicianRole);
+        } else {
+            throw new UnsupportedOperationException("this type of role is not yet supported in recordings");
+        }
     }
 
     public void setDuration(int duration) {
@@ -80,9 +88,9 @@ public class Recording extends SongComponent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SongComponent songComponent)) return false;
+        if (!(o instanceof Recording recording)) return false;
 
-        return id == songComponent.id;
+        return id == recording.id;
     }
 
     @Override

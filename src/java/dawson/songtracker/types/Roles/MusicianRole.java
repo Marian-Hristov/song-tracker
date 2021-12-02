@@ -4,12 +4,13 @@ public class MusicianRole extends Role {
     public MusicianRole(int id, String name) {
         super(id, name);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Role role)) return false;
+        if (!(o instanceof MusicianRole musicianRole)) return false;
 
-        return id == role.id;
+        return id == musicianRole.id;
     }
 
     @Override

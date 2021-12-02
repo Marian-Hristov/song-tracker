@@ -1,15 +1,15 @@
 package dawson.songtracker.types.Distributions;
 
 public class RecordLabel {
-    private final String id;
+    private final int id;
     private String name;
 
-    public RecordLabel(String id, String name) {
+    public RecordLabel(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -21,4 +21,16 @@ public class RecordLabel {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RecordLabel that)) return false;
+
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

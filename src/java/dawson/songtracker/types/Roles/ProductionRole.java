@@ -8,9 +8,9 @@ public class ProductionRole extends Role {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Role role)) return false;
+        if (!(o instanceof ProductionRole productionRole)) return false;
 
-        return id == role.id;
+        return id == productionRole.id;
     }
 
     @Override

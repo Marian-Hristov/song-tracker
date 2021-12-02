@@ -8,13 +8,15 @@ public class CompilationRole extends Role {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Role role)) return false;
+        if (!(o instanceof CompilationRole compilationRole)) return false;
 
-        return id == role.id;
+        return id == compilationRole.id;
     }
 
     @Override
     public int hashCode() {
         return id;
     }
+
+
 }
