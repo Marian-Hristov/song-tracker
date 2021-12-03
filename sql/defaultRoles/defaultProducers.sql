@@ -16,3 +16,5 @@ insert into productionRoles values (production_id_seq.nextval, 'performer');
 insert into productionRoles values (production_id_seq.nextval, 'writter');
 insert into productionRoles values (production_id_seq.nextval, 'lyricist');
 commit;
+select * from productionRoles
+fetch FIRST 5 ROWS ONLY;

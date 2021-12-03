@@ -8,14 +8,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 class CollectionDownloader {
     public static Collection loadCollection(Connection connection, int id) throws SQLException {
         PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
         pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
-        if(!rs.next()) throw new NoSuchElementException("the collection with id: "+id+" doesn't exist");
+        if(!rs.next()) return null;
         ArrayList<Compilation> compilations = loadCollectionCompilations(connection, id);
         return new Collection(id, rs.getString("collection_name"), compilations);
     }
@@ -28,7 +27,7 @@ class CollectionDownloader {
     }
 
     private static ArrayList<Compilation> loadCollectionCompilations(Connection connection, int collectionId) throws SQLException {
-        if(!collectionExists(connection, collectionId)) throw new NoSuchElementException("the collection with id: "+collectionId+" doesn't exist");
+        if(!collectionExists(connection, collectionId)) return null;
         PreparedStatement pr = connection.prepareStatement("select * from collectionCompilations where collection_id = ?");
         pr.setInt(1, collectionId);
         ResultSet rs = pr.executeQuery();
