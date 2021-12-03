@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-public class CompilationDownloader {
+class CompilationDownloader {
 
-    private static Compilation loadCompilation(Connection connection, int id) throws SQLException {
+    public static Compilation loadCompilation(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from compilations where compilation_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
