@@ -3,6 +3,7 @@ package dawson.songtracker;
 import dawson.songtracker.types.Components.Recording;
 import dawson.songtracker.types.Roles.CompilationRole;
 import dawson.songtracker.types.Roles.*;
+import javafx.scene.control.SingleSelectionModel;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +12,13 @@ import java.util.Map;
 
 
 public class ObjectDownloader {
+
+    private static ObjectDownloader singleton;
+
+    public static ObjectDownloader getInstance() {
+        return singleton;
+    }
+
     private final Connection connection;
 
     public ObjectDownloader(Connection connection) {

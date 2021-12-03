@@ -16,7 +16,7 @@
                                         <Font size="28.0" />
                                     </font>
                                 </Label>
-                                <TextField prefHeight="25.0" prefWidth="249.0" />
+                                <TextField prefHeight="25.0" prefWidth="249.0" fx:id="textfield"/>
                                 <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="243.0" spacing="20.0">
                                     <children>
                                         <CheckBox mnemonicParsing="false" text="Released" />
