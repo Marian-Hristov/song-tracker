@@ -12,15 +12,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 
 public class MVCApp extends Application {
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage){
         Parent root = null;
-        //root = new RecordingPopupController();
-
         try {
-            root = FXMLLoader.load(new File("src/resources/dawson/songtracker/FXML/mainView.fxml").toURI().toURL());
+            root = FXMLLoader.load(this.getClass().getResource("FXML/mainView.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,6 +30,10 @@ public class MVCApp extends Application {
         stage.setTitle("Test title.");
         stage.setScene(new Scene(root));
         stage.show();
+
+    }
+
+    private void createDBConnection() {
 
     }
 

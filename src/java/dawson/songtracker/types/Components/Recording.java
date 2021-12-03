@@ -65,6 +65,10 @@ public class Recording extends SongComponent {
         }
     }
 
+    public Map<ProductionRole, ArrayList<Contributor>> getProductionContributions() {
+        return productionContributions;
+    }
+
     @Override
     public ArrayList<Contributor> getContributorsInRole(Role role) {
         if(role == null){
@@ -98,4 +102,13 @@ public class Recording extends SongComponent {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "Recording{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", creationTime=" + creationTime +
+                ", duration=" + duration +
+                '}';
+    }
 }

@@ -30,7 +30,7 @@ create or replace package body contributor_mgmt as
         if new_contributor_name is null then
             raise_application_error(-20001, 'one or many arguments are null or empty');
         end if;
-        if(contributorExists(new_contributor_name) = 1) then
+        if(contributorExists(new_contributor_name) = 0) then
             raise_application_error(-20004, 'contributor already exists');
         end if;
         insert into contributors

@@ -33,4 +33,12 @@ public class Contributor {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Contributor{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
