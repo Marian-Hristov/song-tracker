@@ -1,9 +1,5 @@
 package dawson.songtracker;
 
-import dawson.songtracker.types.Components.Recording;
-import dawson.songtracker.types.Roles.CompilationRole;
-import dawson.songtracker.types.Roles.*;
-
 import java.sql.*;
 
 public class ObjectUploader{
@@ -365,7 +361,7 @@ public class ObjectUploader{
     }
 
     public void addSampleToCompilation(String compilationName, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent, int sampleId, char sampleType) throws Exception{
-        if(compilationName == null || compilationName.equals("") || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 ||durationOfComponent < 0 || sampleId < 1 || sampleType == null){
+        if(compilationName == null || compilationName.equals("") || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 ||durationOfComponent < 0 || sampleId < 1){
             throw new IllegalArgumentException("One or more arguments are invalid or null");
          } else if (sampleType != 'c' || sampleType != 'r'){
             throw new IllegalArgumentException("Given category doesn't exist");
@@ -408,6 +404,150 @@ public class ObjectUploader{
         } catch (Exception e){
             this.connection.rollback();
             throw new Exception("Couldn't delete sample from compilation");
+        }
+    }
+
+    public void deleteCompilation(int id) throws Exception{
+        if(id < 0){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        try{
+            PreparedStatement deleteCompilation = this.connection.prepareStatement("EXECUTE COMPILATION_MGMT.DELETECOMPILATION(?)");
+            deleteCompilation.setInt(1, id);
+            if(deleteCompilation.executeUpdate() != 1){
+                throw new SQLException("Couldn't delete compilation");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't delete compilation");
+        }
+    }
+
+    public void updateCompilation(int id, String name) throws Exception {
+        if(id < 0 || name == null || name.equals("")){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        try {
+            PreparedStatement updateCompilation = this.connection.prepareStatement("EXECUTE COMPILATION_MGMT.UPDATECOMPILATION(?, ?)");
+            updateCompilation.setInt(1, id);
+            updateCompilation.setString(2, name);
+            if(updateCompilation.executeUpdate() != 1){
+                throw new SQLException("Couldn't update compilation");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't update compilation");
+        }
+    }
+
+    public void addContributorToCompilation(int compilationId, int contributorId, int roleId) throws Exception{
+        if(compilationId < 1 || contributorId < 1 || roleId < 1){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        try {
+            PreparedStatement addContributorToCompilation = this.connection.prepareStatement("EXECUTE COMPILATION_MGMT.ADDCONTRIBUTORTOCOMPILATION(?, ?, ?)");
+            addContributorToCompilation.setInt(1, compilationId);
+            addContributorToCompilation.setInt(2, contributorId);
+            addContributorToCompilation.setInt(3, roleId);
+            if(addContributorToCompilation.executeUpdate() != 1){
+                throw new SQLException("Couldn't add contributor to compilation");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't add contributor to compilation");
+        }
+    }
+
+    public void removeContributorToCompilation(int compilationId, int contributorId, int roleId) throws Exception{
+        if(compilationId < 1 || contributorId < 1 || roleId < 1){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        try {
+            PreparedStatement removeContributorToCompilation = this.connection.prepareStatement("EXECUTE COMPILATION_MGMT.REMOVECONTRIBUTORTOCOMPILATION(?, ?, ?)");
+            removeContributorToCompilation.setInt(1, compilationId);
+            removeContributorToCompilation.setInt(2, contributorId);
+            removeContributorToCompilation.setInt(3, roleId);
+            if(removeContributorToCompilation.executeUpdate() != 1){
+                throw new SQLException("Couldn't remove contributor to compilation");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't remove contributor to compilation");
+        }
+    }
+
+    public void addCollection(String name) throws Exception{
+        if(name == null || name.equals("")){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        try {
+            PreparedStatement addCollection = this.connection.prepareStatement("EXECUTE COLLECTION_MGMT.CREATECOLLECTION(?)");
+            addCollection.setString(1, name);
+            if(addCollection.executeUpdate() != 1){
+                throw new SQLException("Couldn't add collection");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't add collection");
+        }
+    }
+
+    public void addCompilationToCollection(int collectionId, int compilationId) throws Exception{
+        if(collectionId < 1 || compilationId < 1){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        try {
+            PreparedStatement addCompilationToCollection = this.connection.prepareStatement("EXECUTE COLLECTION_MGMT.ADDCOMPILATIONTOCOLLECTION(?, ?)");
+            addCompilationToCollection.setInt(1, collectionId);
+            addCompilationToCollection.setInt(2, compilationId);
+            if(addCompilationToCollection.executeUpdate() != 1){
+                throw new SQLException("Couldn't add compilation to collection");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't add compilation to collection");
+        }
+    }
+
+    public void removeCompilationToCollection(int collectionId, int compilationId) throws Exception{
+        if(collectionId < 1 || compilationId < 1){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        try {
+            PreparedStatement removeCompilationToCollection = this.connection.prepareStatement("EXECUTE COLLECTION_MGMT.REMOVECOMPILATIONTOCOLLECTION(?, ?)");
+            removeCompilationToCollection.setInt(1, collectionId);
+            removeCompilationToCollection.setInt(2, compilationId);
+            if(removeCompilationToCollection.executeUpdate() != 1){
+                throw new SQLException("Couldn't remove collection");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't remove collection");
+        }
+    }
+
+    public void updateCollection(int collectionId, String newName) throws Exception{
+        if(collectionId < 1 || newName == null || newName.equals("")){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        try {
+            PreparedStatement removeCompilationToCollection = this.connection.prepareStatement("EXECUTE COLLECTION_MGMT.UPDATECOLLECTION(?, ?)");
+            removeCompilationToCollection.setInt(1, collectionId);
+            removeCompilationToCollection.setString(2, newName);
+            if(removeCompilationToCollection.executeUpdate() != 1){
+                throw new SQLException("Couldn't update collection");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't update collection");
         }
     }
 }

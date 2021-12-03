@@ -1,5 +1,5 @@
 create or replace package compilation_mgmt as
-    procedure createCompilation(compilation_name in compilations.compilation_name%type, compilation_id out compilations.compilation_id%type);
+    procedure createCompilation(compilation_name in compilations.compilation_name%type);
     procedure addSampleToCompilation(
         compilation_id in compilations.compilation_id%type,
         main_track_offset in segment.main_track_offset%type,
@@ -26,17 +26,13 @@ commit;
 /
 create or replace package body compilation_mgmt as
 
-    procedure createCompilation(
-        compilation_name in compilations.compilation_name%type,
-        compilation_id out compilations.compilation_id%type
-    )
+    procedure createCompilation(compilation_name in compilations.compilation_name%type)
     as
     begin
         if(compilation_name is null) then
             raise_application_error(-20001, 'the compilation_name is null for procedure createCompilation');
         end if;
-        insert into compilations (compilation_name, creation_time, duration) values (compilation_name, localTimeStamp(0), 0);
-        compilation_id := compilation_id_seq.currval;
+        insert into compilations (compilation_name, creation_time, duration) values (compilation_name, current_timestamp, 0);
     end;
 
     procedure addSampleToCompilation(
