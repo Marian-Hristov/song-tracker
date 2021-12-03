@@ -1,4 +1,4 @@
-package dawson.songtracker;
+package dawson.songtracker.DBObjects.objectLoaders;
 
 import dawson.songtracker.types.Components.Recording;
 import dawson.songtracker.types.Roles.CompilationRole;
@@ -9,7 +9,7 @@ import java.sql.*;
 public class ObjectUploader{
     private final Connection connection;
 
-    public ObjectUploader(Connection connection){
+    public ObjectUploader(Connection connection) throws SQLException {
         this.connection = connection;
     }
 
