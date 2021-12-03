@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 
 
 public class ObjectDownloader {
-    protected Connection connection;
+    private final Connection connection;
     private static ObjectDownloader instance = null;
 
     private ObjectDownloader(Connection connection) {
@@ -23,7 +23,6 @@ public class ObjectDownloader {
     public static ObjectDownloader getInstance() throws SQLException {
         if(instance == null){
             instance = new ObjectDownloader(DBConnection.getConnection());
-            return instance;
         }
         return instance;
     }

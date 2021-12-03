@@ -11,7 +11,7 @@ public class Recording extends SongComponent {
     private final Map<MusicianRole, ArrayList<Contributor>> musicalContributions;
     private final Map<ProductionRole, ArrayList<Contributor>> productionContributions;
 
-    public Recording(int id, String name, Timestamp creationTime, int duration, Map<MusicianRole, ArrayList<Contributor>> musicalContributions, Map<ProductionRole, ArrayList<Contributor>> productionContributions) {
+    public Recording(int id, String name, Timestamp creationTime, double duration, Map<MusicianRole, ArrayList<Contributor>> musicalContributions, Map<ProductionRole, ArrayList<Contributor>> productionContributions) {
         super(id, name, creationTime, duration);
         if(productionContributions == null) throw new NullPointerException("the productionContributions is null");
         if(musicalContributions == null) throw new NullPointerException("the musicalContributions is null");
@@ -85,7 +85,7 @@ public class Recording extends SongComponent {
         }
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(double duration) {
         this.duration = duration;
     }
 

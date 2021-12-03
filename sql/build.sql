@@ -195,11 +195,11 @@ create table segment (
     main_track_offset number(5,1) not null,
     duration_in_main_track number(5,1) not null,
     component_track_offset number(5,1) not null,
-    duration_of_component number(5,1) not null,
+    duration_of_component_used number(5,1) not null,
     constraint check_positive_main_track_offset_segment check(main_track_offset >= 0),
     constraint check_positive_duration_in_main_track_segment check(duration_in_main_track >= 0),
     constraint check_positive_component_track_offset_segment check(component_track_offset >= 0),
-    constraint check_positive_duration_of_component check(duration_of_component >= 0)
+    constraint check_positive_duration_of_component_used check(duration_of_component_used >= 0)
 );
 
 create table recordingsamples (
@@ -433,7 +433,7 @@ begin
         ', main_track_offset: '||:new.main_track_offset||
         ', duration_in_main_track: '||:new.duration_in_main_track||
         ', component_track_offset: '||:new.component_track_offset||
-        ', duration_of_component: '||:new.duration_of_component);
+        ', duration_of_component_used: '||:new.duration_of_component_used);
     end if;
     if updating then
 
@@ -442,12 +442,12 @@ begin
         ', main_track_offset: '||:old.main_track_offset||
         ', duration_in_main_track: '||:old.duration_in_main_track||
         ', component_track_offset: '||:old.component_track_offset||
-        ', duration_of_component: '||:old.duration_of_component||
+        ', duration_of_component_used: '||:old.duration_of_component_used||
         '. New values segment_id: '||:new.segment_id||
         ', main_track_offset: '||:new.main_track_offset||
         ', duration_in_main_track: '||:new.duration_in_main_track||
         ', component_track_offset: '||:new.component_track_offset||
-        ', duration_of_component: '||:new.duration_of_component);
+        ', duration_of_component_used: '||:new.duration_of_component_used);
     end if;
 
     if deleting then
@@ -456,7 +456,7 @@ begin
         ', main_track_offset: '||:old.main_track_offset||
         ', duration_in_main_track: '||:old.duration_in_main_track||
         ', component_track_offset: '||:old.component_track_offset||
-        ', duration_of_component: '||:old.duration_of_component);
+        ', duration_of_component_used: '||:old.duration_of_component_used);
     end if;
 end;
 /
