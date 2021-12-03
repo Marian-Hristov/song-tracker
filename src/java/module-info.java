@@ -20,4 +20,6 @@ module dawson.songtracker {
     exports dawson.songtracker.DBObjects;
     exports dawson.songtracker.DBObjects.objectLoaders;
     exports dawson.songtracker.DBObjects.objectLoaders.dowloader;
+    exports dawson.songtracker.DBObjects.objectLoaders.uploader;
+    opens dawson.songtracker.DBObjects.objectLoaders.uploader to javafx.fxml;
 }
