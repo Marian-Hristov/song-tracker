@@ -14,7 +14,7 @@ public class Compilation extends SongComponent {
     private final ArrayList<Segment<Recording>> sampledRecordings;
     private final Map<CompilationRole, ArrayList<Contributor>> contributions;
 
-    public Compilation(int id, String name, Timestamp creationTime, int duration, ArrayList<Segment<Compilation>> sampledCompilations, ArrayList<Segment<Recording>> sampledRecordings, Map<CompilationRole, ArrayList<Contributor>> contributions) {
+    public Compilation(int id, String name, Timestamp creationTime, double duration, ArrayList<Segment<Compilation>> sampledCompilations, ArrayList<Segment<Recording>> sampledRecordings, Map<CompilationRole, ArrayList<Contributor>> contributions) {
         super(id, name, creationTime, duration);
         if(sampledCompilations == null) throw new NullPointerException("the sampledCompilations is null");
         if(sampledRecordings == null) throw new NullPointerException("the sampledRecordings is null");

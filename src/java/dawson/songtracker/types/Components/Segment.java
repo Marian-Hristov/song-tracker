@@ -4,12 +4,12 @@ public class Segment<T extends SongComponent> {
     private final int id;
     private final Compilation mainTrack;
     private final T componentTrack;
-    private int mainTrackOffset;
-    private int durationInMainTrack;
-    private int componentTrackOffset;
-    private int durationOfComponentUsed;
+    private double mainTrackOffset;
+    private double durationInMainTrack;
+    private double componentTrackOffset;
+    private double durationOfComponentUsed;
 
-    public Segment(int id, Compilation mainTrack, T componentTrack, int mainTrackOffset, int durationInMainTrack, int componentTrackOffset, int durationOfComponent) {
+    public Segment(int id, Compilation mainTrack, T componentTrack, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent) {
         if(mainTrack == null){
             throw new NullPointerException("the mainTrack is null");
         }
@@ -29,35 +29,35 @@ public class Segment<T extends SongComponent> {
         return id;
     }
 
-    public int getDurationOfComponentUsed() {
+    public double getDurationOfComponentUsed() {
         return durationOfComponentUsed;
     }
 
-    public void setDurationOfComponentUsed(int durationOfComponentUsed) {
+    public void setDurationOfComponentUsed(double durationOfComponentUsed) {
         this.durationOfComponentUsed = durationOfComponentUsed;
     }
 
-    public int getComponentTrackOffset() {
+    public double getComponentTrackOffset() {
         return componentTrackOffset;
     }
 
-    public void setComponentTrackOffset(int componentTrackOffset) {
+    public void setComponentTrackOffset(double componentTrackOffset) {
         this.componentTrackOffset = componentTrackOffset;
     }
 
-    public int getDurationInMainTrack() {
+    public double getDurationInMainTrack() {
         return durationInMainTrack;
     }
 
-    public void setDurationInMainTrack(int durationInMainTrack) {
+    public void setDurationInMainTrack(double durationInMainTrack) {
         this.durationInMainTrack = durationInMainTrack;
     }
 
-    public int getMainTrackOffset() {
+    public double getMainTrackOffset() {
         return mainTrackOffset;
     }
 
-    public void setMainTrackOffset(int mainTrackOffset) {
+    public void setMainTrackOffset(double mainTrackOffset) {
         this.mainTrackOffset = mainTrackOffset;
     }
 
