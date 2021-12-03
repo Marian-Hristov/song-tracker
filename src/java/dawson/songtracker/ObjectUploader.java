@@ -14,7 +14,7 @@ public class ObjectUploader{
     }
 
     // Production roles
-    public static void addRole(char category, String name) throws Exception{
+    public void addRole(char category, String name) throws Exception{
         if (name == null || name.equals("")){
             throw new IllegalArgumentException("One or many given arguments are null or empty");
         } else if (category != 'c' || category != 'm' || category != 'p'){
@@ -27,7 +27,7 @@ public class ObjectUploader{
             insertRole.setString(2, name);
 
             if(insertRole.executeUpdate() != 1){
-                throw new SQLException("Could not insert role");
+                throw new SQLException("Couldn't create role");
             }
 
             this.connection.commit();
@@ -60,6 +60,8 @@ public class ObjectUploader{
     public void updateRole(char category, String oldName, String newName) throws Exception{
         if(oldName == null || newName == null || oldName.equals("") || newName.equals("")){
             throw new IllegalArgumentException("One or more given names are invalid or null");
+        } else if (category != 'c' || category != 'm' || category != 'p'){
+            throw new IllegalArgumentException("Given category doesn't exist");
         }
         try{
             PreparedStatement updateRole = this.connection.prepareStatement("EXECUTE ROLE_MGMT.UPDATEROLE(?, ?, ?)");
@@ -128,14 +130,14 @@ public class ObjectUploader{
         }
     }
 
-    public void addRecording(String name, int duration) throws Exception{
+    public void addRecording(String name, double duration) throws Exception{
         if(name == null || name.equals("") || duration < 0){
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
         try {
             PreparedStatement addRecording  = this.connection.prepareStatement("EXECUTE RECORDING_MGMT.ADDRECORDING(?, ?)");
             addRecording.setString(1, name);
-            addRecording.setInt(2, duration);
+            addRecording.setDouble(2, duration);
             if(addRecording.executeUpdate() != 1){
                 throw new SQLException("Couldn't add recording");
             }
@@ -163,7 +165,7 @@ public class ObjectUploader{
         }
     }
 
-    public void updateRecording(int id, String newName, int newDuration) throws Exception{
+    public void updateRecording(int id, String newName, double newDuration) throws Exception{
         if(newName == null || newName.equals("") || newDuration < 0 || id < 1){
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -171,7 +173,7 @@ public class ObjectUploader{
             PreparedStatement addRecording  = this.connection.prepareStatement("EXECUTE RECORDING_MGMT.UPDATERECORDING(?, ?, ?)");
             addRecording.setInt(1, id);
             addRecording.setString(2, newName);
-            addRecording.setInt(3, newDuration);
+            addRecording.setDouble(3, newDuration);
             if(addRecording.executeUpdate() != 1){
                 throw new SQLException("Couldn't update recording");
             }
@@ -341,6 +343,71 @@ public class ObjectUploader{
         } catch (Exception e){
             this.connection.rollback();
             throw new Exception("Couldn't update distribution");
+        }
+    }
+
+    public void addCompilation(String name) throws Exception {
+        if(name == null || name.equals("")){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        try {
+            // TODO Check if this will work because the procedure takes in 2 args
+            PreparedStatement addCompilation = this.connection.prepareStatement("EXECUTE COMPILATION_MGMT.ADDCOMPILATION(?)");
+            addCompilation.setString(1, name);
+            if(addCompilation.executeUpdate() != 1){
+                throw new SQLException("Couldn't add compilation");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't add compilation");
+        }
+    }
+
+    public void addSampleToCompilation(String compilationName, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent, int sampleId, char sampleType) throws Exception{
+        if(compilationName == null || compilationName.equals("") || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 ||durationOfComponent < 0 || sampleId < 1 || sampleType == null){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+         } else if (sampleType != 'c' || sampleType != 'r'){
+            throw new IllegalArgumentException("Given category doesn't exist");
+        }
+        try {
+            PreparedStatement addSampleToCompilation = this.connection.prepareStatement("EXECUTE COMPILATION_MGMT.ADDSAMPLETOCOMPILATION(?, ?, ?, ?, ?, ?, ?)");
+            addSampleToCompilation.setString(1, compilationName);
+            addSampleToCompilation.setDouble(2, mainTrackOffset);
+            addSampleToCompilation.setDouble(3, durationInMainTrack);
+            addSampleToCompilation.setDouble(4, componentTrackOffset);
+            addSampleToCompilation.setDouble(5, durationOfComponent);
+            addSampleToCompilation.setInt(6, sampleId);
+            addSampleToCompilation.setString(7, Character.toString(sampleType));
+            if(addSampleToCompilation.executeUpdate() != 1){
+                throw new SQLException("Couldn't add sample to compilation");
+            }
+            this.connection.commit();
+        } catch (Exception e) {
+            this.connection.rollback();
+            throw new Exception("Couldn't add sample to compilation");
+        }
+    }
+
+    public void deleteSampleFromCompilation(int compilationId, int sampleId, int segmentId, char sampleType) throws Exception{
+        if(compilationId < 1 || sampleId < 1 || segmentId < 1){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        } else if (sampleType != 'c' || sampleType != 'r'){
+            throw new IllegalArgumentException("Given category doesn't exist");
+        }
+        try {
+            PreparedStatement deleteSampleFromCompilation = this.connection.prepareStatement("EXECUTE COMPILATION_MGMT.DELETESAMPLEFROMCOMPILATION(?, ?, ?, ?)");
+            deleteSampleFromCompilation.setInt(1, compilationId);
+            deleteSampleFromCompilation.setInt(2, sampleId);
+            deleteSampleFromCompilation.setInt(3, segmentId);
+            deleteSampleFromCompilation.setString(4, Character.toString(sampleType));
+            if(deleteSampleFromCompilation.executeUpdate() != 1){
+                throw new SQLException("Couldn't delete sample from compilation");
+            }
+            this.connection.commit();
+        } catch (Exception e){
+            this.connection.rollback();
+            throw new Exception("Couldn't delete sample from compilation");
         }
     }
 }
