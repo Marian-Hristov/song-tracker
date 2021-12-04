@@ -30,9 +30,6 @@ create or replace package body contributor_mgmt as
         if new_contributor_name is null then
             raise_application_error(-20001, 'one or many arguments are null or empty');
         end if;
-        if(contributorExists(new_contributor_name) = 0) then
-            raise_application_error(-20004, 'contributor already exists');
-        end if;
         insert into contributors
         values (contributor_id_seq.nextval, new_contributor_name);
     end;
@@ -66,8 +63,6 @@ create or replace package body contributor_mgmt as
             raise_application_error(-20001, 'one or more arguments are null or empty');
         elsif (contributorExists(old_contributor_name) = 1) then
             raise_application_error(-20003, 'cannot update contributor that does not exist');
-        elsif (contributorExists(new_contributor_name) = 1) then
-            raise_application_error(-20003, 'cannot update contributor to contributor that already exists');
         end if;
         -- Getting the id of the contributor based on the name
         select contributor_id into found from contributors where contributor_name = old_contributor_name;

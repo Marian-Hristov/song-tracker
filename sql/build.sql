@@ -586,7 +586,6 @@ begin
         ', collection_name: '||:new.collection_name);
     end if;
     if updating then
-
         insert into STLogs (log_message) values (user ||
         ' updated table collections. Old values collection_id: '||:old.collection_id||
         ', collection_name: '||:old.collection_name||
