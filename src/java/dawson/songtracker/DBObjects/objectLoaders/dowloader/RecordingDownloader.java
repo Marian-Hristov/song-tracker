@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-public class RecordingDownloader {
+class RecordingDownloader {
     public static ArrayList<Recording> loadAllRecordings(Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from recordings");
         ResultSet rs = ps.executeQuery();

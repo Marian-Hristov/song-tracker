@@ -10,15 +10,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
-public class CompilationDownloader {
+class CompilationDownloader {
 
-    private static Compilation loadCompilation(Connection connection, int id) throws SQLException {
+    public static Compilation loadCompilation(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from compilations where compilation_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if(!rs.next()) throw new NoSuchElementException("the compilation with id: "+id+" doesn't exist");
+        if(!rs.next())return null;
 
         Map<CompilationRole, ArrayList<Contributor>> compilationRoles = loadCompilationRoles(connection, id);
         ArrayList<Segment<Compilation>> sampledCompilations = loadCompilationSamples(connection, id);
@@ -27,7 +26,7 @@ public class CompilationDownloader {
     }
 
     private static Map<CompilationRole, ArrayList<Contributor>> loadCompilationRoles(Connection connection, int compilationId) throws SQLException {
-        if(!compilationExists(connection, compilationId)) throw new NoSuchElementException("this compilation doesn't exist");
+        if(!compilationExists(connection, compilationId)) return null;
 
         PreparedStatement ps = connection.prepareStatement("select * from compilationContributions where compilation_id = ?");
         ps.setInt(1, compilationId);
@@ -50,7 +49,7 @@ public class CompilationDownloader {
     }
 
     private static ArrayList<Segment<Compilation>> loadCompilationSamples(Connection connection, int compilationId) throws SQLException {
-        if(!compilationExists(connection, compilationId)) throw new NoSuchElementException("this compilation doesn't exist");
+        if(!compilationExists(connection, compilationId)) return null;
 
         PreparedStatement ps = connection.prepareStatement("select * from compilationSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
@@ -66,7 +65,7 @@ public class CompilationDownloader {
     }
 
     private static ArrayList<Segment<Recording>> loadRecordingSamples(Connection connection, int compilationId) throws SQLException {
-        if(!compilationExists(connection, compilationId)) throw new NoSuchElementException("this compilation doesn't exist");
+        if(!compilationExists(connection, compilationId)) return null;
 
         PreparedStatement ps = connection.prepareStatement("select * from recordingSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
@@ -85,7 +84,7 @@ public class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from segments where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if(!rs.next()) throw new NoSuchElementException("the segment with segment_id: "+id+" doesn't exist");
+        if(!rs.next()) return null;
         return new Segment<>(id, compilationMainTrack, compilation, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
     }
 
@@ -93,7 +92,7 @@ public class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from segments where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if(!rs.next()) throw new NoSuchElementException("the segment with segment_id: "+id+" doesn't exist");
+        if(!rs.next()) return null;
         return new Segment<>(id, compilationMainTrack, recording, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
     }
 
