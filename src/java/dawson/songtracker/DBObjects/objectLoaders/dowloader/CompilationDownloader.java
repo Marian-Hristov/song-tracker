@@ -59,7 +59,7 @@ class CompilationDownloader {
         ArrayList<Segment<Compilation>> sampleCompilations = new ArrayList<>();
         do {
             Compilation compilation = loadCompilation(connection, rs.getInt("compilation_used"));
-            sampleCompilations.add(loadSegment(connection, rs.getInt("segment_id"), compilationMainTrack, compilation));
+            sampleCompilations.add(loadSegment(connection, rs.getInt("segment_id"), compilationId, compilation));
         } while (rs.next());
         return sampleCompilations;
     }
@@ -71,35 +71,34 @@ class CompilationDownloader {
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) return new ArrayList<>();
-        Compilation compilationMainTrack = loadCompilation(connection, compilationId);
         ArrayList<Segment<Recording>> sampleCompilations = new ArrayList<>();
         do {
             Recording recording = RecordingDownloader.loadRecording(connection, rs.getInt("compilation_used"));
-            sampleCompilations.add(loadSegment(connection, rs.getInt("segment_id"), compilationMainTrack, recording));
+            sampleCompilations.add(loadSegment(connection, rs.getInt("segment_id"), compilationId, recording));
         } while (rs.next());
         return sampleCompilations;
     }
 
-    private static Segment<Compilation> loadSegment(Connection connection, int id, Compilation compilationMainTrack, Compilation compilation) throws SQLException {
+    private static Segment<Compilation> loadSegment(Connection connection, int id, int compilationMainTrackId, Compilation compilation) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from segments where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if(!rs.next()) return null;
-        return new Segment<>(id, compilationMainTrack, compilation, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
+        return new Segment<>(id, compilationMainTrackId, compilation, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
     }
 
-    private static Segment<Recording> loadSegment(Connection connection, int id, Compilation compilationMainTrack, Recording recording) throws SQLException {
+    private static Segment<Recording> loadSegment(Connection connection, int id, int compilationMainTrackId, Recording recording) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from segments where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if(!rs.next()) return null;
-        return new Segment<>(id, compilationMainTrack, recording, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
+        return new Segment<>(id, compilationMainTrackId, recording, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
     }
 
 
 
     private static boolean compilationExists(Connection connection, int id) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("select id from compilations where compilation_id = ?");
+        PreparedStatement ps = connection.prepareStatement("select compilation_id from compilations where compilation_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         return rs.next();

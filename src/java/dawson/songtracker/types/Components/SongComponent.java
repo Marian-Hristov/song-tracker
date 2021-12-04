@@ -57,4 +57,14 @@ public abstract class SongComponent {
     }
 
     public abstract ArrayList<Contributor> getContributorsInRole(Role role);
+
+    @Override
+    public String toString() {
+        return "SongComponent{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", creationTime=" + creationTime +
+                ", duration=" + duration +
+                '}';
+    }
 }

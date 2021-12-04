@@ -2,22 +2,19 @@ package dawson.songtracker.types.Components;
 
 public class Segment<T extends SongComponent> {
     private final int id;
-    private final Compilation mainTrack;
+    private final int mainTrackId;
     private final T componentTrack;
     private double mainTrackOffset;
     private double durationInMainTrack;
     private double componentTrackOffset;
     private double durationOfComponentUsed;
 
-    public Segment(int id, Compilation mainTrack, T componentTrack, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent) {
-        if(mainTrack == null){
-            throw new NullPointerException("the mainTrack is null");
-        }
-        if(componentTrack == null){
+    public Segment(int id, int mainTrackId, T componentTrack, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent) {
+                if(componentTrack == null){
             throw new NullPointerException("The componentTrack is null");
         }
         this.id = id;
-        this.mainTrack = mainTrack;
+        this.mainTrackId = mainTrackId;
         this.componentTrack = componentTrack;
         this.mainTrackOffset = mainTrackOffset;
         this.durationInMainTrack = durationInMainTrack;
@@ -65,8 +62,8 @@ public class Segment<T extends SongComponent> {
         return componentTrack;
     }
 
-    public Compilation getMainTrack() {
-        return mainTrack;
+    public int getMainTrackId() {
+        return mainTrackId;
     }
 
     @Override

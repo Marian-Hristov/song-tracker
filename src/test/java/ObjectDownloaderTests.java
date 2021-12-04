@@ -1,5 +1,8 @@
+import dawson.songtracker.DBObjects.DBConnection;
 import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.types.Components.Compilation;
 import dawson.songtracker.types.Components.Recording;
+import dawson.songtracker.types.Roles.CompilationRole;
 import dawson.songtracker.types.Roles.Contributor;
 import dawson.songtracker.types.Roles.MusicianRole;
 import dawson.songtracker.types.Roles.ProductionRole;
@@ -14,33 +17,81 @@ public class ObjectDownloaderTests {
 
     @Test
     public void musicalRole() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
         ObjectDownloader dl = ObjectDownloader.getInstance();
-//        MusicianRole mr = dl.loadMusicianRole(1);
-//        assertEquals(1, mr.getId());
-//        assertEquals("accordionist", mr.getName());
+        ArrayList<MusicianRole> musicianRoles = dl.loadFirstMusicianRoles(50);
+        System.out.println(musicianRoles.size());
+        for (MusicianRole mr :
+                musicianRoles) {
+            System.out.println(mr);
+        }
     }
 
     @Test
     public void productionRole() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
         ObjectDownloader dl = ObjectDownloader.getInstance();
-//        ProductionRole pr = dl.loadProductionRole(1);
-//        assertEquals(1, pr.getId());
-//        assertEquals("accordionist", pr.getName());
+        ArrayList<ProductionRole> productionRoles = dl.loadFirstProductionRoles(50);
+        System.out.println(productionRoles.size());
+        for (ProductionRole productionRole:
+             productionRoles) {
+            System.out.println(productionRole);
+
+        }
+    }
+
+    @Test
+    public void compilationRole() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ArrayList<CompilationRole> compilationRoles = dl.loadFirstCompilationRoles(50);
+        System.out.println(compilationRoles.size());
+        for (CompilationRole compRole :
+                compilationRoles) {
+            System.out.println(compRole);
+        }
+    }
+
+    @Test
+    public void contributor() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ArrayList<Contributor> contributors = dl.loadFirstContributors(50);
+        System.out.println(contributors.size());
+        for (Contributor contributor :
+                contributors) {
+            System.out.println(contributor);
+        }
+
+    }
+
+    @Test
+    public void compilation() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ArrayList<Compilation> compilations = dl.loadFirstCompilations(50);
+        System.out.println(compilations.size());
+        for (Compilation compilation :
+                compilations) {
+            System.out.println(compilation);
+        }
     }
 
     @Test
     public void recordings() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
         ObjectDownloader dl = ObjectDownloader.getInstance();
-//        Recording recording = dl.loadRecording(1);
-//
-//        assertEquals(1, recording.getId());
-//        for(Map.Entry<ProductionRole, ArrayList<Contributor>> entry : recording.getProductionContributions().entrySet()){
-//            ProductionRole role = entry.getKey();
-//            assertEquals("sound engineer", role.getName());
-//            ArrayList<Contributor> contributors = entry.getValue();
-//            for(Contributor contributor : contributors){
-//                assertEquals("marian", contributor.getName());
-//            }
-//        }
+        ArrayList<Recording> recordings = dl.loadFirstRecordings(50);
+        System.out.println(recordings.size());
+        for (Recording recording :
+                recordings) {
+            System.out.println(recording);
+        }
     }
 }
