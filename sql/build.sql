@@ -577,22 +577,20 @@ begin
     if inserting then
         insert into STLogs (log_message) values (user ||
         ' inserted into table collections values collection_id: '||:new.collection_id||
-        ', collection_name: '||:new.collection_name || ', set_id: ' || :new.set_id);
+        ', collection_name: '||:new.collection_name);
     end if;
     if updating then
         insert into STLogs (log_message) values (user ||
         ' updated table collections. Old values collection_id: '||:old.collection_id||
         ', collection_name: '||:old.collection_name||
-        ', set_id:' || :old.set_id ||
         '. New values collection_id: '||:new.collection_id||
-        ', collection_name: '||:new.collection_name ||
-        ', set_id: ' || :new.set_id);
+        ', collection_name: '||:new.collection_name);
     end if;
 
     if deleting then
         insert into STLogs (log_message) values (user ||
         ' deleted from table collections values collection_id: '||:old.collection_id||
-        ', collection_name: '||:old.collection_name || ', set_id: ' || :old.set_id);
+        ', collection_name: '||:old.collection_name);
     end if;
 end;
 /
