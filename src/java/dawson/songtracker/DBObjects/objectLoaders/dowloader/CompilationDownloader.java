@@ -55,7 +55,6 @@ class CompilationDownloader {
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) return new ArrayList<>();
-        Compilation compilationMainTrack = loadCompilation(connection, compilationId);
         ArrayList<Segment<Compilation>> sampleCompilations = new ArrayList<>();
         do {
             Compilation compilation = loadCompilation(connection, rs.getInt("compilation_used"));
@@ -73,14 +72,14 @@ class CompilationDownloader {
         if (!rs.next()) return new ArrayList<>();
         ArrayList<Segment<Recording>> sampleCompilations = new ArrayList<>();
         do {
-            Recording recording = RecordingDownloader.loadRecording(connection, rs.getInt("compilation_used"));
+            Recording recording = RecordingDownloader.loadRecording(connection, rs.getInt("recording_id"));
             sampleCompilations.add(loadSegment(connection, rs.getInt("segment_id"), compilationId, recording));
         } while (rs.next());
         return sampleCompilations;
     }
 
     private static Segment<Compilation> loadSegment(Connection connection, int id, int compilationMainTrackId, Compilation compilation) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("select * from segments where segment_id = ?");
+        PreparedStatement ps = connection.prepareStatement("select * from segment where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if(!rs.next()) return null;
@@ -88,7 +87,7 @@ class CompilationDownloader {
     }
 
     private static Segment<Recording> loadSegment(Connection connection, int id, int compilationMainTrackId, Recording recording) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("select * from segments where segment_id = ?");
+        PreparedStatement ps = connection.prepareStatement("select * from segment where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if(!rs.next()) return null;
