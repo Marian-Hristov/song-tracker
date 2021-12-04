@@ -1,7 +1,8 @@
 package dawson.songtracker.DBObjects.objectLoaders.uploader;
 
 import dawson.songtracker.DBObjects.DBConnection;
-import dawson.songtracker.types.Roles.Role;
+import dawson.songtracker.types.Components.Compilation;
+import dawson.songtracker.types.Distributions.*;
 
 import java.sql.*;
 
@@ -40,24 +41,24 @@ public class ObjectUploader{
         return instance;
     }
 
-    public void addCollection(String name) throws Exception {
-        this.collectionUploader.addCollection(name);
+    public void addCollection(Collection collection) throws Exception {
+        this.collectionUploader.addCollection(collection.getName());
     }
 
-    public void addCompilationToCollection(int collectionId, int compilationId) throws Exception{
-        this.collectionUploader.addCompilationToCollection(collectionId, compilationId);
+    public void addCompilationToCollection(Collection collection, Compilation compilation) throws Exception{
+        this.collectionUploader.addCompilationToCollection(collection.getId(), compilation.getId());
     }
 
-    public void removeCompilationToCollection(int collectionId, int compilationId) throws Exception {
-        this.collectionUploader.removeCompilationToCollection(collectionId, compilationId);
+    public void removeCompilationToCollection(Collection collection, Compilation compilation) throws Exception {
+        this.collectionUploader.removeCompilationToCollection(collection.getId(), compilation.getId());
     }
 
-    public void updateCollection(int collectionId, String newName) throws Exception {
-        this.collectionUploader.updateCollection(collectionId, newName);
+    public void updateCollection(Collection oldCollection, Collection newCollection) throws Exception {
+        this.collectionUploader.updateCollection(oldCollection.getId(), newCollection.getName());
     }
 
-    public void addCompilation(String name) throws Exception {
-        this.compilationUploader.addCompilation(name);
+    public void addCompilation(Compilation compilation) throws Exception {
+        this.compilationUploader.addCompilation(compilation.getName());
     }
 
     public void addSampleToCompilation(String compilationName, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent, int sampleId, char sampleType) throws Exception {

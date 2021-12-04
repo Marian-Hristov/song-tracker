@@ -35,10 +35,9 @@ public class ObjectDownloaderTests {
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<ProductionRole> productionRoles = dl.loadFirstProductionRoles(50);
         System.out.println(productionRoles.size());
-        for (ProductionRole productionRole:
-             productionRoles) {
+        for (ProductionRole productionRole :
+                productionRoles) {
             System.out.println(productionRole);
-
         }
     }
 
