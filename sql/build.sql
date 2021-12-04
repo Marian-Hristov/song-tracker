@@ -244,7 +244,9 @@ create table markets (
 
 create table collections (
     collection_id number(5) default collection_id_seq.nextval primary key,
-    collection_name varchar2(100) not null
+    collection_name varchar2(100) not null,
+    set_id number(5),
+    foreign key (set_id) references collections (collection_id)
 );
 
 
