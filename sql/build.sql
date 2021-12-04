@@ -10,6 +10,7 @@ drop sequence recording_id_seq;
 drop sequence contributor_id_seq;
 drop sequence collection_id_seq;
 drop sequence log_id_seq;
+drop sequence compilation_role_id_sq;
 
 commit;
 -- creating the sequences
@@ -99,6 +100,14 @@ create sequence collection_id_seq
     maxvalue 99999
     nocycle
     cache 2;
+    
+create sequence compilation_role_id_sq
+    increment by 1
+    start with 1
+    minvalue 1
+    maxvalue 99999
+    nocycle
+    cache 2;
 
 commit;
 -- dropping the tables
@@ -177,7 +186,7 @@ create table compilations (
 );
 
 create table compilationRoles(
-    role_id number(5) primary key,
+    role_id number(5) default compilation_role_id_sq.nextval primary key,
     role_name varchar2(100)
 );
 

@@ -5,56 +5,76 @@ insert into markets (market_name) values ('North-America');
 insert into markets (market_name) values ('South-America'); -- 5
 insert into markets (market_name) values ('Worldwide');
 commit;
-insert into musicianRoles values (musician_id_seq.nextval, 'accordionist');
-insert into musicianRoles values (musician_id_seq.nextval, 'piper');
-insert into musicianRoles values (musician_id_seq.nextval, 'banjoist');
-insert into musicianRoles values (musician_id_seq.nextval, 'bongosero');
-insert into musicianRoles values (musician_id_seq.nextval, 'bassist'); -- 5
-insert into musicianRoles values (musician_id_seq.nextval, 'bassoonist');
-insert into musicianRoles values (musician_id_seq.nextval, 'clarinetist');
-insert into musicianRoles values (musician_id_seq.nextval, 'cellist');
-insert into musicianRoles values (musician_id_seq.nextval, 'drummer');
-insert into musicianRoles values (musician_id_seq.nextval, 'euphoniumist'); -- 10
-insert into musicianRoles values (musician_id_seq.nextval, 'flutist');
-insert into musicianRoles values (musician_id_seq.nextval, 'guitarist');
-insert into musicianRoles values (musician_id_seq.nextval, 'harpist');
-insert into musicianRoles values (musician_id_seq.nextval, 'harpsichordist');
-insert into musicianRoles values (musician_id_seq.nextval, 'hornist'); -- 15
-insert into musicianRoles values (musician_id_seq.nextval, 'keyboardist');
-insert into musicianRoles values (musician_id_seq.nextval, 'lutenist');
-insert into musicianRoles values (musician_id_seq.nextval, 'mandolinist');
-insert into musicianRoles values (musician_id_seq.nextval, 'marimbist');
-insert into musicianRoles values (musician_id_seq.nextval, 'oboist'); -- 20
-insert into musicianRoles values (musician_id_seq.nextval, 'organist');
-insert into musicianRoles values (musician_id_seq.nextval, 'percussionist');
-insert into musicianRoles values (musician_id_seq.nextval, 'pianist');
-insert into musicianRoles values (musician_id_seq.nextval, 'recorder player');
-insert into musicianRoles values (musician_id_seq.nextval, 'saxophonist'); -- 25
-insert into musicianRoles values (musician_id_seq.nextval, 'tocaores');
-insert into musicianRoles values (musician_id_seq.nextval, 'trumpeter');
-insert into musicianRoles values (musician_id_seq.nextval, 'tubaist');
-insert into musicianRoles values (musician_id_seq.nextval, 'ukulelist');
-insert into musicianRoles values (musician_id_seq.nextval, 'violist'); -- 30
-insert into musicianRoles values (musician_id_seq.nextval, 'violinist');
-insert into musicianRoles values (musician_id_seq.nextval, 'xylophonist');
+insert into musicianRoles (role_name) values ('accordionist');
+insert into musicianRoles (role_name) values ('piper');
+insert into musicianRoles (role_name) values ('banjoist');
+insert into musicianRoles (role_name) values ('bongosero');
+insert into musicianRoles (role_name) values ('bassist'); -- 5
+insert into musicianRoles (role_name) values ('bassoonist');
+insert into musicianRoles (role_name) values ('clarinetist');
+insert into musicianRoles (role_name) values ('cellist');
+insert into musicianRoles (role_name) values ('drummer');
+insert into musicianRoles (role_name) values ('euphoniumist'); -- 10
+insert into musicianRoles (role_name) values ('flutist');
+insert into musicianRoles (role_name) values ('guitarist');
+insert into musicianRoles (role_name) values ('harpist');
+insert into musicianRoles (role_name) values ('harpsichordist');
+insert into musicianRoles (role_name) values ('hornist'); -- 15
+insert into musicianRoles (role_name) values ('keyboardist');
+insert into musicianRoles (role_name) values ('lutenist');
+insert into musicianRoles (role_name) values ('mandolinist');
+insert into musicianRoles (role_name) values ('marimbist');
+insert into musicianRoles (role_name) values ('oboist'); -- 20
+insert into musicianRoles (role_name) values ('organist');
+insert into musicianRoles (role_name) values ('percussionist');
+insert into musicianRoles (role_name) values ('pianist');
+insert into musicianRoles (role_name) values ('recorder player');
+insert into musicianRoles (role_name) values ('saxophonist'); -- 25
+insert into musicianRoles (role_name) values ('tocaores');
+insert into musicianRoles (role_name) values ('trumpeter');
+insert into musicianRoles (role_name) values ('tubaist');
+insert into musicianRoles (role_name) values ('ukulelist');
+insert into musicianRoles (role_name) values ('violist'); -- 30
+insert into musicianRoles (role_name) values ('violinist');
+insert into musicianRoles (role_name) values ('xylophonist');
 commit;
-insert into productionRoles values (production_id_seq.nextval, 'composer');
-insert into productionRoles values (production_id_seq.nextval, 'remixer');
-insert into productionRoles values (production_id_seq.nextval, 'recording engineer');
-insert into productionRoles values (production_id_seq.nextval, 'producer');
-insert into productionRoles values (production_id_seq.nextval, 'co-producer'); -- 5
-insert into productionRoles values (production_id_seq.nextval, 'accompanist');
-insert into productionRoles values (production_id_seq.nextval, 'arranger');
-insert into productionRoles values (production_id_seq.nextval, 'audio engineer');
-insert into productionRoles values (production_id_seq.nextval, 'vocalist');
-insert into productionRoles values (production_id_seq.nextval, 'backing singer'); -- 10
-insert into productionRoles values (production_id_seq.nextval, 'conductor');
-insert into productionRoles values (production_id_seq.nextval, 'mixer');
-insert into productionRoles values (production_id_seq.nextval, 'mastering engineer');
-insert into productionRoles values (production_id_seq.nextval, 'sound designer');
-insert into productionRoles values (production_id_seq.nextval, 'performer'); -- 15
-insert into productionRoles values (production_id_seq.nextval, 'writter');
-insert into productionRoles values (production_id_seq.nextval, 'lyricist');
-insert into productionRoles values (production_id_seq.nextval, 'assistant engineer');
-insert into productionRoles values (production_id_seq.nextval, 'mixing assistant');
+insert into productionRoles (role_name) values ('composer');
+insert into productionRoles (role_name) values ('remixer');
+insert into productionRoles (role_name) values ('recording engineer');
+insert into productionRoles (role_name) values ('producer');
+insert into productionRoles (role_name) values ('co-producer'); -- 5
+insert into productionRoles (role_name) values ('accompanist');
+insert into productionRoles (role_name) values ('arranger');
+insert into productionRoles (role_name) values ('audio engineer');
+insert into productionRoles (role_name) values ('vocalist');
+insert into productionRoles (role_name) values ('backing singer'); -- 10
+insert into productionRoles (role_name) values ('conductor');
+insert into productionRoles (role_name) values ('mixer');
+insert into productionRoles (role_name) values ('mastering engineer');
+insert into productionRoles (role_name) values ('sound designer');
+insert into productionRoles (role_name) values ('performer'); -- 15
+insert into productionRoles (role_name) values ('writter');
+insert into productionRoles (role_name) values ('lyricist');
+insert into productionRoles (role_name) values ('assistant engineer');
+insert into productionRoles (role_name) values ('mixing assistant');
+commit;
+insert into compilationRoles (role_name) values ('composer');
+insert into compilationRoles (role_name) values ('remixer');
+insert into compilationRoles (role_name) values ('recording engineer');
+insert into compilationRoles (role_name) values ('producer');
+insert into compilationRoles (role_name) values ('co-producer'); -- 5
+insert into compilationRoles (role_name) values ('accompanist');
+insert into compilationRoles (role_name) values ('arranger');
+insert into compilationRoles (role_name) values ('audio engineer');
+insert into compilationRoles (role_name) values ('vocalist');
+insert into compilationRoles (role_name) values ('backing singer'); -- 10
+insert into compilationRoles (role_name) values ('conductor');
+insert into compilationRoles (role_name) values ('mixer');
+insert into compilationRoles (role_name) values ('mastering engineer');
+insert into compilationRoles (role_name) values ('sound designer');
+insert into compilationRoles (role_name) values ('performer'); -- 15
+insert into compilationRoles (role_name) values ('writter');
+insert into compilationRoles (role_name) values ('lyricist');
+insert into compilationRoles (role_name) values ('assistant engineer');
+insert into compilationRoles (role_name) values ('mixing assistant');
 commit;

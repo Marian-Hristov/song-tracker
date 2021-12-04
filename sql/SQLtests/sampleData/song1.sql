@@ -1,4 +1,3 @@
-begin
 insert into contributors (contributor_name) values ('Michael Jackson');
 insert into contributors (contributor_name) values ('Paul Jackson Jr.');
 insert into contributors (contributor_name) values ('Steve Lukather');
@@ -71,12 +70,12 @@ commit;
 insert into collections (collection_name) values ('Beat it');
 insert into collectioncompilations values (1, 5);
 
-insert into distribution (colletion_id, release_date, label_id, market_id)
-values (1, to_date('08-02-2008', 'dd-mm-yyyy'), 1, 1);
+insert into distributions (collection_id, release_date, label_id, market_id)
+values (1, to_date('2008-02-08 00:00:00', 'yyyy-mm-dd hh24:mi:ss'), 1, 1);
 
 commit;
 
-insert into productioncontributions values (1, 11, 4);
+insert into compilationcontributions values (5, 11, 4);
 insert into productioncontributions values (1, 1, 17);
 
 commit;
@@ -92,4 +91,3 @@ insert into musicalcontributions values (3, 9, 16);
 insert into musicalcontributions values (3, 10, 9);
 
 commit;
-end;

@@ -1,4 +1,3 @@
-begin
 insert into contributors (contributor_name) values ('Dan Reynolds');
 insert into contributors (contributor_name) values ('Ben McKee');
 insert into contributors (contributor_name) values ('Daniel Platzman');
@@ -33,8 +32,8 @@ insert into collectioncompilations values (2, 6);
 
 commit;
 
-insert into distributions (colletion_id, release_date, label_id, market_id)
-values (2, to_date('01-02-2017', 'dd-mm-yyyy'), 2, 6);
+insert into distributions (collection_id, release_date, label_id, market_id)
+values (2, to_date('2017-02-01 00:00:00', 'yyyy-mm-dd hh24:mi:ss'), 2, 6);
 
 commit;
 
@@ -47,8 +46,8 @@ insert into productioncontributions values (4, 15, 17);
 insert into productioncontributions values (4, 16, 17);
 insert into productioncontributions values (4, 17, 17);
 insert into productioncontributions values (4, 18, 17);
-insert into productioncontributions values (4, 17, 4);
-insert into productioncontributions values (4, 18, 4);
+-- compilation prod
+insert into compilationcontributions values (6, 17, 4);
+insert into compilationcontributions values (6, 18, 4);
 
 commit;
-end;
