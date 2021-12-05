@@ -304,7 +304,7 @@ public class ObjectUploaderTests {
     @Test
     public void TestUpdateProductionRole() throws Exception {
         DBConnection.setUsername(userName);
-        DBConnection.setUsername(password);
+        DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
         ProductionRole oldRole = new ProductionRole(20, "brodda");
@@ -317,7 +317,7 @@ public class ObjectUploaderTests {
     @Test
     public void TestUpdateMusicianRole() throws Exception {
         DBConnection.setUsername(userName);
-        DBConnection.setUsername(password);
+        DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
         MusicianRole oldRole = new MusicianRole(33, "bass booster");
@@ -330,7 +330,7 @@ public class ObjectUploaderTests {
     @Test
     public void TestUpdateCompilationRole() throws Exception {
         DBConnection.setUsername(userName);
-        DBConnection.setUsername(password);
+        DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
         CompilationRole oldRole = new CompilationRole(20, "compiler");
