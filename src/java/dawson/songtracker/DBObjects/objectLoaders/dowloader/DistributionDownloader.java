@@ -1,6 +1,5 @@
 package dawson.songtracker.DBObjects.objectLoaders.dowloader;
 
-import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.distributions.Collection;
 import dawson.songtracker.types.distributions.Distribution;
 import dawson.songtracker.types.distributions.Market;
@@ -72,7 +71,7 @@ class DistributionDownloader {
 
     public static ArrayList<RecordLabel> loadRecordLabelsByName(Connection connection, String name) throws SQLException{
         if(name == null) throw new NullPointerException("the name is null");
-        PreparedStatement ps = connection.prepareStatement("select * from markets where market_name = ?");
+        PreparedStatement ps = connection.prepareStatement("select * from recordLabels where label_name = ?");
         ps.setString(1, name);
         ResultSet rs = ps.executeQuery();
         ArrayList<RecordLabel> recordLabels = new ArrayList<>();

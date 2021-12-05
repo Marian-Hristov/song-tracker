@@ -91,4 +91,14 @@ public class Compilation extends SongComponent {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Compilation{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", creationTime=" + creationTime +
+                ", duration=" + duration +
+                '}';
+    }
 }
