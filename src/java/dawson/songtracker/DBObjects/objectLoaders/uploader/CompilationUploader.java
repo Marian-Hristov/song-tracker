@@ -29,15 +29,15 @@ class CompilationUploader {
         }
     }
 
-    public void addSampleToCompilation(String compilationName, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent, int sampleId, char sampleType) throws Exception{
-        if(compilationName == null || compilationName.equals("") || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 ||durationOfComponent < 0 || sampleId < 1){
+    public void addSampleToCompilation(int compilationId, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent, int sampleId, char sampleType) throws Exception{
+        if(compilationId < 1 || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 ||durationOfComponent < 0 || sampleId < 1){
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         } else if (sampleType != 'c' || sampleType != 'r'){
             throw new IllegalArgumentException("Given category doesn't exist");
         }
         try {
             PreparedStatement addSampleToCompilation = this.connection.prepareStatement("EXECUTE COMPILATION_MGMT.ADDSAMPLETOCOMPILATION(?, ?, ?, ?, ?, ?, ?)");
-            addSampleToCompilation.setString(1, compilationName);
+            addSampleToCompilation.setInt(1, compilationId);
             addSampleToCompilation.setDouble(2, mainTrackOffset);
             addSampleToCompilation.setDouble(3, durationInMainTrack);
             addSampleToCompilation.setDouble(4, componentTrackOffset);
