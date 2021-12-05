@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ObjectUploaderTests {
 
     // TODO Don't forget to remove
-    private final String userName = "A2033348";
-    private final String password = "6019@ria_database";
+    private final String userName = "";
+    private final String password = "";
 
     // Each of the test is run after the build script has
     // been on run on the database
@@ -244,7 +243,7 @@ public class ObjectUploaderTests {
     @Test
     public void TestAddMusicianRole() throws Exception {
         DBConnection.setUsername(userName);
-        DBConnection.setUsername(password);
+        DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
         MusicianRole role = new MusicianRole(1, "bass booster");
@@ -256,7 +255,7 @@ public class ObjectUploaderTests {
     @Test
     public void TestAddCompilationRole() throws Exception {
         DBConnection.setUsername(userName);
-        DBConnection.setUsername(password);
+        DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
         CompilationRole role = new CompilationRole(1, "compiler");
@@ -268,7 +267,7 @@ public class ObjectUploaderTests {
     @Test
     public void TestRemoveProductionRole() throws Exception {
         DBConnection.setUsername(userName);
-        DBConnection.setUsername(password);
+        DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
         ProductionRole role = new ProductionRole(20, "brodda");
@@ -280,7 +279,7 @@ public class ObjectUploaderTests {
     @Test
     public void TestRemoveMusicianRole() throws Exception {
         DBConnection.setUsername(userName);
-        DBConnection.setUsername(password);
+        DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
         MusicianRole role = new MusicianRole(33, "bass booster");
@@ -292,7 +291,7 @@ public class ObjectUploaderTests {
     @Test
     public void TestRemoveCompilationRole() throws Exception {
         DBConnection.setUsername(userName);
-        DBConnection.setUsername(password);
+        DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
         CompilationRole role = new CompilationRole(20, "compiler");
