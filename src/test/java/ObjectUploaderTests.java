@@ -5,6 +5,7 @@ import dawson.songtracker.types.Components.Compilation;
 import dawson.songtracker.types.Components.Recording;
 import dawson.songtracker.types.Components.Segment;
 import dawson.songtracker.types.Distributions.Collection;
+import dawson.songtracker.types.Distributions.Market;
 import dawson.songtracker.types.Roles.CompilationRole;
 import dawson.songtracker.types.Roles.Contributor;
 import dawson.songtracker.types.Roles.MusicianRole;
@@ -21,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ObjectUploaderTests {
 
     // TODO Don't forget to remove
-    private final String userName = "";
-    private final String password = "";
+    private final String userName = "A2033348";
+    private final String password = "6019@ria_database";
 
     // Each of the test is run after the build script has
     // been on run on the database
@@ -437,4 +438,44 @@ public class ObjectUploaderTests {
         assertEquals(0, result.getProductionContributions().size());
         assertEquals(0, result.getMusicalContributions().size());
     }
+
+    @Test
+    public void TestAddMarket() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Market market = new Market(7, "Canada");
+        ul.addMarket(market);
+        Market result = dl.loadMarket(7);
+        assertEquals("Canada", result.getName());
+    }
+
+    @Test
+    public void TestRemoveMarket() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Market market = new Market(7, "Canada");
+        ul.addMarket(market);
+        ul.removeMarket(market);
+        assertNull(dl.loadMarket(7));
+    }
+
+    @Test
+    public void TestUpdateMarket() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Market market1 = new Market(7, "Canada");
+        Market market2 = new Market(7, "USA");
+        ul.addMarket(market1);
+        ul.updateMarket(market1, market2);
+        Market result = dl.loadMarket(7);
+        assertEquals("USA", result.getName());
+    }
+
+    
 }

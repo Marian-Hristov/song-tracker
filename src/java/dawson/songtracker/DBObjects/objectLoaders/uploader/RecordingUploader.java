@@ -81,7 +81,7 @@ class RecordingUploader {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
         if (role instanceof MusicianRole) {
-            CallableStatement addMusicianToRecording = this.connection.prepareCall("{call RECORDING_MGMT.ADDCONTRIBUTORTORECORDING(?, ?, ?, ?)}");
+            CallableStatement addMusicianToRecording = this.connection.prepareCall("{call RECORDING_MGMT.ADDCONTRIBUTORFROMRECORDING(?, ?, ?, ?)}");
             try {
                 addMusicianToRecording.setInt(1, recording.getId());
                 addMusicianToRecording.setInt(2, contributor.getId());
@@ -124,7 +124,7 @@ class RecordingUploader {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
         if (role instanceof MusicianRole) {
-            CallableStatement removeMusicianToRecording = this.connection.prepareCall("{call RECORDING_MGMT.REMOVECONTRIBUTORTORECORDING(?, ?, ?, ?)}");
+            CallableStatement removeMusicianToRecording = this.connection.prepareCall("{call RECORDING_MGMT.REMOVECONTRIBUTORFROMRECORDING(?, ?, ?, ?)}");
             try {
                 removeMusicianToRecording.setInt(1, recording.getId());
                 removeMusicianToRecording.setInt(2, contributor.getId());
@@ -141,7 +141,7 @@ class RecordingUploader {
                 throw e;
             }
         } else if (role instanceof ProductionRole) {
-            CallableStatement removeProductionToRecording = this.connection.prepareCall("{call RECORDING_MGMT.REMOVECONTRIBUTORTORECORDING(?, ?, ?, ?)}");
+            CallableStatement removeProductionToRecording = this.connection.prepareCall("{call RECORDING_MGMT.REMOVECONTRIBUTORFROMRECORDING(?, ?, ?, ?)}");
             try {
                 removeProductionToRecording.setInt(1, recording.getId());
                 removeProductionToRecording.setInt(2, contributor.getId());
