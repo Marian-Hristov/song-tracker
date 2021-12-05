@@ -11,7 +11,7 @@
     <children>
         <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0">
             <children>
-                <Label text="Recording Name">
+                <Label fx:id="title" text="Recording Name">
                     <font>
                         <Font size="20.0"/>
                     </font>

@@ -1,12 +1,12 @@
 package dawson.songtracker.DBObjects.objectLoaders.uploader;
 
 import dawson.songtracker.DBObjects.DBConnection;
-import dawson.songtracker.types.Components.Compilation;
-import dawson.songtracker.types.Components.Recording;
-import dawson.songtracker.types.Components.Segment;
-import dawson.songtracker.types.Components.SongComponent;
-import dawson.songtracker.types.Distributions.*;
-import dawson.songtracker.types.Roles.*;
+import dawson.songtracker.types.components.Compilation;
+import dawson.songtracker.types.components.Recording;
+import dawson.songtracker.types.components.Segment;
+import dawson.songtracker.types.components.SongComponent;
+import dawson.songtracker.types.distributions.*;
+import dawson.songtracker.types.roles.*;
 
 import java.sql.*;
 

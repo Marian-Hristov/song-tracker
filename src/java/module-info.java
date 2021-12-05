@@ -12,9 +12,9 @@ module dawson.songtracker {
     opens dawson.songtracker.DBObjects.objectLoaders.dowloader to javafx.fxml;
 
     exports dawson.songtracker;
-    exports dawson.songtracker.types.Roles;
-    exports dawson.songtracker.types.Distributions;
-    exports dawson.songtracker.types.Components;
+    exports dawson.songtracker.types.roles;
+    exports dawson.songtracker.types.distributions;
+    exports dawson.songtracker.types.components;
     exports dawson.songtracker.utils;
     exports dawson.songtracker.DBObjects;
     exports dawson.songtracker.DBObjects.objectLoaders.dowloader;

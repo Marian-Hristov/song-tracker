@@ -2,8 +2,8 @@ create or replace package recording_mgmt as
     procedure addRecording(new_recording_name recordings.recording_name%type, recording_duration recordings.duration%type);
     procedure removeRecording(removed_recording_id recordings.recording_id%type);
     procedure updateRecording(changed_recording_id recordings.recording_id%type, new_recording_name recordings.recording_name%type, new_recording_duration recordings.duration%type);
-    procedure addContributorToRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char);
-    procedure removeContributorToRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char);   
+    procedure addContributorFromRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char);
+    procedure removeContributorFromRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char);   
 end recording_mgmt;
 /
 commit;
@@ -49,7 +49,7 @@ create or replace package body recording_mgmt as
         where recording_id = changed_recording_id;
     end;
     -- Adding a contributor with a role to a recording
-    procedure addContributorToRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char) is
+    procedure addContributorFromRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char) is
     begin
         if (ref_recording_id is null or ref_contributor_id is null or ref_role_id is null or category is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
@@ -67,7 +67,7 @@ create or replace package body recording_mgmt as
         end if;
     end;
     -- Removing a contributor from a recording
-    procedure removeContributorToRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char) is
+    procedure removeContributorFromRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char) is
     begin
         if (ref_recording_id is null or ref_contributor_id is null or ref_role_id is null or category is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');

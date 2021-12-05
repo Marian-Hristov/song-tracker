@@ -1,6 +1,6 @@
-package dawson.songtracker.types.Components;
+package dawson.songtracker.types.components;
 
-import dawson.songtracker.types.Roles.*;
+import dawson.songtracker.types.roles.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

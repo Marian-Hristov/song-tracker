@@ -1,10 +1,10 @@
-package dawson.songtracker.types.Roles;
+package dawson.songtracker.types.distributions;
 
-public class Contributor {
+public class Market {
     private final int id;
     private String name;
 
-    public Contributor(int id, String name) {
+    public Market(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -13,20 +13,20 @@ public class Contributor {
         return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Contributor contributor)) return false;
+        if (!(o instanceof Market market)) return false;
 
-        return id == contributor.id;
+        return id == market.id;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Contributor {
 
     @Override
     public String toString() {
-        return "Contributor{" +
+        return "Market{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

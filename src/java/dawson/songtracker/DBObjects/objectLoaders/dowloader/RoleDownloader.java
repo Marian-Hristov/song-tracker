@@ -1,15 +1,14 @@
 package dawson.songtracker.DBObjects.objectLoaders.dowloader;
 
-import dawson.songtracker.types.Roles.CompilationRole;
-import dawson.songtracker.types.Roles.Contributor;
-import dawson.songtracker.types.Roles.MusicianRole;
-import dawson.songtracker.types.Roles.ProductionRole;
+import dawson.songtracker.types.roles.CompilationRole;
+import dawson.songtracker.types.roles.Contributor;
+import dawson.songtracker.types.roles.MusicianRole;
+import dawson.songtracker.types.roles.ProductionRole;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 // Class can only be accessed by the package and not outside
 class RoleDownloader {

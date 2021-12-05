@@ -1,9 +1,9 @@
 package dawson.songtracker.DBObjects.objectLoaders.dowloader;
 
-import dawson.songtracker.types.Distributions.Collection;
-import dawson.songtracker.types.Distributions.Distribution;
-import dawson.songtracker.types.Distributions.Market;
-import dawson.songtracker.types.Distributions.RecordLabel;
+import dawson.songtracker.types.distributions.Collection;
+import dawson.songtracker.types.distributions.Distribution;
+import dawson.songtracker.types.distributions.Market;
+import dawson.songtracker.types.distributions.RecordLabel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

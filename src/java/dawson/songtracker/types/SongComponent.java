@@ -1,15 +1,7 @@
 package dawson.songtracker.types;
 
 
-import dawson.songtracker.types.Roles.Contributor;
-import dawson.songtracker.types.Roles.MusicianRole;
-import dawson.songtracker.types.Roles.ProductionRole;
-import dawson.songtracker.types.Roles.Role;
-
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.NoSuchElementException;
 
 public abstract class SongComponent {
     protected final int id;
