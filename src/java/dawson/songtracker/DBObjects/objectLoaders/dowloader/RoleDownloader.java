@@ -20,31 +20,51 @@ class RoleDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from musicianRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return null;
-        return new MusicianRole(id, rs.getString("role_name"));
+        if (!rs.next()){
+            rs.close();
+            return null;
+        }
+        MusicianRole musicianRole = new MusicianRole(id, rs.getString("role_name"));
+        rs.close();
+        return musicianRole;
     }
 
     public static ProductionRole loadProductionRole(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from productionRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return null;
-        return new ProductionRole(id, rs.getString("role_name"));
+        if (!rs.next()){
+            rs.close();
+            return null;
+        }
+        ProductionRole productionRole = new ProductionRole(id, rs.getString("role_name"));
+        rs.close();
+        return productionRole;
     }
 
     public static CompilationRole loadCompilationRole(Connection connection, int id) throws  SQLException{
         PreparedStatement ps = connection.prepareStatement("select * from compilationRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return null;
-        return new CompilationRole(id, rs.getString("role_name"));
+        if (!rs.next()){
+            rs.close();
+            return null;
+        }
+        CompilationRole compilationRole = new CompilationRole(id, rs.getString("role_name"));
+        rs.close();
+        return compilationRole;
     }
 
     public static Contributor loadContributor(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from contributors where contributor_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return null;
-        return new Contributor(id, rs.getString("contributor_name"));
+        if (!rs.next()){
+            rs.close();
+            return null;
+        }
+        Contributor contributor = new Contributor(id, rs.getString("contributor_name"));
+        rs.close();
+        return contributor;
     }
 }
