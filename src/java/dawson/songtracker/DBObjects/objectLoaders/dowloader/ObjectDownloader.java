@@ -38,7 +38,6 @@ public class ObjectDownloader {
     private void updateNbActions() throws SQLException {
         nbActions++;
         if(nbActions == ACTIONS_BEFORE_RESET){
-            nbActions = 0;
             resetConnection();
         }
     }
@@ -106,11 +105,13 @@ public class ObjectDownloader {
 
     // Components
     public Compilation loadCompilation(int id) throws SQLException {
-        updateNbActions();
+        resetConnection();
         return CompilationDownloader.loadCompilation(this.connection, id);
     }
 
     private void resetConnection() throws SQLException {
+        nbActions = 0;
+        this.connection.close();
         this.connection = DBConnection.getConnection();
     }
 
@@ -141,7 +142,7 @@ public class ObjectDownloader {
 
     // Collections
     public Collection loadCollection(int id) throws SQLException {
-        updateNbActions();
+        resetConnection();
         return CollectionDownloader.loadCollection(this.connection, id);
     }
 
@@ -157,7 +158,7 @@ public class ObjectDownloader {
 
     // Distributions
     public Distribution loadDistribution(int id) throws SQLException {
-        updateNbActions();
+        resetConnection();
         return DistributionDownloader.loadDistribution(this.connection, id);
     }
 
