@@ -3,6 +3,8 @@ import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.types.Components.Compilation;
 import dawson.songtracker.types.Components.Recording;
 import dawson.songtracker.types.Distributions.Collection;
+import dawson.songtracker.types.Distributions.Market;
+import dawson.songtracker.types.Distributions.RecordLabel;
 import dawson.songtracker.types.Roles.CompilationRole;
 import dawson.songtracker.types.Roles.Contributor;
 import dawson.songtracker.types.Roles.MusicianRole;
@@ -12,9 +14,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ObjectDownloaderTests {
-    private final String userName = "A2041723";
-    private final String password = "ertatera";
+    private final String userName = "";
+    private final String password = "";
 
+    @Test
+    public void markets() throws SQLException{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ArrayList<Market> markets = dl.loadFirstMarkets(50);
+        System.out.println(markets.size());
+        for(Market market : markets){
+            System.out.println(market);
+        }
+    }
+
+    @Test
+    public void recordLabels() throws SQLException {
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ArrayList<RecordLabel> recordLabels = dl.loadFirstRecordLabels(50);
+        System.out.println(recordLabels.size());
+        for(RecordLabel recordLabel : recordLabels){
+            System.out.println(recordLabel);
+        }
+    }
 
     @Test
     public void musicalRole() throws SQLException {

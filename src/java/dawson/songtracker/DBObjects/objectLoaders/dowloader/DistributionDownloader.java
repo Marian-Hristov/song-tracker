@@ -31,6 +31,7 @@ class DistributionDownloader {
 
     public static Market loadMarket(Connection connection, int id) throws SQLException {
         PreparedStatement pr = connection.prepareStatement("select * from markets where market_id = ?");
+        pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
         if (!rs.next()) {
             rs.close();
@@ -44,7 +45,8 @@ class DistributionDownloader {
     }
 
     public static RecordLabel loadRecordLabel(Connection connection, int id) throws SQLException {
-        PreparedStatement pr = connection.prepareStatement("select * from labels where label_id = ?");
+        PreparedStatement pr = connection.prepareStatement("select * from recordlabels where label_id = ?");
+        pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
         if (!rs.next()) {
             rs.close();
