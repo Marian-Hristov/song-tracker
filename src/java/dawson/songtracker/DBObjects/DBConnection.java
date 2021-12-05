@@ -10,10 +10,13 @@ public class DBConnection {
     private static Connection connection;
 
     public static Connection getConnection() throws SQLException {
-        if(username == null || password == null){
+        if (username == null || password == null) {
             throw new NullPointerException("the username and/or password are not set");
         }
-        if (connection != null) {
+        if (connection == null) {
+            connection = DriverManager.getConnection("jdbc:oracle:thin:@198.168.52.211:1521/pdbora19c.dawsoncollege.qc.ca", username, password);
+            connection.setAutoCommit(false);
+        } else {
             connection.close();
         }
 
@@ -21,11 +24,11 @@ public class DBConnection {
         return connection;
     }
 
-    public static void setUsername(String name){
+    public static void setUsername(String name) {
         username = name;
     }
 
-    public static void setPassword(String pWord){
+    public static void setPassword(String pWord) {
         password = pWord;
     }
 }

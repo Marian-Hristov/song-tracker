@@ -11,8 +11,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class MainViewController {
-    @FXML private ChoiceBox choiceBox;
-    @FXML private TableView table;
+    @FXML
+    private ChoiceBox choiceBox;
+    @FXML
+    private TableView table;
 
     public static class MyDataType {
         private final SimpleStringProperty time;
@@ -34,7 +36,8 @@ public class MainViewController {
     }
 
 
-    @FXML private void handleChoice(Event event) {
+    @FXML
+    private void handleChoice(Event event) {
         System.out.println("Selected: " + choiceBox.getValue());
         event.consume();
     }

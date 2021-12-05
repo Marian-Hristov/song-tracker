@@ -12,12 +12,11 @@ import java.util.NoSuchElementException;
 
 class CollectionDownloader {
     public static Collection loadCollection(Connection connection, int id) throws SQLException {
-        if(id == 0) return null;
+        if (id == 0) return null;
         PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
         pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
-
-        if(!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return null;
         }
@@ -39,12 +38,12 @@ class CollectionDownloader {
     }
 
     private static ArrayList<Compilation> loadCollectionCompilations(Connection connection, int collectionId) throws SQLException {
-        if(!collectionExists(connection, collectionId)) throw new NoSuchElementException("the collection with collection_id: "+collectionId+"doesn't exist");
+        if (!collectionExists(connection, collectionId))
+            throw new NoSuchElementException("the collection with collection_id: " + collectionId + "doesn't exist");
         PreparedStatement pr = connection.prepareStatement("select * from collectionCompilations where collection_id = ?");
         pr.setInt(1, collectionId);
         ResultSet rs = pr.executeQuery();
-
-        if(!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return new ArrayList<>();
         }
@@ -58,12 +57,12 @@ class CollectionDownloader {
     }
 
     private static ArrayList<Collection> loadCollectionsInSet(Connection connection, int setId) throws SQLException {
-        if(!collectionExists(connection, setId)) throw new NoSuchElementException("the collection with collection_id: "+setId+"doesn't exist");
+        if (!collectionExists(connection, setId))
+            throw new NoSuchElementException("the collection with collection_id: " + setId + "doesn't exist");
         PreparedStatement pr = connection.prepareStatement("select * from collectionSets where set_id = ?");
         pr.setInt(1, setId);
         ResultSet rs = pr.executeQuery();
-
-        if(!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return new ArrayList<>();
         }

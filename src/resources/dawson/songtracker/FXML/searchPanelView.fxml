@@ -13,24 +13,28 @@
                             <children>
                                 <Label fx:id="label">
                                     <font>
-                                        <Font size="28.0" />
+                                        <Font size="28.0"/>
                                     </font>
                                 </Label>
                                 <TextField prefHeight="25.0" prefWidth="249.0" fx:id="textfield"/>
                                 <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="243.0" spacing="20.0">
                                     <children>
-                                        <CheckBox mnemonicParsing="false" text="Released" />
-                                        <CheckBox layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Unreleased" />
-                                        <Button minWidth="70.0" mnemonicParsing="false" text="Add" onMouseClicked="#onAdd"/>
-                                        <Button layoutX="10.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false" text="Delete" />
-                                        <Button layoutX="74.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false" text="Update" />
+                                        <CheckBox mnemonicParsing="false" text="Released"/>
+                                        <CheckBox layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
+                                                  text="Unreleased"/>
+                                        <Button minWidth="70.0" mnemonicParsing="false" text="Add"
+                                                onMouseClicked="#onAdd"/>
+                                        <Button layoutX="10.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false"
+                                                text="Delete"/>
+                                        <Button layoutX="74.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false"
+                                                text="Update"/>
                                     </children>
                                 </HBox>
                                 <TableView prefHeight="296.0" prefWidth="597.0">
                                     <columns>
-                                        <TableColumn prefWidth="321.0" text="Name" />
-                                        <TableColumn prefWidth="152.0" text="Creation Time" />
-                                        <TableColumn prefWidth="123.0" text="Duration" />
+                                        <TableColumn prefWidth="321.0" text="Name"/>
+                                        <TableColumn prefWidth="152.0" text="Creation Time"/>
+                                        <TableColumn prefWidth="123.0" text="Duration"/>
                                     </columns>
                                 </TableView>
                             </children>

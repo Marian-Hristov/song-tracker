@@ -29,7 +29,7 @@ public class ObjectDownloader {
     }
 
     public static ObjectDownloader getInstance() throws SQLException {
-        if(instance == null){
+        if (instance == null) {
             instance = new ObjectDownloader(DBConnection.getConnection());
         }
         return instance;
@@ -51,9 +51,9 @@ public class ObjectDownloader {
 
     public ArrayList<CompilationRole> loadFirstCompilationRoles(int nbRows) throws SQLException{
         ArrayList<CompilationRole> roles = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             CompilationRole compilationRole = loadCompilationRole(i);
-            if(compilationRole == null) break;
+            if (compilationRole == null) break;
             roles.add(compilationRole);
         }
         return roles;
@@ -66,9 +66,9 @@ public class ObjectDownloader {
 
     public ArrayList<ProductionRole> loadFirstProductionRoles(int nbRows) throws SQLException{
         ArrayList<ProductionRole> roles = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             ProductionRole productionRole = loadProductionRole(i);
-            if(productionRole == null) break;
+            if (productionRole == null) break;
             roles.add(productionRole);
         }
         return roles;
@@ -81,9 +81,9 @@ public class ObjectDownloader {
 
     public ArrayList<MusicianRole> loadFirstMusicianRoles(int nbRows) throws SQLException{
         ArrayList<MusicianRole> roles = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             MusicianRole compilationRole = loadMusicianRole(i);
-            if(compilationRole == null) break;
+            if (compilationRole == null) break;
             roles.add(compilationRole);
         }
         return roles;
@@ -96,9 +96,9 @@ public class ObjectDownloader {
 
     public ArrayList<Contributor> loadFirstContributors(int nbRows) throws SQLException{
         ArrayList<Contributor> contributors = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             Contributor contributor = loadContributor(i);
-            if(contributor == null) break;
+            if (contributor == null) break;
             contributors.add(contributor);
         }
         return contributors;
@@ -116,9 +116,9 @@ public class ObjectDownloader {
 
     public ArrayList<Compilation> loadFirstCompilations(int nbRows) throws SQLException {
         ArrayList<Compilation> compilations = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             Compilation compilation = loadCompilation(i);
-            if(compilation == null) break;
+            if (compilation == null) break;
             compilations.add(compilation);
         }
         return compilations;
@@ -131,9 +131,9 @@ public class ObjectDownloader {
 
     public ArrayList<Recording> loadFirstRecordings(int nbRows) throws SQLException{
         ArrayList<Recording> recordings = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             Recording recording = loadRecording(i);
-            if(recording == null) break;
+            if (recording == null) break;
             recordings.add(recording);
         }
         return recordings;
@@ -147,9 +147,9 @@ public class ObjectDownloader {
 
     public ArrayList<Collection> loadFirstCollections(int nbRows) throws SQLException{
         ArrayList<Collection> collections = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             Collection collection = loadCollection(i);
-            if(collection == null) break;
+            if (collection == null) break;
             collections.add(collection);
         }
         return collections;
@@ -163,9 +163,9 @@ public class ObjectDownloader {
 
     public ArrayList<Distribution> loadFirstDistributions(int nbRows) throws SQLException{
         ArrayList<Distribution> distributions = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             Distribution distribution = loadDistribution(i);
-            if(distribution == null) break;
+            if (distribution == null) break;
             distributions.add(distribution);
         }
         return distributions;
@@ -178,9 +178,9 @@ public class ObjectDownloader {
 
     public ArrayList<Market> loadFirstMarkets(int nbRows) throws SQLException{
         ArrayList<Market> markets = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             Market market = loadMarket(i);
-            if(market == null) break;
+            if (market == null) break;
             markets.add(market);
         }
         return markets;
@@ -193,9 +193,9 @@ public class ObjectDownloader {
 
     public ArrayList<RecordLabel> loadFirstRecordLabels(int nbRows) throws SQLException{
         ArrayList<RecordLabel> labels = new ArrayList<>();
-        for(int i=1;i<nbRows;i++){
+        for (int i = 1; i < nbRows; i++) {
             RecordLabel label = loadLabel(i);
-            if(label == null) break;
+            if (label == null) break;
             labels.add(label);
         }
         return labels;

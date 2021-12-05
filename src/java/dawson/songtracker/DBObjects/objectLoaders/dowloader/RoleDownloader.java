@@ -15,14 +15,11 @@ import java.util.ArrayList;
 class RoleDownloader {
 
 
-
     public static MusicianRole loadMusicianRole(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from musicianRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        
-
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return null;
         }
@@ -37,9 +34,7 @@ class RoleDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from productionRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        
-
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return null;
         }
@@ -50,13 +45,11 @@ class RoleDownloader {
         return productionRole;
     }
 
-    public static CompilationRole loadCompilationRole(Connection connection, int id) throws  SQLException{
+    public static CompilationRole loadCompilationRole(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from compilationRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        
-
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return null;
         }
@@ -71,9 +64,7 @@ class RoleDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from contributors where contributor_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        
-
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return null;
         }

@@ -13,10 +13,10 @@ public abstract class SongComponent {
     protected double duration;
 
     public SongComponent(int id, String name, Timestamp creationTime, double duration) {
-        if(name == null){
+        if (name == null) {
             throw new NullPointerException("the name is null");
         }
-        if(creationTime == null){
+        if (creationTime == null) {
             throw new NullPointerException("the creationTime is null");
         }
         this.id = id;

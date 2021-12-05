@@ -5,7 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 public class RecordingPopupController extends Popup {
-    @FXML Button closeButton;
+    @FXML
+    Button closeButton;
     @FXML
     Popup assignContributor;
 
