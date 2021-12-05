@@ -1,7 +1,7 @@
 package dawson.songtracker.DBObjects.objectLoaders.uploader;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 
 class RoleUploader {
@@ -19,7 +19,7 @@ class RoleUploader {
         }
 
         try{
-            PreparedStatement insertRole = this.connection.prepareStatement("EXECUTE ROLE_MGMT.ADDROLE(?, ?)");
+            CallableStatement insertRole = this.connection.prepareCall("{call ROLE_MGMT.ADDROLE(?, ?)}");
             insertRole.setString(1, Character.toString(category));
             insertRole.setString(2, name);
 
@@ -41,7 +41,7 @@ class RoleUploader {
             throw new IllegalArgumentException("Given category doesn't exist");
         }
         try{
-            PreparedStatement deleteRole = this.connection.prepareStatement("EXECUTE ROLE_MGMT.REMOVEROLE(?, ?)");
+            CallableStatement deleteRole = this.connection.prepareCall("{call ROLE_MGMT.REMOVEROLE(?, ?)}");
             deleteRole.setString(1, Character.toString(category));
             deleteRole.setString(2, name);
             if(deleteRole.executeUpdate() != 1){
@@ -61,7 +61,7 @@ class RoleUploader {
             throw new IllegalArgumentException("Given category doesn't exist");
         }
         try{
-            PreparedStatement updateRole = this.connection.prepareStatement("EXECUTE ROLE_MGMT.UPDATEROLE(?, ?, ?)");
+            CallableStatement updateRole = this.connection.prepareCall("{call ROLE_MGMT.UPDATEROLE(?, ?, ?)}");
             updateRole.setString(1, Character.toString(category));
             updateRole.setString(2, oldName);
             updateRole.setString(3, newName);
