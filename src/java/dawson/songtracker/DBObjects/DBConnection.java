@@ -14,7 +14,7 @@ public class DBConnection {
             throw new NullPointerException("the username and/or password are not set");
         }
         if (connection != null) {
-            connection.close();
+//            connection.close();
         }
         connection = DriverManager.getConnection("jdbc:oracle:thin:@198.168.52.211:1521/pdbora19c.dawsoncollege.qc.ca", username, password);
         connection.setAutoCommit(false);

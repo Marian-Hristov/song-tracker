@@ -15,16 +15,18 @@ class RoleUploader {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("One or many given arguments are null or empty");
         } else if (category == 'c' || category == 'm' || category == 'p') {
+            CallableStatement insertRole = this.connection.prepareCall("{call ROLE_MGMT.ADDROLE(?, ?)}");
             try {
-                CallableStatement insertRole = this.connection.prepareCall("{call ROLE_MGMT.ADDROLE(?, ?)}");
                 insertRole.setString(1, Character.toString(category));
                 insertRole.setString(2, name);
                 if (insertRole.executeUpdate() != 1) {
                     throw new SQLException("Couldn't create role");
                 }
                 this.connection.commit();
+                insertRole.close();
             } catch (Exception e) {
                 this.connection.rollback();
+                insertRole.close();
                 throw e;
             }
         } else {

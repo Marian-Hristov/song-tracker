@@ -89,7 +89,7 @@ create or replace package body role_mgmt as
             delete from compilationContributions
             where role_id = found;
             -- Deleting role in role table
-            delete from productionRoles
+            delete from compilationRoles
             where role_id = found;
         else
             raise_application_error(-20002, 'specified category does not exist');
@@ -117,6 +117,11 @@ create or replace package body role_mgmt as
             select role_id into found from productionRoles where role_name = old_role_name;
             -- Updating role name
             update productionRoles set role_name = new_role_name where role_id = found;
+        elsif category = 'c' then
+            -- Getting the id of the role based on the name
+            select role_id into found from compilationRoles where role_name = old_role_name;
+            -- Updating role name
+            update compilationRoles set role_name = new_role_name where role_id = found;
         else
             raise_application_error(-20002, 'specified category does not exist');
         end if;

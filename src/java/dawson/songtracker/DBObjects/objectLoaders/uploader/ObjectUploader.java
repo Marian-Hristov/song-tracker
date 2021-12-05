@@ -222,14 +222,14 @@ public class ObjectUploader {
         if (recording == null) {
             throw new Exception("Recording is null");
         }
-        this.recordingUploader.addRecording(recording.getName(), recording.getDuration());
+        this.recordingUploader.addRecording(recording);
     }
 
     public void removesRecording(Recording recording) throws Exception {
         if (recording == null) {
             throw new Exception("Recording is null");
         }
-        this.recordingUploader.removesRecording(recording.getId());
+        this.recordingUploader.removeRecording(recording.getId());
     }
 
     public void updateRecording(Recording oldRecording, Recording newRecording) throws Exception {
@@ -282,5 +282,19 @@ public class ObjectUploader {
         } else {
             throw new Exception("Type of object oldRole given is not specified");
         }
+    }
+
+    public void addContributorToRecording(Recording recording, Contributor contributor, Role role) throws Exception{
+        if(recording == null){
+            throw new Exception("One or many given objects are null");
+        }
+        this.recordingUploader.addContributorToRecording(recording, contributor, role);
+    }
+
+    public void removeContributorToRecording(Recording recording, Contributor contributor, Role role) throws Exception{
+        if(recording == null || contributor == null || role == null){
+            throw new Exception("One or many given objects are null");
+        }
+        this.recordingUploader.removeContributorToRecording(recording, contributor, role);
     }
 }
