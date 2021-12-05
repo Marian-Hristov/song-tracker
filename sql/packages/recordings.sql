@@ -65,6 +65,28 @@ create or replace package body recording_mgmt as
             raise_application_error(-20002, 'specified category does not exist');
         end if;
     end;
+    -- Removing a contributor from a recording
+    procedure removeContributorToRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char) is
+    begin
+        if (ref_recording_id is null or ref_contributor_id is null or ref_role_id is null or category is null) then
+            raise_application_error(-20001, 'one or more arguments are null or empty');
+        elsif (ref_recording_id < 1 or ref_contributor_id < 1 or ref_role_id < 1) then
+            raise_application_error(-20001, 'one or more provided ids are not in the allowed range');
+        end if;
+        if category = 'm' then
+            delete from musicalContributions
+            where recording_id = ref_recording_id
+            and contributor_id = ref_contributor_id
+            and role_id = ref_role_id;
+        elsif category = 'p' then
+            delete from productionContributions
+            where recording_id = ref_recording_id
+            and contributor_id = ref_contributor_id
+            and role_id = ref_role_id;
+        else
+            raise_application_error(-20002, 'specified category does not exist');
+        end if;
+    end;
 end recording_mgmt;
 /
 commit;
