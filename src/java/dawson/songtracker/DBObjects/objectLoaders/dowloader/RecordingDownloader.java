@@ -1,9 +1,9 @@
 package dawson.songtracker.DBObjects.objectLoaders.dowloader;
 
-import dawson.songtracker.types.Components.Recording;
-import dawson.songtracker.types.Roles.Contributor;
-import dawson.songtracker.types.Roles.MusicianRole;
-import dawson.songtracker.types.Roles.ProductionRole;
+import dawson.songtracker.types.components.Recording;
+import dawson.songtracker.types.roles.Contributor;
+import dawson.songtracker.types.roles.MusicianRole;
+import dawson.songtracker.types.roles.ProductionRole;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,19 +14,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-class ComponentDownloader {
-
+class RecordingDownloader {
     public static ArrayList<Recording> loadAllRecordings(Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from recordings");
         ResultSet rs = ps.executeQuery();
+        
+
+
         ArrayList<Recording> allRecordings = new ArrayList<>();
-        while(rs.next()){
+        while (rs.next()) {
             int id = rs.getInt("recording_id");
             Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
-            productionContributions = productionContributions == null ? new HashMap<>() : productionContributions;
             Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
             allRecordings.add(new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions));
         }
+
+        rs.close();
         return allRecordings;
     }
 
@@ -34,27 +37,42 @@ class ComponentDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from recordings where recording_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return null;
+        if (!rs.next()) {
+            rs.close();
+            return null;
+        }
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
-        productionContributions = productionContributions == null ? new HashMap<>() : productionContributions;
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
-        musicalContributions = musicalContributions == null ? new HashMap<>() : musicalContributions;
-        return new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
+        Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
+        rs.close();
+
+        return recording;
     }
 
     private static boolean recordingExists(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from recordings where recording_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        return rs.next();
+
+
+        boolean exists = rs.next();
+        rs.close();
+
+        return exists;
     }
 
     private static Map<ProductionRole, ArrayList<Contributor>> loadProductionContributions(Connection connection, int recordingId) throws SQLException {
-        if(!recordingExists(connection, recordingId)) throw new NoSuchElementException("the recording with id: "+recordingId+" doesn't exist");
+        if (!recordingExists(connection, recordingId))
+            throw new NoSuchElementException("the recording with id: " + recordingId + " doesn't exist");
         PreparedStatement ps = connection.prepareStatement("select * from productionContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return null;
+        if (!rs.next()) {
+            rs.close();
+            return new HashMap<>();
+        }
+
+
 
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
         do {
@@ -68,15 +86,23 @@ class ComponentDownloader {
                 productionContributions.put(productionRole, contributors);
             }
         } while (rs.next());
+
+        rs.close();
         return productionContributions;
     }
 
     private static Map<MusicianRole, ArrayList<Contributor>> loadMusicalContributions(Connection connection, int recordingId) throws SQLException {
-        if(!recordingExists(connection, recordingId)) throw new NoSuchElementException("the recording with id: "+recordingId+" doesn't exist");
+        if (!recordingExists(connection, recordingId))
+            throw new NoSuchElementException("the recording with id: " + recordingId + " doesn't exist");
         PreparedStatement ps = connection.prepareStatement("select * from musicalContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return null;
+        if (!rs.next()) {
+            rs.close();
+            return new HashMap<>();
+        }
+
+
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         do {
             MusicianRole musicianRole = RoleDownloader.loadMusicianRole(connection, rs.getInt("role_id"));
@@ -89,6 +115,9 @@ class ComponentDownloader {
                 musicalContributions.put(musicianRole, contributors);
             }
         } while (rs.next());
+
+        rs.close();
+
         return musicalContributions;
     }
 }

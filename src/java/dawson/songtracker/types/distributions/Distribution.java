@@ -1,6 +1,5 @@
-package dawson.songtracker.types.Distributions;
+package dawson.songtracker.types.distributions;
 
-import javafx.scene.control.Label;
 
 import java.sql.Date;
 
@@ -8,20 +7,20 @@ public class Distribution {
     private final int id;
     private final Collection collection;
     private final Date releaseDate;
-    private Label label;
+    private RecordLabel label;
     private Market market;
 
-    public Distribution(int id, Collection collection, Date releaseDate, Label label, Market market) {
-        if(collection == null){
+    public Distribution(int id, Collection collection, Date releaseDate, RecordLabel label, Market market) {
+        if (collection == null) {
             throw new NullPointerException("the collection is null");
         }
-        if(releaseDate == null){
+        if (releaseDate == null) {
             throw new NullPointerException("the releaseDate is null");
         }
-        if(label == null){
+        if (label == null) {
             throw new NullPointerException("the label is null");
         }
-        if(market == null){
+        if (market == null) {
             throw new NullPointerException("the market is null");
         }
         this.id = id;
@@ -31,7 +30,7 @@ public class Distribution {
         this.market = market;
     }
 
-    public void setLabel(Label label) {
+    public void setLabel(RecordLabel label) {
         this.label = label;
     }
 
@@ -51,7 +50,7 @@ public class Distribution {
         return releaseDate;
     }
 
-    public Label getLabel() {
+    public RecordLabel getLabel() {
         return label;
     }
 

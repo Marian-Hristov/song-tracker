@@ -1,10 +1,9 @@
 package dawson.songtracker.controllers;
 
-import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
-import dawson.songtracker.types.Roles.CompilationRole;
-import dawson.songtracker.types.Roles.Contributor;
-import dawson.songtracker.types.Roles.MusicianRole;
-import dawson.songtracker.types.Roles.Role;
+import dawson.songtracker.types.roles.CompilationRole;
+import dawson.songtracker.types.roles.Contributor;
+import dawson.songtracker.types.roles.MusicianRole;
+import dawson.songtracker.types.roles.Role;
 import dawson.songtracker.utils.Popup;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -20,7 +19,7 @@ public class AssignContributorController extends Popup {
     ChoiceBox roleBox;
 
     public AssignContributorController() {
-       super();
+        super();
     }
 
     public void initialize() {

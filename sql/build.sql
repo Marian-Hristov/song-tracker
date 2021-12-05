@@ -10,6 +10,7 @@ drop sequence recording_id_seq;
 drop sequence contributor_id_seq;
 drop sequence collection_id_seq;
 drop sequence log_id_seq;
+drop sequence compilation_role_id_sq;
 
 commit;
 -- creating the sequences
@@ -99,6 +100,14 @@ create sequence collection_id_seq
     maxvalue 99999
     nocycle
     cache 2;
+    
+create sequence compilation_role_id_sq
+    increment by 1
+    start with 1
+    minvalue 1
+    maxvalue 99999
+    nocycle
+    cache 2;
 
 commit;
 -- dropping the tables
@@ -111,6 +120,7 @@ drop table compilationSamples;
 drop table distributions;
 drop table collectionCompilations;
 drop table compilationContributions;
+drop table collectionSets;
 
 drop table recordings;
 drop table contributors;
@@ -149,18 +159,18 @@ create table contributors (
 );
 
 create table productionContributions (
-    recording_id number(5),
-    contributor_id number(5),
-    role_id number(5),
+    recording_id number(5) not null,
+    contributor_id number(5) not null,
+    role_id number(5) not null,
     foreign key (recording_id) references recordings (recording_id),
     foreign key (contributor_id) references contributors (contributor_id),
     foreign key (role_id) references productionRoles (role_id)
 );
 
 create table musicalContributions (
-    recording_id number(5),
-    contributor_id number(5),
-    role_id number(5),
+    recording_id number(5) not null,
+    contributor_id number(5) not null,
+    role_id number(5) not null,
     foreign key (recording_id) references recordings (recording_id),
     foreign key (contributor_id) references contributors (contributor_id),
     foreign key (role_id) references musicianroles (role_id)
@@ -177,14 +187,14 @@ create table compilations (
 );
 
 create table compilationRoles(
-    role_id number(5) primary key,
+    role_id number(5) default compilation_role_id_sq.nextval primary key,
     role_name varchar2(100)
 );
 
 create table compilationContributions(
-    compilation_id number(5),
-    contributor_id number(5),
-    role_id number(5),
+    compilation_id number(5) not null,
+    contributor_id number(5) not null,
+    role_id number(5) not null,
     foreign key (compilation_id) references compilations (compilation_id),
     foreign key (contributor_id) references contributors (contributor_id),
     foreign key (role_id) references compilationRoles (role_id)
@@ -195,26 +205,26 @@ create table segment (
     main_track_offset number(5,1) not null,
     duration_in_main_track number(5,1) not null,
     component_track_offset number(5,1) not null,
-    duration_of_component number(5,1) not null,
+    duration_of_component_used number(5,1) not null,
     constraint check_positive_main_track_offset_segment check(main_track_offset >= 0),
     constraint check_positive_duration_in_main_track_segment check(duration_in_main_track >= 0),
     constraint check_positive_component_track_offset_segment check(component_track_offset >= 0),
-    constraint check_positive_duration_of_component check(duration_of_component >= 0)
+    constraint check_positive_duration_of_component_used check(duration_of_component_used >= 0)
 );
 
 create table recordingsamples (
-    compilation_id number(5),
-    recording_id number(5),
-    segment_id number(5),
+    compilation_id number(5) not null,
+    recording_id number(5) not null,
+    segment_id number(5) not null,
     foreign key (compilation_id) references compilations (compilation_id),
     foreign key (recording_id) references recordings (recording_id),
     foreign key (segment_id) references segment (segment_id)
 );
 
 create table compilationsamples (
-    compilation_id number(5),
-    compilation_used number(5),
-    segment_id number(5),
+    compilation_id number(5) not null,
+    compilation_used number(5) not null,
+    segment_id number(5) not null,
     foreign key (compilation_id) references compilations (compilation_id),
     foreign key (compilation_used) references compilations (compilation_id),
     foreign key (segment_id) references segment (segment_id)
@@ -238,21 +248,28 @@ create table collections (
     collection_name varchar2(100) not null
 );
 
+create table collectionSets (
+    set_id number(5) not null,
+    collection_id number(5) not null,
+    foreign key (set_id) references collections (collection_id),
+    foreign key (collection_id) references collections (collection_id)
+);
+
 
 create table distributions (
     distribution_id number(5) default distribution_id_seq.nextval primary key,
-    collection_id number(5),
+    collection_id number(5) not null,
     release_date date not null,
-    label_id number(5),
-    market_id number(5),
+    label_id number(5) not null,
+    market_id number(5) not null,
     foreign key (collection_id) references collections (collection_id),
     foreign key (label_id) references recordlabels (label_id),
     foreign key (market_id) references markets (market_id)
 );
 
 create table collectioncompilations (
-    collection_id number(5),
-    compilation_id number(5),
+    collection_id number(5) not null,
+    compilation_id number(5) not null,
     foreign key (collection_id) references collections (collection_id),
     foreign key (compilation_id) references compilations (compilation_id)
 );
@@ -433,7 +450,7 @@ begin
         ', main_track_offset: '||:new.main_track_offset||
         ', duration_in_main_track: '||:new.duration_in_main_track||
         ', component_track_offset: '||:new.component_track_offset||
-        ', duration_of_component: '||:new.duration_of_component);
+        ', duration_of_component_used: '||:new.duration_of_component_used);
     end if;
     if updating then
 
@@ -442,12 +459,12 @@ begin
         ', main_track_offset: '||:old.main_track_offset||
         ', duration_in_main_track: '||:old.duration_in_main_track||
         ', component_track_offset: '||:old.component_track_offset||
-        ', duration_of_component: '||:old.duration_of_component||
+        ', duration_of_component_used: '||:old.duration_of_component_used||
         '. New values segment_id: '||:new.segment_id||
         ', main_track_offset: '||:new.main_track_offset||
         ', duration_in_main_track: '||:new.duration_in_main_track||
         ', component_track_offset: '||:new.component_track_offset||
-        ', duration_of_component: '||:new.duration_of_component);
+        ', duration_of_component_used: '||:new.duration_of_component_used);
     end if;
 
     if deleting then
@@ -456,7 +473,7 @@ begin
         ', main_track_offset: '||:old.main_track_offset||
         ', duration_in_main_track: '||:old.duration_in_main_track||
         ', component_track_offset: '||:old.component_track_offset||
-        ', duration_of_component: '||:old.duration_of_component);
+        ', duration_of_component_used: '||:old.duration_of_component_used);
     end if;
 end;
 /
@@ -569,7 +586,6 @@ begin
         ', collection_name: '||:new.collection_name);
     end if;
     if updating then
-
         insert into STLogs (log_message) values (user ||
         ' updated table collections. Old values collection_id: '||:old.collection_id||
         ', collection_name: '||:old.collection_name||
@@ -823,4 +839,112 @@ begin
     end if;
 end;
 /
+create or replace trigger before_insert_update_delete_collectionSets
+before insert or update or delete
+on collectionSets
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table collectionSets values set_id: '||:new.set_id||
+        ', collection_id: '||:new.collection_id);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table collectionSets. Old values set_id: '||:old.set_id||
+        ', collection_id: '||:old.collection_id||
+        '. New values set_id: '||:new.set_id||
+        ', collection_id: '||:new.collection_id);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table collectionSets values set_id: '||:old.set_id||
+        ', collection_id: '||:old.collection_id);
+    end if;
+end;
+/
+commit;
+/
+insert into markets (market_name) values ('Asia');
+insert into markets (market_name) values ('Africa');
+insert into markets (market_name) values ('Europe');
+insert into markets (market_name) values ('North-America');
+insert into markets (market_name) values ('South-America'); -- 5
+insert into markets (market_name) values ('Worldwide');
+commit;
+insert into musicianRoles (role_name) values ('accordionist');
+insert into musicianRoles (role_name) values ('piper');
+insert into musicianRoles (role_name) values ('banjoist');
+insert into musicianRoles (role_name) values ('bongosero');
+insert into musicianRoles (role_name) values ('bassist'); -- 5
+insert into musicianRoles (role_name) values ('bassoonist');
+insert into musicianRoles (role_name) values ('clarinetist');
+insert into musicianRoles (role_name) values ('cellist');
+insert into musicianRoles (role_name) values ('drummer');
+insert into musicianRoles (role_name) values ('euphoniumist'); -- 10
+insert into musicianRoles (role_name) values ('flutist');
+insert into musicianRoles (role_name) values ('guitarist');
+insert into musicianRoles (role_name) values ('harpist');
+insert into musicianRoles (role_name) values ('harpsichordist');
+insert into musicianRoles (role_name) values ('hornist'); -- 15
+insert into musicianRoles (role_name) values ('keyboardist');
+insert into musicianRoles (role_name) values ('lutenist');
+insert into musicianRoles (role_name) values ('mandolinist');
+insert into musicianRoles (role_name) values ('marimbist');
+insert into musicianRoles (role_name) values ('oboist'); -- 20
+insert into musicianRoles (role_name) values ('organist');
+insert into musicianRoles (role_name) values ('percussionist');
+insert into musicianRoles (role_name) values ('pianist');
+insert into musicianRoles (role_name) values ('recorder player');
+insert into musicianRoles (role_name) values ('saxophonist'); -- 25
+insert into musicianRoles (role_name) values ('tocaores');
+insert into musicianRoles (role_name) values ('trumpeter');
+insert into musicianRoles (role_name) values ('tubaist');
+insert into musicianRoles (role_name) values ('ukulelist');
+insert into musicianRoles (role_name) values ('violist'); -- 30
+insert into musicianRoles (role_name) values ('violinist');
+insert into musicianRoles (role_name) values ('xylophonist');
+commit;
+insert into productionRoles (role_name) values ('composer');
+insert into productionRoles (role_name) values ('remixer');
+insert into productionRoles (role_name) values ('recording engineer');
+insert into productionRoles (role_name) values ('producer');
+insert into productionRoles (role_name) values ('co-producer'); -- 5
+insert into productionRoles (role_name) values ('accompanist');
+insert into productionRoles (role_name) values ('arranger');
+insert into productionRoles (role_name) values ('audio engineer');
+insert into productionRoles (role_name) values ('vocalist');
+insert into productionRoles (role_name) values ('backing singer'); -- 10
+insert into productionRoles (role_name) values ('conductor');
+insert into productionRoles (role_name) values ('mixer');
+insert into productionRoles (role_name) values ('mastering engineer');
+insert into productionRoles (role_name) values ('sound designer');
+insert into productionRoles (role_name) values ('performer'); -- 15
+insert into productionRoles (role_name) values ('writter');
+insert into productionRoles (role_name) values ('lyricist');
+insert into productionRoles (role_name) values ('assistant engineer');
+insert into productionRoles (role_name) values ('mixing assistant');
+commit;
+insert into compilationRoles (role_name) values ('composer');
+insert into compilationRoles (role_name) values ('remixer');
+insert into compilationRoles (role_name) values ('recording engineer');
+insert into compilationRoles (role_name) values ('producer');
+insert into compilationRoles (role_name) values ('co-producer'); -- 5
+insert into compilationRoles (role_name) values ('accompanist');
+insert into compilationRoles (role_name) values ('arranger');
+insert into compilationRoles (role_name) values ('audio engineer');
+insert into compilationRoles (role_name) values ('vocalist');
+insert into compilationRoles (role_name) values ('backing singer'); -- 10
+insert into compilationRoles (role_name) values ('conductor');
+insert into compilationRoles (role_name) values ('mixer');
+insert into compilationRoles (role_name) values ('mastering engineer');
+insert into compilationRoles (role_name) values ('sound designer');
+insert into compilationRoles (role_name) values ('performer'); -- 15
+insert into compilationRoles (role_name) values ('writter');
+insert into compilationRoles (role_name) values ('lyricist');
+insert into compilationRoles (role_name) values ('assistant engineer');
+insert into compilationRoles (role_name) values ('mixing assistant');
 commit;

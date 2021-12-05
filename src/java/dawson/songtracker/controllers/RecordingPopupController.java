@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 public class RecordingPopupController extends Popup {
     @FXML
     Button closeButton;
-
     @FXML
     Popup assignContributor;
 

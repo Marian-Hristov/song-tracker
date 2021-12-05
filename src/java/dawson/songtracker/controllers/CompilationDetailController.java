@@ -1,13 +1,12 @@
 package dawson.songtracker.controllers;
 
-import dawson.songtracker.types.Components.Segment;
-import dawson.songtracker.types.Roles.Role;
+import dawson.songtracker.types.components.Segment;
+import dawson.songtracker.types.roles.Role;
 import dawson.songtracker.utils.Popup;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 

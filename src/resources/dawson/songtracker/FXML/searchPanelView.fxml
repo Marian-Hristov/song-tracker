@@ -13,7 +13,7 @@
                             <children>
                                 <Label fx:id="label">
                                     <font>
-                                        <Font size="28.0" />
+                                        <Font size="28.0"/>
                                     </font>
                                 </Label>
                                 <TextField prefHeight="25.0" prefWidth="249.0" fx:id="textField"/>
@@ -28,9 +28,9 @@
                                 </HBox>
                                 <TableView prefHeight="296.0" prefWidth="597.0">
                                     <columns>
-                                        <TableColumn prefWidth="321.0" text="Name" />
-                                        <TableColumn prefWidth="152.0" text="Creation Time" />
-                                        <TableColumn prefWidth="123.0" text="Duration" />
+                                        <TableColumn prefWidth="321.0" text="Name"/>
+                                        <TableColumn prefWidth="152.0" text="Creation Time"/>
+                                        <TableColumn prefWidth="123.0" text="Duration"/>
                                     </columns>
                                 </TableView>
                             </children>

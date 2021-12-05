@@ -1,4 +1,4 @@
-package dawson.songtracker.types.Roles;
+package dawson.songtracker.types.roles;
 
 public class CompilationRole extends Role {
     public CompilationRole(int id, String name) {
