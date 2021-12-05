@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ObjectUploaderTests {
 
     // TODO Don't forget to remove
-    private final String userName = "A2033348";
-    private final String password = "6019@ria_database";
+    private final String userName = "";
+    private final String password = "";
 
     // Each of the test is run after the build script has
     // been on run on the database
