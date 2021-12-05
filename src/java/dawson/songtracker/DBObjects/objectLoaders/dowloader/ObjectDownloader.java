@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class ObjectDownloader {
     private Connection connection;
     private static ObjectDownloader instance = null;
-    private final int ACTIONS_BEFORE_RESET = 5;
+    private final int ACTIONS_BEFORE_RESET = 1000;
     private int nbActions = 0;
 
     private ObjectDownloader(Connection connection) {
