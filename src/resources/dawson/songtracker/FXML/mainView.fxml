@@ -1,9 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import dawson.songtracker.controllers.RecordingPopupController?>
+<?import javafx.scene.control.Label?>
+<?import dawson.songtracker.controllers.SearchPanelController?>
 <?import dawson.songtracker.controllers.RecordingController?>
-<Pane xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <RecordingController/>
-    </children>
+<?import dawson.songtracker.controllers.CompilationController?>
+<Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <TabPane >
+        <tabs>
+            <Tab closable="false" text="Recording">
+                <content>
+                   <RecordingController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Compilation">
+                <content>
+                    <CompilationController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Role">
+                <content>
+                    <VBox prefHeight="400.0" prefWidth="640.0" />
+                </content>
+            </Tab>
+            <Tab closable="false" text="Distribution">
+                <content>
+                    <VBox prefHeight="400.0" prefWidth="640.0" />
+                </content>
+            </Tab>
+            <Tab closable="false" text="Contributor">
+                <content>
+                    <VBox prefHeight="400.0" prefWidth="640.0" />
+                </content>
+            </Tab>
+            <Tab closable="false" text="Market">
+                <content>
+                    <VBox prefHeight="400.0" prefWidth="640.0" />
+                </content>
+            </Tab>
+            <Tab closable="false" text="Collection">
+                <content>
+                    <VBox prefHeight="400.0" prefWidth="640.0" />
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
 </Pane>
