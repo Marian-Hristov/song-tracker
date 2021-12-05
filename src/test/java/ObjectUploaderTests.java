@@ -7,6 +7,7 @@ import dawson.songtracker.types.Components.Segment;
 import dawson.songtracker.types.Distributions.Collection;
 import dawson.songtracker.types.Roles.CompilationRole;
 import dawson.songtracker.types.Roles.Contributor;
+import dawson.songtracker.types.Roles.MusicianRole;
 import dawson.songtracker.types.Roles.ProductionRole;
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +21,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ObjectUploaderTests {
 
-    private final String userName = "";
-    private final String password = "";
+    // TODO Don't forget to remove
+    private final String userName = "A2033348";
+    private final String password = "6019@ria_database";
 
     // Each of the test is run after the build script has
     // been on run on the database
@@ -237,5 +239,203 @@ public class ObjectUploaderTests {
         ul.addRole(role);
         ProductionRole result = dl.loadProductionRole(20);
         assertEquals("brodda", result.getName());
+    }
+
+    @Test
+    public void TestAddMusicianRole() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setUsername(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        MusicianRole role = new MusicianRole(1, "bass booster");
+        ul.addRole(role);
+        MusicianRole result = dl.loadMusicianRole(33);
+        assertEquals("bass booster", result.getName());
+    }
+
+    @Test
+    public void TestAddCompilationRole() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setUsername(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        CompilationRole role = new CompilationRole(1, "compiler");
+        ul.addRole(role);
+        CompilationRole result = dl.loadCompilationRole(20);
+        assertEquals("compiler", result.getName());
+    }
+
+    @Test
+    public void TestRemoveProductionRole() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setUsername(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        ProductionRole role = new ProductionRole(20, "brodda");
+        ul.addRole(role);
+        ul.deleteRole(role);
+        assertNull(dl.loadProductionRole(20));
+    }
+
+    @Test
+    public void TestRemoveMusicianRole() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setUsername(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        MusicianRole role = new MusicianRole(33, "bass booster");
+        ul.addRole(role);
+        ul.deleteRole(role);
+        assertNull(dl.loadMusicianRole(33));
+    }
+
+    @Test
+    public void TestRemoveCompilationRole() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setUsername(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        CompilationRole role = new CompilationRole(20, "compiler");
+        ul.addRole(role);
+        ul.deleteRole(role);
+        assertNull(dl.loadCompilationRole(20));
+    }
+
+
+    @Test
+    public void TestUpdateProductionRole() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setUsername(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        ProductionRole oldRole = new ProductionRole(20, "brodda");
+        ProductionRole newRole = new ProductionRole(20, "sista");
+        ul.addRole(oldRole);
+        ul.updateRole(oldRole, newRole);
+        assertEquals("sista", dl.loadProductionRole(20).getName());
+    }
+
+    @Test
+    public void TestUpdateMusicianRole() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setUsername(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        MusicianRole oldRole = new MusicianRole(33, "bass booster");
+        MusicianRole newRole = new MusicianRole(33, "chords booster");
+        ul.addRole(oldRole);
+        ul.updateRole(oldRole, newRole);
+        assertEquals("chords booster", dl.loadMusicianRole(33).getName());
+    }
+
+    @Test
+    public void TestUpdateCompilationRole() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setUsername(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        CompilationRole oldRole = new CompilationRole(20, "compiler");
+        CompilationRole newRole = new CompilationRole(20, "decompiler");
+        ul.addRole(oldRole);
+        ul.updateRole(oldRole, newRole);
+        assertEquals("decompiler", dl.loadCompilationRole(20).getName());
+    }
+
+    @Test
+    public void TestAddRecording() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        ul.addRecording(recording);
+        Recording result = dl.loadRecording(1);
+        assertEquals("See You Again", result.getName());
+    }
+
+    @Test
+    public void TestRemoveRecording() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        ul.addRecording(recording);
+        ul.removeRecording(recording);
+        assertNull(dl.loadRecording(1));
+    }
+
+    @Test
+    public void TestUpdateRecording() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+        Recording oldRecording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording newRecording = new Recording(1, "Pipe it up", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        ul.addRecording(oldRecording);
+        ul.updateRecording(oldRecording, newRecording);
+        Recording result = dl.loadRecording(1);
+        assertEquals("Pipe it up", result.getName());
+    }
+
+    @Test
+    public void addContributorToRecording() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Contributor contributor1 = new Contributor(1, "Bob");
+        Contributor contributor2 = new Contributor(2, "Marley");
+        ProductionRole pRole = new ProductionRole(1, "composer");
+        MusicianRole mRole = new MusicianRole(1, "accordionist");
+        ul.addContributor(contributor1);
+        ul.addContributor(contributor2);
+        ul.addRecording(recording);
+        ul.addContributorToRecording(recording, contributor1, pRole);
+        ul.addContributorToRecording(recording, contributor2, mRole);
+        Recording result = dl.loadRecording(1);
+        for ( ProductionRole role : result.getProductionContributions().keySet()) {
+            assertEquals("composer", role.getName());
+        }
+        for( MusicianRole role : result.getMusicalContributions().keySet()) {
+            assertEquals("accordionist", role.getName());
+        }
+        assertEquals("Bob", result.getProductionContributions().get(pRole).get(0).getName());
+        assertEquals("Marley", result.getMusicalContributions().get(mRole).get(0).getName());
+    }
+
+    @Test
+    public void removeContributorToRecording() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Contributor contributor1 = new Contributor(1, "Bob");
+        Contributor contributor2 = new Contributor(2, "Marley");
+        ProductionRole pRole = new ProductionRole(1, "composer");
+        MusicianRole mRole = new MusicianRole(1, "accordionist");
+        ul.addContributor(contributor1);
+        ul.addContributor(contributor2);
+        ul.addRecording(recording);
+        ul.addContributorToRecording(recording, contributor1, pRole);
+        ul.addContributorToRecording(recording, contributor2, mRole);
+        ul.removeContributorToRecording(recording, contributor1, pRole);
+        ul.removeContributorToRecording(recording, contributor2, mRole);
+        Recording result = dl.loadRecording(1);
+        assertEquals(0, result.getProductionContributions().size());
+        assertEquals(0, result.getMusicalContributions().size());
     }
 }
