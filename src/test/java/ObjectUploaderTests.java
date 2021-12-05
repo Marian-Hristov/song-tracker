@@ -275,7 +275,7 @@ public class ObjectUploaderTests {
     @Test
     public void TestAddRecording() throws Exception {
         DBConnection.setUsername(userName);
-        DBConnection.setUsername(password);
+        DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
@@ -288,6 +288,44 @@ public class ObjectUploaderTests {
 
     @Test
     public void TestRemoveRecording() throws Exception{
-        
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        ul.addRecording(recording);
+        ul.removeRecording(recording);
+        assertNull(dl.loadRecording(1));
+    }
+
+    @Test
+    public void TestUpdateRecording() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+        Recording oldRecording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording newRecording = new Recording(1, "Pipe it up", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        ul.addRecording(oldRecording);
+        ul.updateRecording(oldRecording, newRecording);
+        Recording result = dl.loadRecording(1);
+        assertEquals("Pipe it up", result.getName());
+    }
+
+    @Test
+    public void addContributorToRecording() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Contributor contributor = new Contributor(1, "Bob");
+        ProductionRole pRole = new ProductionRole(1, )
     }
 }

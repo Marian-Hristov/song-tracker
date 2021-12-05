@@ -225,7 +225,7 @@ public class ObjectUploader {
         this.recordingUploader.addRecording(recording);
     }
 
-    public void removesRecording(Recording recording) throws Exception {
+    public void removeRecording(Recording recording) throws Exception {
         if (recording == null) {
             throw new Exception("Recording is null");
         }

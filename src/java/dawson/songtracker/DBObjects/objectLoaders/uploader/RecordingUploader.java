@@ -39,7 +39,7 @@ class RecordingUploader {
         if (id < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
-        CallableStatement removeRecording = this.connection.prepareCall("{call RECORDING_MGMT.REMOVERECORDING(?, ?)}");
+        CallableStatement removeRecording = this.connection.prepareCall("{call RECORDING_MGMT.REMOVERECORDING(?)}");
         try {
             removeRecording.setInt(1, id);
             if (removeRecording.executeUpdate() != 1) {
