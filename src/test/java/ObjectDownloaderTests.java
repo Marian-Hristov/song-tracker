@@ -9,12 +9,28 @@ import dawson.songtracker.types.Roles.MusicianRole;
 import dawson.songtracker.types.Roles.ProductionRole;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ObjectDownloaderTests {
-    private final String userName = "";
-    private final String password = "";
+    private final String userName = "A2041723";
+    private final String password = "ertatera";
+
+    @Test
+    public void maxNumberOfCursors() throws SQLException {
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        for(int i = 0;i<1000;i++){
+            Connection connection = DBConnection.getConnection();
+            System.out.println(i);
+            PreparedStatement pr = connection.prepareStatement("select * from dual");
+            ResultSet rs = pr.executeQuery();
+            rs.close();
+        }
+    }
 
 
     @Test
