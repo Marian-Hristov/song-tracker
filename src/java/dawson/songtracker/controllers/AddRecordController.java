@@ -1,6 +1,7 @@
 package dawson.songtracker.controllers;
 
-import dawson.songtracker.DBObjects.objectLoaders.ObjectUploader;
+
+import dawson.songtracker.DBObjects.objectLoaders.uploader.ObjectUploader;
 
 public class AddRecordController extends AddSongController {
 

@@ -33,4 +33,12 @@ public class RecordLabel {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "RecordLabel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

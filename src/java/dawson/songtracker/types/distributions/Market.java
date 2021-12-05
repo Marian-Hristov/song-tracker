@@ -33,4 +33,12 @@ public class Market {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Market{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

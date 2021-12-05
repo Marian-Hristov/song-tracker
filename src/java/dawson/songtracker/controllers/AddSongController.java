@@ -1,6 +1,5 @@
 package dawson.songtracker.controllers;
 
-import dawson.songtracker.DBObjects.objectLoaders.ObjectUploader;
 import dawson.songtracker.utils.Loader;
 import dawson.songtracker.utils.Popup;
 import javafx.fxml.FXML;
