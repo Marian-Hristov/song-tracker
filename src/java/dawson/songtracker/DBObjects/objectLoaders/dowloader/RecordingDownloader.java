@@ -18,7 +18,9 @@ class RecordingDownloader {
     public static ArrayList<Recording> loadAllRecordings(Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from recordings");
         ResultSet rs = ps.executeQuery();
-        System.out.println("opened cursor loading all recordings");
+        
+
+
         ArrayList<Recording> allRecordings = new ArrayList<>();
         while (rs.next()) {
             int id = rs.getInt("recording_id");
@@ -26,6 +28,7 @@ class RecordingDownloader {
             Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
             allRecordings.add(new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions));
         }
+
         rs.close();
         return allRecordings;
     }
@@ -34,17 +37,20 @@ class RecordingDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from recordings where recording_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
+<<<<<<< HEAD
 
         if (!rs.next()) {
+=======
+        if (!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
-        System.out.println("opened cursor loading recording");
-
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
         Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
         rs.close();
+
         return recording;
     }
 
@@ -53,8 +59,10 @@ class RecordingDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
+
         boolean exists = rs.next();
         rs.close();
+
         return exists;
     }
 
@@ -64,11 +72,17 @@ class RecordingDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from productionContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
+<<<<<<< HEAD
         if (!rs.next()) {
+=======
+        
+
+        if (!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return new HashMap<>();
         }
-        System.out.println("opened cursor loading production contributions");
+
 
 
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
@@ -83,6 +97,7 @@ class RecordingDownloader {
                 productionContributions.put(productionRole, contributors);
             }
         } while (rs.next());
+
         rs.close();
         return productionContributions;
     }
@@ -93,11 +108,17 @@ class RecordingDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from musicalContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
+<<<<<<< HEAD
         if (!rs.next()) {
+=======
+        
+
+        if (!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return new HashMap<>();
         }
-        System.out.println("opened cursor loading musical contributions");
+
 
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         do {
@@ -111,7 +132,9 @@ class RecordingDownloader {
                 musicalContributions.put(musicianRole, contributors);
             }
         } while (rs.next());
+
         rs.close();
+
         return musicalContributions;
     }
 }

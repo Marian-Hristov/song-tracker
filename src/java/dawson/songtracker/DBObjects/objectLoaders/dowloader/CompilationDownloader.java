@@ -17,12 +17,15 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from compilations where compilation_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
+<<<<<<< HEAD
 
         if (!rs.next()) {
+=======
+        if(!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
-        System.out.println("opened cursor loading compilation");
 
         Map<CompilationRole, ArrayList<Contributor>> compilationRoles = loadCompilationRoles(connection, id);
         ArrayList<Segment<Compilation>> sampledCompilations = loadCompilationSamples(connection, id);
@@ -44,7 +47,6 @@ class CompilationDownloader {
             return new HashMap<>();
         }
 
-        System.out.println("opened cursor loading compilation roles");
 
         Map<CompilationRole, ArrayList<Contributor>> compilationRoles = new HashMap<>();
         do {
@@ -68,12 +70,13 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from compilationSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
+        
+
 
         if (!rs.next()) {
             rs.close();
             return new ArrayList<>();
         }
-        System.out.println("opened cursor loading compilation samples");
 
         ArrayList<Segment<Compilation>> sampleCompilations = new ArrayList<>();
         do {
@@ -90,12 +93,13 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from recordingSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
+        
+
 
         if (!rs.next()) {
             rs.close();
             return new ArrayList<>();
         }
-        System.out.println("opened cursor loading recording samples");
 
         ArrayList<Segment<Recording>> sampleCompilations = new ArrayList<>();
         do {
@@ -110,12 +114,14 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from segment where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
+        
 
         if (!rs.next()) {
             rs.close();
             return null;
         }
         Segment<Compilation> segment = new Segment<>(id, compilationMainTrackId, compilation, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
+
         rs.close();
         return segment;
     }
@@ -124,6 +130,7 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from segment where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
+        
 
         if (!rs.next()) {
             rs.close();
@@ -140,8 +147,10 @@ class CompilationDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
+
         boolean exists = rs.next();
         rs.close();
+
         return exists;
     }
 }

@@ -15,39 +15,62 @@ class DistributionDownloader {
         PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
         pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
+<<<<<<< HEAD
         if (!rs.next()) {
+=======
+        
+        if(!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
+
         Collection collection = CollectionDownloader.loadCollection(connection, rs.getInt("collection_id"));
         RecordLabel label = loadRecordLabel(connection, rs.getInt("label_id"));
         Market market = loadMarket(connection, rs.getInt("market_id"));
         Distribution distribution = new Distribution(id, collection, rs.getDate("release_date"), label, market);
         rs.close();
+
         return distribution;
     }
 
     public static Market loadMarket(Connection connection, int id) throws SQLException {
         PreparedStatement pr = connection.prepareStatement("select * from markets where market_id = ?");
         ResultSet rs = pr.executeQuery();
+<<<<<<< HEAD
         if (!rs.next()) {
+=======
+        
+
+        if(!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
+
         Market market = new Market(id, rs.getString("market_name"));
         rs.close();
+
         return market;
     }
 
     public static RecordLabel loadRecordLabel(Connection connection, int id) throws SQLException {
         PreparedStatement pr = connection.prepareStatement("select * from labels where label_id = ?");
         ResultSet rs = pr.executeQuery();
+<<<<<<< HEAD
         if (!rs.next()) {
+=======
+        
+
+        if(!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
+
         RecordLabel recordLabel = new RecordLabel(id, rs.getString("label_name"));
         rs.close();
+
         return recordLabel;
     }
 }

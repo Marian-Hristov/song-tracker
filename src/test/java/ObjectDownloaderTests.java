@@ -8,7 +8,6 @@ import dawson.songtracker.types.Roles.Contributor;
 import dawson.songtracker.types.Roles.MusicianRole;
 import dawson.songtracker.types.Roles.ProductionRole;
 import org.junit.jupiter.api.Test;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 

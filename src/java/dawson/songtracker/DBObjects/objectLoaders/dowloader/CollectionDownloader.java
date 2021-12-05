@@ -16,15 +16,22 @@ class CollectionDownloader {
         PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
         pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
+<<<<<<< HEAD
         if (!rs.next()) {
+=======
+
+        if(!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
-
         ArrayList<Compilation> compilations = loadCollectionCompilations(connection, id);
         ArrayList<Collection> collectionsInSet = loadCollectionsInSet(connection, id);
         Collection collection = new Collection(id, rs.getString("collection_name"), compilations, collectionsInSet);
+<<<<<<< HEAD
         ;
+=======
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
         rs.close();
         return collection;
     }
@@ -33,6 +40,7 @@ class CollectionDownloader {
         PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
         pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
+
         boolean exists = rs.next();
         rs.close();
         return exists;
@@ -44,7 +52,12 @@ class CollectionDownloader {
         PreparedStatement pr = connection.prepareStatement("select * from collectionCompilations where collection_id = ?");
         pr.setInt(1, collectionId);
         ResultSet rs = pr.executeQuery();
+<<<<<<< HEAD
         if (!rs.next()) {
+=======
+
+        if(!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return new ArrayList<>();
         }
@@ -63,7 +76,12 @@ class CollectionDownloader {
         PreparedStatement pr = connection.prepareStatement("select * from collectionSets where set_id = ?");
         pr.setInt(1, setId);
         ResultSet rs = pr.executeQuery();
+<<<<<<< HEAD
         if (!rs.next()) {
+=======
+
+        if(!rs.next()){
+>>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return new ArrayList<>();
         }
