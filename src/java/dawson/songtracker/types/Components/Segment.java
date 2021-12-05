@@ -10,7 +10,7 @@ public class Segment<T extends SongComponent> {
     private double durationOfComponentUsed;
 
     public Segment(int id, int mainTrackId, T componentTrack, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent) {
-                if(componentTrack == null){
+        if (componentTrack == null) {
             throw new NullPointerException("The componentTrack is null");
         }
         this.id = id;

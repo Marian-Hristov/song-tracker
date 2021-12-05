@@ -5,23 +5,24 @@
 
 <?import javafx.scene.text.Font?>
 <fx:root layoutX="66.0" layoutY="52.0" prefHeight="274.0" prefWidth="518.0"
-      style="-fx-background-color: white; -fx-border-style: solid;"
-      xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" type="Pane">
-<children>
-    <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0">
-        <children>
-            <Label fx:id="popupName1" text="Assign Contributor">
-                <font>
-                    <Font size="20.0" />
-                </font>
-            </Label>
-        </children>
-    </VBox>
-    <Button layoutX="195.0" layoutY="202.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add" />
-    <Button layoutX="496.0" layoutY="4.0" minHeight="5.0" minWidth="5.0" mnemonicParsing="false" onAction="#hide" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red; -fx-background-radius: 100%;" />
-    <ChoiceBox layoutX="45.0" layoutY="132.0" prefWidth="150.0" />
-    <Label layoutX="78.0" layoutY="102.0" text="Contributor" />
-    <ChoiceBox layoutX="294.0" layoutY="132.0" prefWidth="150.0" />
-    <Label layoutX="354.0" layoutY="102.0" text="Role" />
-</children>
+         style="-fx-background-color: white; -fx-border-style: solid;"
+         xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" type="Pane">
+    <children>
+        <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0">
+            <children>
+                <Label fx:id="popupName1" text="Assign Contributor">
+                    <font>
+                        <Font size="20.0"/>
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <Button layoutX="195.0" layoutY="202.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add"/>
+        <Button layoutX="496.0" layoutY="4.0" minHeight="5.0" minWidth="5.0" mnemonicParsing="false" onAction="#hide"
+                prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red; -fx-background-radius: 100%;"/>
+        <ChoiceBox layoutX="45.0" layoutY="132.0" prefWidth="150.0"/>
+        <Label layoutX="78.0" layoutY="102.0" text="Contributor"/>
+        <ChoiceBox layoutX="294.0" layoutY="132.0" prefWidth="150.0"/>
+        <Label layoutX="354.0" layoutY="102.0" text="Role"/>
+    </children>
 </fx:root>

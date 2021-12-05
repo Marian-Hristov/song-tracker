@@ -20,7 +20,7 @@ class RecordingDownloader {
         ResultSet rs = ps.executeQuery();
         System.out.println("opened cursor loading all recordings");
         ArrayList<Recording> allRecordings = new ArrayList<>();
-        while(rs.next()){
+        while (rs.next()) {
             int id = rs.getInt("recording_id");
             Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
             Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
@@ -35,7 +35,7 @@ class RecordingDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return null;
         }
@@ -59,11 +59,12 @@ class RecordingDownloader {
     }
 
     private static Map<ProductionRole, ArrayList<Contributor>> loadProductionContributions(Connection connection, int recordingId) throws SQLException {
-        if(!recordingExists(connection, recordingId)) throw new NoSuchElementException("the recording with id: "+recordingId+" doesn't exist");
+        if (!recordingExists(connection, recordingId))
+            throw new NoSuchElementException("the recording with id: " + recordingId + " doesn't exist");
         PreparedStatement ps = connection.prepareStatement("select * from productionContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return new HashMap<>();
         }
@@ -87,11 +88,12 @@ class RecordingDownloader {
     }
 
     private static Map<MusicianRole, ArrayList<Contributor>> loadMusicalContributions(Connection connection, int recordingId) throws SQLException {
-        if(!recordingExists(connection, recordingId)) throw new NoSuchElementException("the recording with id: "+recordingId+" doesn't exist");
+        if (!recordingExists(connection, recordingId))
+            throw new NoSuchElementException("the recording with id: " + recordingId + " doesn't exist");
         PreparedStatement ps = connection.prepareStatement("select * from musicalContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return new HashMap<>();
         }

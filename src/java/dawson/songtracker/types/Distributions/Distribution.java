@@ -11,16 +11,16 @@ public class Distribution {
     private Market market;
 
     public Distribution(int id, Collection collection, Date releaseDate, RecordLabel label, Market market) {
-        if(collection == null){
+        if (collection == null) {
             throw new NullPointerException("the collection is null");
         }
-        if(releaseDate == null){
+        if (releaseDate == null) {
             throw new NullPointerException("the releaseDate is null");
         }
-        if(label == null){
+        if (label == null) {
             throw new NullPointerException("the label is null");
         }
-        if(market == null){
+        if (market == null) {
             throw new NullPointerException("the market is null");
         }
         this.id = id;

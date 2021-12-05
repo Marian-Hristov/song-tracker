@@ -18,7 +18,7 @@ class CompilationDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
-        if(!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return null;
         }
@@ -33,13 +33,13 @@ class CompilationDownloader {
     }
 
     private static Map<CompilationRole, ArrayList<Contributor>> loadCompilationRoles(Connection connection, int compilationId) throws SQLException {
-        if(!compilationExists(connection, compilationId)) return null;
+        if (!compilationExists(connection, compilationId)) return null;
 
         PreparedStatement ps = connection.prepareStatement("select * from compilationContributions where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
 
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return new HashMap<>();
         }
@@ -63,13 +63,13 @@ class CompilationDownloader {
     }
 
     private static ArrayList<Segment<Compilation>> loadCompilationSamples(Connection connection, int compilationId) throws SQLException {
-        if(!compilationExists(connection, compilationId)) return null;
+        if (!compilationExists(connection, compilationId)) return null;
 
         PreparedStatement ps = connection.prepareStatement("select * from compilationSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
 
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return new ArrayList<>();
         }
@@ -85,13 +85,13 @@ class CompilationDownloader {
     }
 
     private static ArrayList<Segment<Recording>> loadRecordingSamples(Connection connection, int compilationId) throws SQLException {
-        if(!compilationExists(connection, compilationId)) return null;
+        if (!compilationExists(connection, compilationId)) return null;
 
         PreparedStatement ps = connection.prepareStatement("select * from recordingSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
 
-        if (!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return new ArrayList<>();
         }
@@ -111,7 +111,7 @@ class CompilationDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
-        if(!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return null;
         }
@@ -125,7 +125,7 @@ class CompilationDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
 
-        if(!rs.next()){
+        if (!rs.next()) {
             rs.close();
             return null;
         }
@@ -133,7 +133,6 @@ class CompilationDownloader {
         rs.close();
         return segment;
     }
-
 
 
     private static boolean compilationExists(Connection connection, int id) throws SQLException {

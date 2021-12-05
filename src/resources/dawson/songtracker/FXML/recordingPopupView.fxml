@@ -13,21 +13,23 @@
             <children>
                 <Label text="Recording Name">
                     <font>
-                        <Font size="20.0" />
+                        <Font size="20.0"/>
                     </font>
                 </Label>
-                <Label layoutX="10.0" layoutY="10.0" text="Creation time" />
-                <Label layoutX="10.0" layoutY="27.0" text="Duration" />
+                <Label layoutX="10.0" layoutY="10.0" text="Creation time"/>
+                <Label layoutX="10.0" layoutY="27.0" text="Duration"/>
             </children>
         </VBox>
-        <Button layoutX="412.0" layoutY="49.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Add" onMouseClicked="#handleAdd"/>
+        <Button layoutX="412.0" layoutY="49.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Add"
+                onMouseClicked="#handleAdd"/>
         <TableView layoutX="25.0" layoutY="82.0" prefHeight="166.0" prefWidth="460.0">
             <columns>
-                <TableColumn prefWidth="232.0" text="Name" />
-                <TableColumn prefWidth="227.0" text="Role" />
+                <TableColumn prefWidth="232.0" text="Name"/>
+                <TableColumn prefWidth="227.0" text="Role"/>
             </columns>
         </TableView>
-        <Button layoutX="496.0" layoutY="4.0" minHeight="5.0" minWidth="5.0" mnemonicParsing="false" onAction="#hide" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red; -fx-background-radius: 100%;" />
+        <Button layoutX="496.0" layoutY="4.0" minHeight="5.0" minWidth="5.0" mnemonicParsing="false" onAction="#hide"
+                prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red; -fx-background-radius: 100%;"/>
         <AssignContributorController fx:id="assignContributor"/>
     </children>
 </fx:root>

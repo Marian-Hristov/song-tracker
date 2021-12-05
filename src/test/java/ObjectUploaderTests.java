@@ -17,7 +17,7 @@ public class ObjectUploaderTests {
     // been on run on the database
 
     @Test
-    public void TestaddCollection() throws Exception{
+    public void TestaddCollection() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -31,7 +31,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestaddCompilationToCollection() throws Exception{
+    public void TestaddCompilationToCollection() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -39,7 +39,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestremoveCompilationToCollection() throws Exception{
+    public void TestremoveCompilationToCollection() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -48,7 +48,7 @@ public class ObjectUploaderTests {
 
 
     @Test
-    public void TestupdateCollection() throws Exception{
+    public void TestupdateCollection() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -56,7 +56,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestaddCompilation() throws Exception{
+    public void TestaddCompilation() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -64,7 +64,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestaddSampleToCompilation() throws Exception{
+    public void TestaddSampleToCompilation() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -72,7 +72,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestdeleteSampleFromCompilation() throws Exception{
+    public void TestdeleteSampleFromCompilation() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -80,7 +80,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestdeleteCompilation() throws Exception{
+    public void TestdeleteCompilation() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -88,7 +88,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestupdateCompilation() throws Exception{
+    public void TestupdateCompilation() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -96,7 +96,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestaddContributorToCompilation() throws Exception{
+    public void TestaddContributorToCompilation() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -104,7 +104,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestremoveContributorToCompilation() throws Exception{
+    public void TestremoveContributorToCompilation() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -112,7 +112,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestaddContributor() throws Exception{
+    public void TestaddContributor() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -124,7 +124,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestdeleteContributor() throws Exception{
+    public void TestdeleteContributor() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -136,7 +136,7 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestupdateContributor() throws Exception{
+    public void TestupdateContributor() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
@@ -150,14 +150,14 @@ public class ObjectUploaderTests {
     }
 
     @Test
-    public void TestAddProductionRole() throws Exception{
+    public void TestAddProductionRole() throws Exception {
         DBConnection.setUsername("A2033348");
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
-        ProductionRole role = new ProductionRole(1, "producer");
+        ProductionRole role = new ProductionRole(1, "brodda");
         ul.addRole(role);
-        ProductionRole result = dl.loadProductionRole(1);
-        assertEquals("producer", result.getName());
+        ProductionRole result = dl.loadProductionRole(20);
+        assertEquals("brodda", result.getName());
     }
 }

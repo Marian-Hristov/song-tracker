@@ -16,7 +16,7 @@ import java.util.Objects;
 
 public class MVCApp extends Application {
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) {
         Parent root = null;
         try {
             root = FXMLLoader.load(this.getClass().getResource("FXML/mainView.fxml"));
