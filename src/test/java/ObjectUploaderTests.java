@@ -489,4 +489,29 @@ public class ObjectUploaderTests {
         RecordLabel result = dl.loadLabel(1);
         assertEquals("Aftermath", result.getName());
     }
+
+    @Test
+    public void TestRemoveLabel() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        RecordLabel label = new RecordLabel(1, "Aftermath");
+        ul.addLabel(label);
+        ul.removeLabel(label);
+        assertNull(dl.loadLabel(1));
+    }
+
+    @Test
+    public void TestUpdateLabel() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        RecordLabel label1 = new RecordLabel(1, "Aftermath");
+        RecordLabel label2 = new RecordLabel(1, "222 Records");
+        ul.addLabel(label1);
+        ul.updateLabel(label1, label2);
+        assertEquals("222 Records", dl.loadLabel(1).getName());
+    }
 }
