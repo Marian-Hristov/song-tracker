@@ -3,6 +3,7 @@ create or replace package recording_mgmt as
     procedure removeRecording(removed_recording_id recordings.recording_id%type);
     procedure updateRecording(changed_recording_id recordings.recording_id%type, new_recording_name recordings.recording_name%type, new_recording_duration recordings.duration%type);
     procedure addContributorToRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char);
+    procedure removeContributorToRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char);   
 end recording_mgmt;
 /
 commit;
