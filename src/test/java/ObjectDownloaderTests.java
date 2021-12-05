@@ -22,7 +22,6 @@ public class ObjectDownloaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<MusicianRole> musicianRoles = dl.loadFirstMusicianRoles(50);
-        DBConnection.getConnection().close();
         System.out.println(musicianRoles.size());
         for (MusicianRole mr :
                 musicianRoles) {
@@ -37,7 +36,6 @@ public class ObjectDownloaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<ProductionRole> productionRoles = dl.loadFirstProductionRoles(50);
-        DBConnection.getConnection().close();
         System.out.println(productionRoles.size());
         for (ProductionRole productionRole :
                 productionRoles) {
@@ -51,7 +49,6 @@ public class ObjectDownloaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<CompilationRole> compilationRoles = dl.loadFirstCompilationRoles(50);
-        DBConnection.getConnection().close();
         System.out.println(compilationRoles.size());
         for (CompilationRole compRole :
                 compilationRoles) {
@@ -92,7 +89,6 @@ public class ObjectDownloaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<Recording> recordings = dl.loadFirstRecordings(50);
-        DBConnection.getConnection().close();
         System.out.println(recordings.size());
         for (Recording recording :
                 recordings) {
