@@ -1,2 +1,5 @@
-package dawson.songtracker.types.Distributions;public enum CollectionType {
+package dawson.songtracker.types.Distributions;
+
+public enum CollectionType {
+
 }

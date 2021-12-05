@@ -8,14 +8,16 @@ public class Collection {
     private final int id;
     private String name;
     private ArrayList<Compilation> compilations;
+    private final ArrayList<Collection> collectionsInSet;
 
-    public Collection(int id, String name, ArrayList<Compilation> compilations) {
+    public Collection(int id, String name, ArrayList<Compilation> compilations, ArrayList<Collection> collectionsInSet) {
         if (compilations == null) {
             throw new NullPointerException("the compilation array list is null");
         }
         this.id = id;
         this.name = name;
         this.compilations = compilations;
+        this.collectionsInSet = collectionsInSet;
     }
 
     public ArrayList<Compilation> getCompilation() {
@@ -69,5 +71,13 @@ public class Collection {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Collection{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
