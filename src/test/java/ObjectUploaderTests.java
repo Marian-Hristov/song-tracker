@@ -1,8 +1,16 @@
 import dawson.songtracker.DBObjects.DBConnection;
 import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.DBObjects.objectLoaders.uploader.ObjectUploader;
+import dawson.songtracker.types.Components.Compilation;
+import dawson.songtracker.types.Components.Recording;
+import dawson.songtracker.types.Components.Segment;
 import dawson.songtracker.types.Distributions.Collection;
+import dawson.songtracker.types.Roles.Contributor;
 import org.junit.jupiter.api.Test;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ObjectUploaderTests {
@@ -16,9 +24,12 @@ public class ObjectUploaderTests {
         DBConnection.setPassword("6019@ria_database");
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
-//        ul.addCollection("Good For You");
-        Collection collection = dl.loadCollection(1);
-        assertEquals("Good For You", collection.getName());
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet = new ArrayList<>();
+        Collection collection = new Collection(1, "Whatever", compilations, collectionsInSet);
+        ul.addCollection(collection);
+        Collection result = dl.loadCollection(1);
+        assertEquals("Good For You", result.getName());
     }
 
     @Test
