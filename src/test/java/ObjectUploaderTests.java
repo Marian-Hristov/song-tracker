@@ -2,12 +2,18 @@ import dawson.songtracker.DBObjects.DBConnection;
 import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.DBObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.types.Components.Compilation;
+import dawson.songtracker.types.Components.Recording;
+import dawson.songtracker.types.Components.Segment;
 import dawson.songtracker.types.Distributions.Collection;
+import dawson.songtracker.types.Roles.CompilationRole;
 import dawson.songtracker.types.Roles.Contributor;
 import dawson.songtracker.types.Roles.ProductionRole;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +36,7 @@ public class ObjectUploaderTests {
         Collection collection = new Collection(1, "Whatever", compilations, collectionsInSet);
         ul.addCollection(collection);
         Collection result = dl.loadCollection(1);
-        assertEquals("Good For You", result.getName());
+        assertEquals("Whatever", result.getName());
     }
 
     @Test
@@ -39,14 +45,47 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        ul.addCompilation(compilation);
+
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        ArrayList<Collection> collections = new ArrayList<>();
+        Collection collection = new Collection(1, "culture II", compilations, collections);
+        ul.addCollection(collection);
+
+        ul.addCompilationToCollection(collection, compilation);
+        for (Compilation cmp :
+                dl.loadCollection(1).getCompilations()) {
+            assertEquals("Pipe it up", cmp.getName());
+        }
     }
 
     @Test
-    public void TestremoveCompilationToCollection() throws Exception {
+    public void TestremoveCompilationFromCollection() throws Exception {
         DBConnection.setUsername(userName);
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        ul.addCompilation(compilation);
+
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        ArrayList<Collection> collections = new ArrayList<>();
+        Collection collection = new Collection(1, "culture II", compilations, collections);
+        ul.addCollection(collection);
+
+        ul.addCompilationToCollection(collection, compilation);
+        ul.removeCompilationFromCollection(collection, compilation);
+        for (Compilation ignored :
+                dl.loadCollection(1).getCompilations()) {
+            fail();
+        }
     }
 
 
@@ -56,6 +95,15 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        ArrayList<Collection> collections = new ArrayList<>();
+        Collection collection = new Collection(1, "culture II", compilations, collections);
+        ul.addCollection(collection);
+        Collection collection1 = new Collection(1, "culture III", compilations, collections);
+        ul.updateCollection(collection, collection1);
+        Collection updatedCollection = dl.loadCollection(1);
+        assertEquals("culture III", updatedCollection.getName());
     }
 
     @Test
@@ -64,6 +112,14 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        ul.addCompilation(compilation);
+        assertEquals("Pipe it up", dl.loadCompilation(1).getName());
+
     }
 
     @Test

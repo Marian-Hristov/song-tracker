@@ -20,7 +20,7 @@ public class Collection {
         this.collectionsInSet = collectionsInSet;
     }
 
-    public ArrayList<Compilation> getCompilation() {
+    public ArrayList<Compilation> getCompilations() {
         return compilations;
     }
 

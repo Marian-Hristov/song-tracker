@@ -5,7 +5,7 @@ create or replace package compilation_mgmt as
         main_track_offset in segment.main_track_offset%type,
         duration_in_main_track in segment.duration_in_main_track%type,
         component_track_offset in segment.component_track_offset%type,
-        duration_of_component in segment.duration_of_component%type,
+        duration_of_component_used in segment.duration_of_component_used%type,
         sample_id in recordings.recording_id%type,
         sample_type in char
     );
@@ -40,7 +40,7 @@ create or replace package body compilation_mgmt as
         main_track_offset in segment.main_track_offset%type,
         duration_in_main_track in segment.duration_in_main_track%type,
         component_track_offset in segment.component_track_offset%type,
-        duration_of_component in segment.duration_of_component%type,
+        duration_of_component_used in segment.duration_of_component_used%type,
         sample_id in recordings.recording_id%type,
         sample_type in char
     )
@@ -51,12 +51,12 @@ create or replace package body compilation_mgmt as
         segment_duration segment.duration_in_main_track%type;
     begin
         -- check for empty values
-        if(main_track_offset < 0 or duration_in_main_track < 0 or component_track_offset < 0 or duration_of_component < 0) then
+        if(main_track_offset < 0 or duration_in_main_track < 0 or component_track_offset < 0 or duration_of_component_used < 0) then
             raise_application_error(-20001, 'one or more of the durations is less than 0');
         end if;
 
         -- create the segment
-        insert into segment (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component) values (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component);
+        insert into segment (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component_used) values (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component_used);
         segment_id := segment_id_seq.currval;
 
         --  link segment to compilation
