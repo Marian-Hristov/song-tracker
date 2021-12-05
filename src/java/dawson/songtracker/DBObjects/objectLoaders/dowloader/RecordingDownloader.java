@@ -15,23 +15,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 class RecordingDownloader {
-    public static ArrayList<Recording> loadAllRecordings(Connection connection) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("select * from recordings");
-        ResultSet rs = ps.executeQuery();
-        
-
-
-        ArrayList<Recording> allRecordings = new ArrayList<>();
-        while (rs.next()) {
-            int id = rs.getInt("recording_id");
-            Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
-            Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
-            allRecordings.add(new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions));
-        }
-
-        rs.close();
-        return allRecordings;
-    }
 
     public static Recording loadRecording(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from recordings where recording_id = ?");
@@ -45,19 +28,29 @@ class RecordingDownloader {
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
         Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
         rs.close();
-
         return recording;
+    }
+
+    public static ArrayList<Recording> loadRecordingsByName(Connection connection, String name) throws SQLException{
+        if(name == null) throw new NullPointerException("the name is null");
+        PreparedStatement ps = connection.prepareStatement("select * from recordings where recording_name = ?");
+        ps.setString(1, name);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Recording> recordings = new ArrayList<>();
+        while(rs.next()){
+            Recording recording = loadRecording(connection, rs.getInt("recording_id"));
+            recordings.add(recording);
+        }
+        rs.close();
+        return recordings;
     }
 
     private static boolean recordingExists(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from recordings where recording_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-
-
         boolean exists = rs.next();
         rs.close();
-
         return exists;
     }
 
@@ -71,9 +64,6 @@ class RecordingDownloader {
             rs.close();
             return new HashMap<>();
         }
-
-
-
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
         do {
             ProductionRole productionRole = RoleDownloader.loadProductionRole(connection, rs.getInt("role_id"));

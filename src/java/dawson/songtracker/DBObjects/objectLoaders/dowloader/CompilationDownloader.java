@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 class CompilationDownloader {
 
@@ -30,19 +31,28 @@ class CompilationDownloader {
         return compilation;
     }
 
-    private static Map<CompilationRole, ArrayList<Contributor>> loadCompilationRoles(Connection connection, int compilationId) throws SQLException {
-        if (!compilationExists(connection, compilationId)) return null;
+    public static ArrayList<Compilation> loadCompilationsByName(Connection connection, String name) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("select * from compilations where compilation_name = ?");
+        ps.setString(1, name);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        while(rs.next()){
+            Compilation compilation = loadCompilation(connection, rs.getInt("compilation_id"));
+            compilations.add(compilation);
+        }
+        rs.close();
+        return compilations;
+    }
 
+    private static Map<CompilationRole, ArrayList<Contributor>> loadCompilationRoles(Connection connection, int compilationId) throws SQLException {
+        if (!compilationExists(connection, compilationId)) throw new NoSuchElementException("the compilation doesn't exist");
         PreparedStatement ps = connection.prepareStatement("select * from compilationContributions where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
-
         if (!rs.next()) {
             rs.close();
             return new HashMap<>();
         }
-
-
         Map<CompilationRole, ArrayList<Contributor>> compilationRoles = new HashMap<>();
         do {
             CompilationRole cRole = RoleDownloader.loadCompilationRole(connection, rs.getInt("role_id"));
@@ -65,14 +75,10 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from compilationSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
-        
-
-
         if (!rs.next()) {
             rs.close();
             return new ArrayList<>();
         }
-
         ArrayList<Segment<Compilation>> sampleCompilations = new ArrayList<>();
         do {
             Compilation compilation = loadCompilation(connection, rs.getInt("compilation_used"));
@@ -88,14 +94,10 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from recordingSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
-        
-
-
         if (!rs.next()) {
             rs.close();
             return new ArrayList<>();
         }
-
         ArrayList<Segment<Recording>> sampleCompilations = new ArrayList<>();
         do {
             Recording recording = RecordingDownloader.loadRecording(connection, rs.getInt("recording_id"));
@@ -109,14 +111,11 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from segment where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        
-
         if (!rs.next()) {
             rs.close();
             return null;
         }
         Segment<Compilation> segment = new Segment<>(id, compilationMainTrackId, compilation, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
-
         rs.close();
         return segment;
     }
@@ -125,8 +124,6 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from segment where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        
-
         if (!rs.next()) {
             rs.close();
             return null;
@@ -141,11 +138,8 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select compilation_id from compilations where compilation_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-
-
         boolean exists = rs.next();
         rs.close();
-
         return exists;
     }
 }

@@ -18,6 +18,19 @@ public class ObjectDownloaderTests {
     private final String password = "";
 
     @Test
+    public void collectionsByName() throws SQLException {
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ArrayList<Collection> collections = dl.loadCollectionsByName("Believer");
+        System.out.println(collections.size());
+        for (Collection collection :
+                collections) {
+            System.out.println(collection);
+        }
+    }
+
+    @Test
     public void markets() throws SQLException{
         DBConnection.setUsername(userName);
         DBConnection.setPassword(password);

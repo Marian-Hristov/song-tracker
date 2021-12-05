@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 
 class CollectionDownloader {
     public static Collection loadCollection(Connection connection, int id) throws SQLException {
-        if (id == 0) return null;
         PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
         pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
@@ -25,6 +24,22 @@ class CollectionDownloader {
         Collection collection = new Collection(id, rs.getString("collection_name"), compilations, collectionsInSet);
         rs.close();
         return collection;
+    }
+
+    public static ArrayList<Collection> loadCollectionsByName(Connection connection, String name) throws SQLException {
+        if(name == null){
+            throw new NullPointerException("the name is null");
+        }
+        PreparedStatement pr = connection.prepareStatement("select * from collections where collection_name = ?");
+        pr.setString(1, name);
+        ResultSet rs = pr.executeQuery();
+        ArrayList<Collection> collections = new ArrayList<>();
+        while(rs.next()){
+            Collection collection = loadCollection(connection, rs.getInt("collection_id"));
+            collections.add(collection);
+        }
+        rs.close();
+        return collections;
     }
 
     private static boolean collectionExists(Connection connection, int id) throws SQLException {
