@@ -55,13 +55,13 @@ create or replace package body label_mgmt as
     begin
         if(old_label_name is null or new_label_name is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (labelExists(old_label_name) = 0) then
+        elsif (labelExists(old_label_name) = 1) then
             raise_application_error(-20003, 'cannot update label that does not exist');
         elsif (labelExists(new_label_name) = 0) then
             raise_application_error(-20003, 'cannot update label to label that already exists');
         end if;
         -- Getting the id of the label based on the name
-        select label_id into found from recordLabels where label_id = old_label_name;
+        select label_id into found from recordLabels where label_name = old_label_name;
         -- Updating label name
         update recordLabels set label_name = new_label_name where label_id = found;
     end; 

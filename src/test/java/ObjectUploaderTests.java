@@ -6,6 +6,7 @@ import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.components.Segment;
 import dawson.songtracker.types.distributions.Collection;
 import dawson.songtracker.types.distributions.Market;
+import dawson.songtracker.types.distributions.RecordLabel;
 import dawson.songtracker.types.roles.CompilationRole;
 import dawson.songtracker.types.roles.Contributor;
 import dawson.songtracker.types.roles.MusicianRole;
@@ -477,5 +478,40 @@ public class ObjectUploaderTests {
         assertEquals("USA", result.getName());
     }
 
-    
+    @Test
+    public void TestAddLabel() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        RecordLabel label = new RecordLabel(1, "Aftermath");
+        ul.addLabel(label);
+        RecordLabel result = dl.loadLabel(1);
+        assertEquals("Aftermath", result.getName());
+    }
+
+    @Test
+    public void TestRemoveLabel() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        RecordLabel label = new RecordLabel(1, "Aftermath");
+        ul.addLabel(label);
+        ul.removeLabel(label);
+        assertNull(dl.loadLabel(1));
+    }
+
+    @Test
+    public void TestUpdateLabel() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        RecordLabel label1 = new RecordLabel(1, "Aftermath");
+        RecordLabel label2 = new RecordLabel(1, "222 Records");
+        ul.addLabel(label1);
+        ul.updateLabel(label1, label2);
+        assertEquals("222 Records", dl.loadLabel(1).getName());
+    }
 }
