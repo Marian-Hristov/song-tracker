@@ -1,4 +1,4 @@
-package dawson.songtracker.types.Roles;
+package dawson.songtracker.types.roles;
 
 public class Contributor {
     private final int id;

@@ -1,7 +1,7 @@
 package dawson.songtracker.DBObjects.objectLoaders.uploader;
 
-import dawson.songtracker.types.Components.Recording;
-import dawson.songtracker.types.Roles.*;
+import dawson.songtracker.types.components.Recording;
+import dawson.songtracker.types.roles.*;
 
 import java.sql.Connection;
 import java.sql.CallableStatement;

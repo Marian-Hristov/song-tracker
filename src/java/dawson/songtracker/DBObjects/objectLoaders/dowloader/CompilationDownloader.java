@@ -1,10 +1,10 @@
 package dawson.songtracker.DBObjects.objectLoaders.dowloader;
 
-import dawson.songtracker.types.Components.Compilation;
-import dawson.songtracker.types.Components.Recording;
-import dawson.songtracker.types.Components.Segment;
-import dawson.songtracker.types.Roles.CompilationRole;
-import dawson.songtracker.types.Roles.Contributor;
+import dawson.songtracker.types.components.Compilation;
+import dawson.songtracker.types.components.Recording;
+import dawson.songtracker.types.components.Segment;
+import dawson.songtracker.types.roles.CompilationRole;
+import dawson.songtracker.types.roles.Contributor;
 
 import java.sql.*;
 import java.util.ArrayList;

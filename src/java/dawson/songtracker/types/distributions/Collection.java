@@ -1,6 +1,6 @@
-package dawson.songtracker.types.Distributions;
+package dawson.songtracker.types.distributions;
 
-import dawson.songtracker.types.Components.Compilation;
+import dawson.songtracker.types.components.Compilation;
 
 import java.util.ArrayList;
 

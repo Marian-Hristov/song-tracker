@@ -1,4 +1,4 @@
-package dawson.songtracker.types.Distributions;
+package dawson.songtracker.types.distributions;
 
 
 import java.sql.Date;

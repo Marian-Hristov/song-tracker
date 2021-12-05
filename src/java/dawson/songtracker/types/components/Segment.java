@@ -1,4 +1,4 @@
-package dawson.songtracker.types.Components;
+package dawson.songtracker.types.components;
 
 public class Segment<T extends SongComponent> {
     private final int id;

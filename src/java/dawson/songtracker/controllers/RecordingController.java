@@ -19,9 +19,12 @@ public class RecordingController extends Pane implements PopupOwner {
 
     public void initialize() {
         this.panel.setLabel("Recording");
-        this.panel.addEventHandler(SearchEvent.SEARCH_EVENT, event -> {
-            System.out.println(event);
-        });
+        this.panel.addEventHandler(SearchEvent.SEARCH_EVENT, this::onSearch);
+    }
+
+    private void onSearch(SearchEvent event) {
+        // Download stuff
+        System.out.println("Searched for: " + event.message);
     }
 
     public void onPopupClicked() {
