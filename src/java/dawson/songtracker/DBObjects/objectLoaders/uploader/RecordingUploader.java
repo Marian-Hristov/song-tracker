@@ -98,7 +98,7 @@ class RecordingUploader {
                 throw e;
             }
         } else if (role instanceof ProductionRole) {
-            CallableStatement addProductionToRecording = this.connection.prepareCall("{call RECORDING_MGMT.ADDCONTRIBUTORTORECORDING(?, ?, ?, ?)}");
+            CallableStatement addProductionToRecording = this.connection.prepareCall("{call RECORDING_MGMT.ADDCONTRIBUTORFROMRECORDING(?, ?, ?, ?)}");
             try {
                 addProductionToRecording.setInt(1, recording.getId());
                 addProductionToRecording.setInt(2, contributor.getId());

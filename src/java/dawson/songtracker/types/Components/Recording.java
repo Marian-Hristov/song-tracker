@@ -91,6 +91,8 @@ public class Recording extends SongComponent {
         }
     }
 
+    public Map<MusicianRole, ArrayList<Contributor>> getMusicalContributions() { return musicalContributions; }
+
     public void setDuration(double duration) {
         this.duration = duration;
     }

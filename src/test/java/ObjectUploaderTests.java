@@ -325,7 +325,48 @@ public class ObjectUploaderTests {
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
         Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
-        Contributor contributor = new Contributor(1, "Bob");
-        ProductionRole pRole = new ProductionRole(1, )
+        Contributor contributor1 = new Contributor(1, "Bob");
+        Contributor contributor2 = new Contributor(2, "Marley");
+        ProductionRole pRole = new ProductionRole(1, "composer");
+        MusicianRole mRole = new MusicianRole(1, "accordionist");
+        ul.addContributor(contributor1);
+        ul.addContributor(contributor2);
+        ul.addRecording(recording);
+        ul.addContributorToRecording(recording, contributor1, pRole);
+        ul.addContributorToRecording(recording, contributor2, mRole);
+        Recording result = dl.loadRecording(1);
+        for ( ProductionRole role : result.getProductionContributions().keySet()) {
+            assertEquals("composer", role.getName());
+        }
+        for( MusicianRole role : result.getMusicalContributions().keySet()) {
+            assertEquals("accordionist", role.getName());
+        }
+        assertEquals("Bob", result.getProductionContributions().get(pRole).get(0).getName());
+        assertEquals("Marley", result.getMusicalContributions().get(mRole).get(0).getName());
+    }
+
+    @Test
+    public void removeContributorToRecording() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Contributor contributor1 = new Contributor(1, "Bob");
+        Contributor contributor2 = new Contributor(2, "Marley");
+        ProductionRole pRole = new ProductionRole(1, "composer");
+        MusicianRole mRole = new MusicianRole(1, "accordionist");
+        ul.addContributor(contributor1);
+        ul.addContributor(contributor2);
+        ul.addRecording(recording);
+        ul.addContributorToRecording(recording, contributor1, pRole);
+        ul.addContributorToRecording(recording, contributor2, mRole);
+        ul.removeContributorToRecording(recording, contributor1, pRole);
+        ul.removeContributorToRecording(recording, contributor2, mRole);
+        Recording result = dl.loadRecording(1);
+        assertEquals(0, result.getProductionContributions().size());
+        assertEquals(0, result.getMusicalContributions().size());
     }
 }
