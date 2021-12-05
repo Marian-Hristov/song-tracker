@@ -1,3 +1,4 @@
+import dawson.songtracker.DBObjects.DBConnection;
 import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.types.Components.Compilation;
 import dawson.songtracker.types.Components.Recording;
@@ -17,6 +18,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void musicalRole() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<MusicianRole> musicianRoles = dl.loadFirstMusicianRoles(50);
         System.out.println(musicianRoles.size());
@@ -28,6 +31,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void productionRole() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<ProductionRole> productionRoles = dl.loadFirstProductionRoles(50);
         System.out.println(productionRoles.size());
@@ -39,6 +44,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void compilationRole() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<CompilationRole> compilationRoles = dl.loadFirstCompilationRoles(50);
         System.out.println(compilationRoles.size());
@@ -50,6 +57,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void contributor() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<Contributor> contributors = dl.loadFirstContributors(50);
         System.out.println(contributors.size());
@@ -73,6 +82,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void recordings() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<Recording> recordings = dl.loadFirstRecordings(50);
         System.out.println(recordings.size());
@@ -84,6 +95,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void collections() throws SQLException {
+        DBConnection.setUsername("");
+        DBConnection.setPassword("");
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ArrayList<Collection> collections = dl.loadFirstCollections(50);
         System.out.println(collections.size());
