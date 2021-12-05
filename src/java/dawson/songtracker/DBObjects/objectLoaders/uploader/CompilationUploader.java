@@ -16,7 +16,7 @@ class CompilationUploader {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
         try {
-            CallableStatement addCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.ADDCOMPILATION(?)}");
+            CallableStatement addCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.createCompilation(?)}");
             addCompilation.setString(1, name);
             if (addCompilation.executeUpdate() != 1) {
                 throw new SQLException("Couldn't add compilation");

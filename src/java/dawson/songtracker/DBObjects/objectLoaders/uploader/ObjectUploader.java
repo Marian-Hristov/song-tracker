@@ -59,11 +59,11 @@ public class ObjectUploader {
         this.collectionUploader.addCompilationToCollection(collection.getId(), compilation.getId());
     }
 
-    public void removeCompilationToCollection(Collection collection, Compilation compilation) throws Exception {
+    public void removeCompilationFromCollection(Collection collection, Compilation compilation) throws Exception {
         if (collection == null || compilation == null) {
             throw new Exception("One or many given objects are null");
         }
-        this.collectionUploader.removeCompilationToCollection(collection.getId(), compilation.getId());
+        this.collectionUploader.removeCompilationFromCollection(collection.getId(), compilation.getId());
     }
 
     public void updateCollection(Collection oldCollection, Collection newCollection) throws Exception {

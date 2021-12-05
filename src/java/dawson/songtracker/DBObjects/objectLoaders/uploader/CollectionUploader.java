@@ -46,12 +46,12 @@ class CollectionUploader {
         }
     }
 
-    public void removeCompilationToCollection(int collectionId, int compilationId) throws Exception {
+    public void removeCompilationFromCollection(int collectionId, int compilationId) throws Exception {
         if (collectionId < 1 || compilationId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
         try {
-            CallableStatement removeCompilationToCollection = this.connection.prepareCall("{call COLLECTION_MGMT.REMOVECOMPILATIONTOCOLLECTION(?, ?)}");
+            CallableStatement removeCompilationToCollection = this.connection.prepareCall("{call COLLECTION_MGMT.REMOVECOMPILATIONFROMCOLLECTION(?, ?)}");
             removeCompilationToCollection.setInt(1, collectionId);
             removeCompilationToCollection.setInt(2, compilationId);
             if (removeCompilationToCollection.executeUpdate() != 1) {
@@ -69,10 +69,10 @@ class CollectionUploader {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
         try {
-            CallableStatement removeCompilationToCollection = this.connection.prepareCall("{call COLLECTION_MGMT.UPDATECOLLECTION(?, ?)}");
-            removeCompilationToCollection.setInt(1, collectionId);
-            removeCompilationToCollection.setString(2, newName);
-            if (removeCompilationToCollection.executeUpdate() != 1) {
+            CallableStatement updateCollection = this.connection.prepareCall("{call COLLECTION_MGMT.UPDATECOLLECTION(?, ?)}");
+            updateCollection.setInt(1, collectionId);
+            updateCollection.setString(2, newName);
+            if (updateCollection.executeUpdate() != 1) {
                 throw new SQLException("Couldn't update collection");
             }
             this.connection.commit();
