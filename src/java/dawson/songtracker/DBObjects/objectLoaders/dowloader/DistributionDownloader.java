@@ -15,12 +15,7 @@ class DistributionDownloader {
         PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
         pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
-<<<<<<< HEAD
         if (!rs.next()) {
-=======
-        
-        if(!rs.next()){
->>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
@@ -37,13 +32,7 @@ class DistributionDownloader {
     public static Market loadMarket(Connection connection, int id) throws SQLException {
         PreparedStatement pr = connection.prepareStatement("select * from markets where market_id = ?");
         ResultSet rs = pr.executeQuery();
-<<<<<<< HEAD
         if (!rs.next()) {
-=======
-        
-
-        if(!rs.next()){
->>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
@@ -57,13 +46,7 @@ class DistributionDownloader {
     public static RecordLabel loadRecordLabel(Connection connection, int id) throws SQLException {
         PreparedStatement pr = connection.prepareStatement("select * from labels where label_id = ?");
         ResultSet rs = pr.executeQuery();
-<<<<<<< HEAD
         if (!rs.next()) {
-=======
-        
-
-        if(!rs.next()){
->>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }

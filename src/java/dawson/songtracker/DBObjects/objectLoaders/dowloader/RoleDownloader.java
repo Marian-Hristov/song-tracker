@@ -19,13 +19,7 @@ class RoleDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from musicianRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-<<<<<<< HEAD
         if (!rs.next()) {
-=======
-        
-
-        if (!rs.next()){
->>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
@@ -40,13 +34,7 @@ class RoleDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from productionRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-<<<<<<< HEAD
         if (!rs.next()) {
-=======
-        
-
-        if (!rs.next()){
->>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
@@ -61,13 +49,7 @@ class RoleDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from compilationRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-<<<<<<< HEAD
         if (!rs.next()) {
-=======
-        
-
-        if (!rs.next()){
->>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
@@ -82,13 +64,7 @@ class RoleDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from contributors where contributor_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-<<<<<<< HEAD
         if (!rs.next()) {
-=======
-        
-
-        if (!rs.next()){
->>>>>>> d99cd5f4f4a7dfa247f2744ba45d0bd4551650c0
             rs.close();
             return null;
         }
