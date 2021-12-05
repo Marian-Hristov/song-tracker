@@ -16,17 +16,25 @@ class CollectionDownloader {
         PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
         pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
-        if(!rs.next()) return null;
+        if(!rs.next()){
+            rs.close();
+            return null;
+        }
+
         ArrayList<Compilation> compilations = loadCollectionCompilations(connection, id);
         ArrayList<Collection> collectionsInSet = loadCollectionsInSet(connection, id);
-        return new Collection(id, rs.getString("collection_name"), compilations, collectionsInSet);
+        Collection collection = new Collection(id, rs.getString("collection_name"), compilations, collectionsInSet);;
+        rs.close();
+        return collection;
     }
 
     private static boolean collectionExists(Connection connection, int id) throws SQLException {
         PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
         pr.setInt(1, id);
         ResultSet rs = pr.executeQuery();
-        return rs.next();
+        boolean exists = rs.next();
+        rs.close();
+        return exists;
     }
 
     private static ArrayList<Compilation> loadCollectionCompilations(Connection connection, int collectionId) throws SQLException {
@@ -34,12 +42,16 @@ class CollectionDownloader {
         PreparedStatement pr = connection.prepareStatement("select * from collectionCompilations where collection_id = ?");
         pr.setInt(1, collectionId);
         ResultSet rs = pr.executeQuery();
-        if(!rs.next()) return new ArrayList<>();
+        if(!rs.next()){
+            rs.close();
+            return new ArrayList<>();
+        }
         ArrayList<Compilation> compilations = new ArrayList<>();
         do {
             Compilation compilation = CompilationDownloader.loadCompilation(connection, rs.getInt("compilation_id"));
             compilations.add(compilation);
         } while (rs.next());
+        rs.close();
         return compilations;
     }
 
@@ -48,12 +60,16 @@ class CollectionDownloader {
         PreparedStatement pr = connection.prepareStatement("select * from collectionSets where set_id = ?");
         pr.setInt(1, setId);
         ResultSet rs = pr.executeQuery();
-        if(!rs.next()) return new ArrayList<>();
+        if(!rs.next()){
+            rs.close();
+            return new ArrayList<>();
+        }
         ArrayList<Collection> collections = new ArrayList<>();
         do {
             Collection collection = loadCollection(connection, rs.getInt("collection_id"));
             collections.add(collection);
         } while (rs.next());
+        rs.close();
         return collections;
     }
 }

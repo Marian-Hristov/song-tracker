@@ -17,12 +17,19 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from compilations where compilation_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if(!rs.next())return null;
+
+        if(!rs.next()){
+            rs.close();
+            return null;
+        }
+        System.out.println("opened cursor loading compilation");
 
         Map<CompilationRole, ArrayList<Contributor>> compilationRoles = loadCompilationRoles(connection, id);
         ArrayList<Segment<Compilation>> sampledCompilations = loadCompilationSamples(connection, id);
         ArrayList<Segment<Recording>> sampledRecordings = loadRecordingSamples(connection, id);
-        return new Compilation(id, rs.getString("compilation_name"), rs.getTimestamp("creation_time"), rs.getDouble("duration"), sampledCompilations, sampledRecordings, compilationRoles);
+        Compilation compilation = new Compilation(id, rs.getString("compilation_name"), rs.getTimestamp("creation_time"), rs.getDouble("duration"), sampledCompilations, sampledRecordings, compilationRoles);
+        rs.close();
+        return compilation;
     }
 
     private static Map<CompilationRole, ArrayList<Contributor>> loadCompilationRoles(Connection connection, int compilationId) throws SQLException {
@@ -31,7 +38,13 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from compilationContributions where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return new HashMap<>();
+
+        if (!rs.next()){
+            rs.close();
+            return new HashMap<>();
+        }
+
+        System.out.println("opened cursor loading compilation roles");
 
         Map<CompilationRole, ArrayList<Contributor>> compilationRoles = new HashMap<>();
         do {
@@ -45,6 +58,7 @@ class CompilationDownloader {
                 compilationRoles.put(cRole, contributors);
             }
         } while (rs.next());
+        rs.close();
         return compilationRoles;
     }
 
@@ -54,12 +68,19 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from compilationSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return new ArrayList<>();
+
+        if (!rs.next()){
+            rs.close();
+            return new ArrayList<>();
+        }
+        System.out.println("opened cursor loading compilation samples");
+
         ArrayList<Segment<Compilation>> sampleCompilations = new ArrayList<>();
         do {
             Compilation compilation = loadCompilation(connection, rs.getInt("compilation_used"));
             sampleCompilations.add(loadSegment(connection, rs.getInt("segment_id"), compilationId, compilation));
         } while (rs.next());
+        rs.close();
         return sampleCompilations;
     }
 
@@ -69,12 +90,19 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from recordingSamples where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return new ArrayList<>();
+
+        if (!rs.next()){
+            rs.close();
+            return new ArrayList<>();
+        }
+        System.out.println("opened cursor loading recording samples");
+
         ArrayList<Segment<Recording>> sampleCompilations = new ArrayList<>();
         do {
             Recording recording = RecordingDownloader.loadRecording(connection, rs.getInt("recording_id"));
             sampleCompilations.add(loadSegment(connection, rs.getInt("segment_id"), compilationId, recording));
         } while (rs.next());
+        rs.close();
         return sampleCompilations;
     }
 
@@ -82,16 +110,28 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from segment where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if(!rs.next()) return null;
-        return new Segment<>(id, compilationMainTrackId, compilation, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
+
+        if(!rs.next()){
+            rs.close();
+            return null;
+        }
+        Segment<Compilation> segment = new Segment<>(id, compilationMainTrackId, compilation, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
+        rs.close();
+        return segment;
     }
 
     private static Segment<Recording> loadSegment(Connection connection, int id, int compilationMainTrackId, Recording recording) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from segment where segment_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if(!rs.next()) return null;
-        return new Segment<>(id, compilationMainTrackId, recording, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
+
+        if(!rs.next()){
+            rs.close();
+            return null;
+        }
+        Segment<Recording> segment = new Segment<>(id, compilationMainTrackId, recording, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
+        rs.close();
+        return segment;
     }
 
 
@@ -100,6 +140,9 @@ class CompilationDownloader {
         PreparedStatement ps = connection.prepareStatement("select compilation_id from compilations where compilation_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        return rs.next();
+
+        boolean exists = rs.next();
+        rs.close();
+        return exists;
     }
 }

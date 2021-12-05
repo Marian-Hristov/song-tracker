@@ -18,6 +18,7 @@ class RecordingDownloader {
     public static ArrayList<Recording> loadAllRecordings(Connection connection) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from recordings");
         ResultSet rs = ps.executeQuery();
+        System.out.println("opened cursor loading all recordings");
         ArrayList<Recording> allRecordings = new ArrayList<>();
         while(rs.next()){
             int id = rs.getInt("recording_id");
@@ -25,6 +26,7 @@ class RecordingDownloader {
             Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
             allRecordings.add(new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions));
         }
+        rs.close();
         return allRecordings;
     }
 
@@ -32,17 +34,28 @@ class RecordingDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from recordings where recording_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return null;
+
+        if (!rs.next()){
+            rs.close();
+            return null;
+        }
+        System.out.println("opened cursor loading recording");
+
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
-        return new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
+        Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
+        rs.close();
+        return recording;
     }
 
     private static boolean recordingExists(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from recordings where recording_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        return rs.next();
+
+        boolean exists = rs.next();
+        rs.close();
+        return exists;
     }
 
     private static Map<ProductionRole, ArrayList<Contributor>> loadProductionContributions(Connection connection, int recordingId) throws SQLException {
@@ -50,7 +63,12 @@ class RecordingDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from productionContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return new HashMap<>();
+        if (!rs.next()){
+            rs.close();
+            return new HashMap<>();
+        }
+        System.out.println("opened cursor loading production contributions");
+
 
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
         do {
@@ -64,6 +82,7 @@ class RecordingDownloader {
                 productionContributions.put(productionRole, contributors);
             }
         } while (rs.next());
+        rs.close();
         return productionContributions;
     }
 
@@ -72,7 +91,12 @@ class RecordingDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from musicalContributions where recording_id = ?");
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
-        if (!rs.next()) return new HashMap<>();
+        if (!rs.next()){
+            rs.close();
+            return new HashMap<>();
+        }
+        System.out.println("opened cursor loading musical contributions");
+
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         do {
             MusicianRole musicianRole = RoleDownloader.loadMusicianRole(connection, rs.getInt("role_id"));
@@ -85,6 +109,7 @@ class RecordingDownloader {
                 musicalContributions.put(musicianRole, contributors);
             }
         } while (rs.next());
+        rs.close();
         return musicalContributions;
     }
 }
