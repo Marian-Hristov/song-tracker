@@ -1,14 +1,14 @@
 import dawson.songtracker.DBObjects.DBConnection;
 import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.DBObjects.objectLoaders.uploader.ObjectUploader;
-import dawson.songtracker.types.Components.Compilation;
-import dawson.songtracker.types.Components.Recording;
-import dawson.songtracker.types.Components.Segment;
-import dawson.songtracker.types.Distributions.Collection;
-import dawson.songtracker.types.Roles.CompilationRole;
-import dawson.songtracker.types.Roles.Contributor;
-import dawson.songtracker.types.Roles.MusicianRole;
-import dawson.songtracker.types.Roles.ProductionRole;
+import dawson.songtracker.types.components.Compilation;
+import dawson.songtracker.types.components.Recording;
+import dawson.songtracker.types.components.Segment;
+import dawson.songtracker.types.distributions.Collection;
+import dawson.songtracker.types.roles.CompilationRole;
+import dawson.songtracker.types.roles.Contributor;
+import dawson.songtracker.types.roles.MusicianRole;
+import dawson.songtracker.types.roles.ProductionRole;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
