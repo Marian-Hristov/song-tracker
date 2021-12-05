@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -146,6 +147,14 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        ul.addCompilation(compilation);
+        ul.deleteCompilation(compilation);
+        assertNull(dl.loadCompilation(1));
     }
 
     @Test
@@ -154,6 +163,16 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation1 = new Compilation(1, "Pipe it down", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        ul.addCompilation(compilation);
+        ul.updateCompilation(compilation, compilation1);
+        Compilation updatedCompilation = dl.loadCompilation(1);
+        assertEquals("Pipe it down", updatedCompilation.getName());
     }
 
     @Test
