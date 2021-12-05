@@ -37,15 +37,10 @@ class RecordingDownloader {
         PreparedStatement ps = connection.prepareStatement("select * from recordings where recording_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        
-
-
         if (!rs.next()){
             rs.close();
             return null;
         }
-
-
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
         Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
