@@ -15,15 +15,17 @@ class CollectionUploader {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement addCollection = this.connection.prepareCall("{call COLLECTION_MGMT.CREATECOLLECTION(?)}");
         try {
-            CallableStatement addCollection = this.connection.prepareCall("{call COLLECTION_MGMT.CREATECOLLECTION(?)}");
             addCollection.setString(1, name);
             if (addCollection.executeUpdate() != 1) {
                 throw new SQLException("Couldn't add collection");
             }
             this.connection.commit();
+            addCollection.close();
         } catch (Exception e) {
             this.connection.rollback();
+            addCollection.close();
             throw e;
         }
     }
@@ -32,16 +34,18 @@ class CollectionUploader {
         if (collectionId < 1 || compilationId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement addCompilationToCollection = this.connection.prepareCall("{call COLLECTION_MGMT.ADDCOMPILATIONTOCOLLECTION(?, ?)}");
         try {
-            CallableStatement addCompilationToCollection = this.connection.prepareCall("{call COLLECTION_MGMT.ADDCOMPILATIONTOCOLLECTION(?, ?)}");
             addCompilationToCollection.setInt(1, collectionId);
             addCompilationToCollection.setInt(2, compilationId);
             if (addCompilationToCollection.executeUpdate() != 1) {
                 throw new SQLException("Couldn't add compilation to collection");
             }
             this.connection.commit();
+            addCompilationToCollection.close();
         } catch (Exception e) {
             this.connection.rollback();
+            addCompilationToCollection.close();
             throw e;
         }
     }
@@ -50,16 +54,18 @@ class CollectionUploader {
         if (collectionId < 1 || compilationId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement removeCompilationToCollection = this.connection.prepareCall("{call COLLECTION_MGMT.REMOVECOMPILATIONFROMCOLLECTION(?, ?)}");
         try {
-            CallableStatement removeCompilationToCollection = this.connection.prepareCall("{call COLLECTION_MGMT.REMOVECOMPILATIONFROMCOLLECTION(?, ?)}");
             removeCompilationToCollection.setInt(1, collectionId);
             removeCompilationToCollection.setInt(2, compilationId);
             if (removeCompilationToCollection.executeUpdate() != 1) {
                 throw new SQLException("Couldn't remove collection");
             }
             this.connection.commit();
+            removeCompilationToCollection.close();
         } catch (Exception e) {
             this.connection.rollback();
+            removeCompilationToCollection.close();
             throw e;
         }
     }
@@ -68,16 +74,18 @@ class CollectionUploader {
         if (collectionId < 1 || newName == null || newName.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement updateCollection = this.connection.prepareCall("{call COLLECTION_MGMT.UPDATECOLLECTION(?, ?)}");
         try {
-            CallableStatement updateCollection = this.connection.prepareCall("{call COLLECTION_MGMT.UPDATECOLLECTION(?, ?)}");
             updateCollection.setInt(1, collectionId);
             updateCollection.setString(2, newName);
             if (updateCollection.executeUpdate() != 1) {
                 throw new SQLException("Couldn't update collection");
             }
             this.connection.commit();
+            updateCollection.close();
         } catch (Exception e) {
             this.connection.rollback();
+            updateCollection.close();
             throw e;
         }
     }
