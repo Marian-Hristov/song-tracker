@@ -12,6 +12,7 @@ import dawson.songtracker.types.roles.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class ObjectDownloader {
@@ -246,6 +247,10 @@ public class ObjectDownloader {
             labels.add(label);
         }
         return labels;
+    }
+
+    public Map<Compilation, ArrayList<CompilationRole>> getContributorCompilationRoles(Contributor contributor) throws SQLException{
+        return RoleDownloader.getContributorCompilationRoles(this.connection, contributor.getId());
     }
 
 }
