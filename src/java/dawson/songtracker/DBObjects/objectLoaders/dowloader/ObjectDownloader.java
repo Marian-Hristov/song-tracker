@@ -68,13 +68,7 @@ public class ObjectDownloader {
     }
 
     public ArrayList<MusicianRole> loadFirstMusicianRoles(int nbRows) throws SQLException{
-        ArrayList<MusicianRole> roles = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            MusicianRole compilationRole = loadMusicianRole(i);
-            if (compilationRole == null) break;
-            roles.add(compilationRole);
-        }
-        return roles;
+        return RoleDownloader.loadFirstMusicianRoles(this.connection, nbRows);
     }
 
     public Contributor loadContributor(int id) throws SQLException {

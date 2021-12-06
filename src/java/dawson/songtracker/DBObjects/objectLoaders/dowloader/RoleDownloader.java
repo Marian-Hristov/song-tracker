@@ -29,6 +29,19 @@ class RoleDownloader {
         return musicianRole;
     }
 
+    public static ArrayList<MusicianRole> loadFirstMusicianRoles(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from musicianRoles fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<MusicianRole> roles = new ArrayList<>();
+        while(rs.next()){
+            MusicianRole role = loadMusicianRole(connection, rs.getInt("role_id"));
+            roles.add(role);
+        }
+        ps.close();
+        return roles;
+    }
+
     public static ArrayList<MusicianRole> loadMusicianRolesByName(Connection connection, String name) throws SQLException{
         if(name == null) throw new NullPointerException("the name is null");
         PreparedStatement ps = connection.prepareStatement("select * from musicianRoles where role_name = ?");
@@ -131,11 +144,22 @@ class RoleDownloader {
             ps.close();
             return null;
         }
-
         Contributor contributor = new Contributor(id, rs.getString("contributor_name"));
-
         ps.close();
         return contributor;
+    }
+
+    public static ArrayList<Contributor> loadFirstContributors(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from contributors fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Contributor> contributors = new ArrayList<>();
+        while(rs.next()){
+            Contributor contributor = loadContributor(connection, rs.getInt("contributor_id"));
+            contributors.add(contributor);
+        }
+        ps.close();
+        return contributors;
     }
 
     public static ArrayList<Contributor> loadContributorsByName(Connection connection, String name) throws SQLException {
