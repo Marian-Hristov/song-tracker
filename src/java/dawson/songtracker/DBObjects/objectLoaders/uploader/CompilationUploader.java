@@ -15,15 +15,17 @@ class CompilationUploader {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement addCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.createCompilation(?)}");
         try {
-            CallableStatement addCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.createCompilation(?)}");
             addCompilation.setString(1, name);
             if (addCompilation.executeUpdate() != 1) {
                 throw new SQLException("Couldn't add compilation");
             }
             this.connection.commit();
+            addCompilation.close();
         } catch (Exception e) {
             this.connection.rollback();
+            addCompilation.close();
             throw e;
         }
     }
@@ -32,8 +34,8 @@ class CompilationUploader {
         if (compilationId < 1 || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 || durationOfComponent < 0 || sampleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         } else if (sampleType == 'c' || sampleType == 'r') {
+            CallableStatement addSampleToCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.ADDSAMPLETOCOMPILATION(?, ?, ?, ?, ?, ?, ?)}");
             try {
-                CallableStatement addSampleToCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.ADDSAMPLETOCOMPILATION(?, ?, ?, ?, ?, ?, ?)}");
                 addSampleToCompilation.setInt(1, compilationId);
                 addSampleToCompilation.setDouble(2, mainTrackOffset);
                 addSampleToCompilation.setDouble(3, durationInMainTrack);
@@ -45,8 +47,10 @@ class CompilationUploader {
                     throw new SQLException("Couldn't add sample to compilation");
                 }
                 this.connection.commit();
+                addSampleToCompilation.close();
             } catch (Exception e) {
                 this.connection.rollback();
+                addSampleToCompilation.close();
                 throw e;
             }
         } else {
@@ -58,8 +62,8 @@ class CompilationUploader {
         if (compilationId < 1 || sampleId < 1 || segmentId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         } else if (sampleType == 'c' || sampleType == 'r') {
+            CallableStatement deleteSampleFromCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.DELETESAMPLEFROMCOMPILATION(?, ?, ?, ?)}");
             try {
-                CallableStatement deleteSampleFromCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.DELETESAMPLEFROMCOMPILATION(?, ?, ?, ?)}");
                 deleteSampleFromCompilation.setInt(1, compilationId);
                 deleteSampleFromCompilation.setInt(2, sampleId);
                 deleteSampleFromCompilation.setInt(3, segmentId);
@@ -68,8 +72,10 @@ class CompilationUploader {
                     throw new SQLException("Couldn't delete sample from compilation");
                 }
                 this.connection.commit();
+                deleteSampleFromCompilation.close();
             } catch (Exception e) {
                 this.connection.rollback();
+                deleteSampleFromCompilation.close();
                 throw e;
             }
         } else {
@@ -81,15 +87,17 @@ class CompilationUploader {
         if (id < 0) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement deleteCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.DELETECOMPILATION(?)}");
         try {
-            CallableStatement deleteCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.DELETECOMPILATION(?)}");
             deleteCompilation.setInt(1, id);
             if (deleteCompilation.executeUpdate() != 1) {
                 throw new SQLException("Couldn't delete compilation");
             }
             this.connection.commit();
+            deleteCompilation.close();
         } catch (Exception e) {
             this.connection.rollback();
+            deleteCompilation.close();
             throw e;
         }
     }
@@ -98,16 +106,18 @@ class CompilationUploader {
         if (id < 0 || name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement updateCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.UPDATECOMPILATION(?, ?)}");
         try {
-            CallableStatement updateCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.UPDATECOMPILATION(?, ?)}");
             updateCompilation.setInt(1, id);
             updateCompilation.setString(2, name);
             if (updateCompilation.executeUpdate() != 1) {
                 throw new SQLException("Couldn't update compilation");
             }
             this.connection.commit();
+            updateCompilation.close();
         } catch (Exception e) {
             this.connection.rollback();
+            updateCompilation.close();
             throw e;
         }
     }
@@ -116,8 +126,8 @@ class CompilationUploader {
         if (compilationId < 1 || contributorId < 1 || roleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement addContributorToCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.ADDCONTRIBUTORTOCOMPILATION(?, ?, ?)}");
         try {
-            CallableStatement addContributorToCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.ADDCONTRIBUTORTOCOMPILATION(?, ?, ?)}");
             addContributorToCompilation.setInt(1, compilationId);
             addContributorToCompilation.setInt(2, contributorId);
             addContributorToCompilation.setInt(3, roleId);
@@ -125,8 +135,10 @@ class CompilationUploader {
                 throw new SQLException("Couldn't add contributor to compilation");
             }
             this.connection.commit();
+            addContributorToCompilation.close();
         } catch (Exception e) {
             this.connection.rollback();
+            addContributorToCompilation.close();
             throw e;
         }
     }
@@ -135,8 +147,8 @@ class CompilationUploader {
         if (compilationId < 1 || contributorId < 1 || roleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement removeContributorToCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.REMOVECONTRIBUTORTOCOMPILATION(?, ?, ?)}");
         try {
-            CallableStatement removeContributorToCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.REMOVECONTRIBUTORTOCOMPILATION(?, ?, ?)}");
             removeContributorToCompilation.setInt(1, compilationId);
             removeContributorToCompilation.setInt(2, contributorId);
             removeContributorToCompilation.setInt(3, roleId);
@@ -144,8 +156,10 @@ class CompilationUploader {
                 throw new SQLException("Couldn't remove contributor to compilation");
             }
             this.connection.commit();
+            removeContributorToCompilation.close();
         } catch (Exception e) {
             this.connection.rollback();
+            removeContributorToCompilation.close();
             throw e;
         }
     }
