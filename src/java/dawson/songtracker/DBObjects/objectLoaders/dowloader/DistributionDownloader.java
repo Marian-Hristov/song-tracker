@@ -13,32 +13,32 @@ import java.util.ArrayList;
 
 class DistributionDownloader {
     public static Distribution loadDistribution(Connection connection, int id) throws SQLException {
-        PreparedStatement pr = connection.prepareStatement("select * from collections where collection_id = ?");
-        pr.setInt(1, id);
-        ResultSet rs = pr.executeQuery();
+        PreparedStatement ps = connection.prepareStatement("select * from collections where collection_id = ?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         Collection collection = CollectionDownloader.loadCollection(connection, rs.getInt("collection_id"));
         RecordLabel label = loadRecordLabel(connection, rs.getInt("label_id"));
         Market market = loadMarket(connection, rs.getInt("market_id"));
         Distribution distribution = new Distribution(id, collection, rs.getDate("release_date"), label, market);
-        rs.close();
+        ps.close();
 
         return distribution;
     }
 
     public static Market loadMarket(Connection connection, int id) throws SQLException {
-        PreparedStatement pr = connection.prepareStatement("select * from markets where market_id = ?");
-        pr.setInt(1, id);
-        ResultSet rs = pr.executeQuery();
+        PreparedStatement ps = connection.prepareStatement("select * from markets where market_id = ?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         Market market = new Market(id, rs.getString("market_name"));
-        rs.close();
+        ps.close();
         return market;
     }
 
@@ -52,20 +52,20 @@ class DistributionDownloader {
             Market market = loadMarket(connection, rs.getInt("market_id"));
             markets.add(market);
         }
-        rs.close();
+        ps.close();
         return markets;
     }
 
     public static RecordLabel loadRecordLabel(Connection connection, int id) throws SQLException {
-        PreparedStatement pr = connection.prepareStatement("select * from recordlabels where label_id = ?");
-        pr.setInt(1, id);
-        ResultSet rs = pr.executeQuery();
+        PreparedStatement ps = connection.prepareStatement("select * from recordlabels where label_id = ?");
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         RecordLabel recordLabel = new RecordLabel(id, rs.getString("label_name"));
-        rs.close();
+        ps.close();
         return recordLabel;
     }
 
@@ -79,7 +79,7 @@ class DistributionDownloader {
             RecordLabel recordLabel = loadRecordLabel(connection, rs.getInt("label_id"));
             recordLabels.add(recordLabel);
         }
-        rs.close();
+        ps.close();
         return recordLabels;
     }
 }

@@ -21,13 +21,13 @@ class RecordingDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
         Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
-        rs.close();
+        ps.close();
         return recording;
     }
 
@@ -41,7 +41,7 @@ class RecordingDownloader {
             Recording recording = loadRecording(connection, rs.getInt("recording_id"));
             recordings.add(recording);
         }
-        rs.close();
+        ps.close();
         return recordings;
     }
 
@@ -50,7 +50,7 @@ class RecordingDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         boolean exists = rs.next();
-        rs.close();
+        ps.close();
         return exists;
     }
 
@@ -61,7 +61,7 @@ class RecordingDownloader {
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return new HashMap<>();
         }
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
@@ -77,7 +77,7 @@ class RecordingDownloader {
             }
         } while (rs.next());
 
-        rs.close();
+        ps.close();
         return productionContributions;
     }
 
@@ -88,7 +88,7 @@ class RecordingDownloader {
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return new HashMap<>();
         }
 
@@ -106,7 +106,7 @@ class RecordingDownloader {
             }
         } while (rs.next());
 
-        rs.close();
+        ps.close();
 
         return musicalContributions;
     }

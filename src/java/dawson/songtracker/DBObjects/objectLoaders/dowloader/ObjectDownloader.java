@@ -16,10 +16,8 @@ import java.util.Map;
 
 
 public class ObjectDownloader {
-    private Connection connection;
+    private final Connection connection;
     private static ObjectDownloader instance = null;
-    private final int ACTIONS_BEFORE_RESET = 1000;
-    private int nbActions = 0;
 
     private ObjectDownloader(Connection connection) {
         this.connection = connection;
@@ -36,67 +34,36 @@ public class ObjectDownloader {
         return instance;
     }
 
-    private void resetConnection() throws SQLException {
-        nbActions = 0;
-        this.connection.close();
-        this.connection = DBConnection.getConnection();
-    }
-
-    private void updateNbActions() throws SQLException {
-        nbActions++;
-        if(nbActions == ACTIONS_BEFORE_RESET){
-            resetConnection();
-        }
-    }
-
     // Roles
     public CompilationRole loadCompilationRole(int id) throws SQLException {
-        updateNbActions();
         return RoleDownloader.loadCompilationRole(this.connection, id);
     }
 
     public ArrayList<CompilationRole> loadCompilationRolesByName(String name) throws SQLException{
-        resetConnection();
         return RoleDownloader.loadCompilationRoleByName(this.connection, name);
     }
 
     public ArrayList<CompilationRole> loadFirstCompilationRoles(int nbRows) throws SQLException{
-        ArrayList<CompilationRole> roles = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            CompilationRole compilationRole = loadCompilationRole(i);
-            if (compilationRole == null) break;
-            roles.add(compilationRole);
-        }
-        return roles;
+        return RoleDownloader.loadFirstCompilationRoles(this.connection, nbRows);
     }
 
     public ProductionRole loadProductionRole(int id) throws SQLException {
-        updateNbActions();
         return RoleDownloader.loadProductionRole(this.connection, id);
     }
 
     public ArrayList<ProductionRole> loadProductionRolesByName(String name) throws SQLException {
-        resetConnection();
         return RoleDownloader.loadProductionRolesByName(this.connection, name);
     }
 
     public ArrayList<ProductionRole> loadFirstProductionRoles(int nbRows) throws SQLException{
-        ArrayList<ProductionRole> roles = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            ProductionRole productionRole = loadProductionRole(i);
-            if (productionRole == null) break;
-            roles.add(productionRole);
-        }
-        return roles;
+        return RoleDownloader.loadFirstProductionRoles(this.connection, nbRows);
     }
 
     public MusicianRole loadMusicianRole(int id) throws SQLException {
-        updateNbActions();
         return RoleDownloader.loadMusicianRole(this.connection, id);
     }
 
     public ArrayList<MusicianRole> loadMusicianRolesByName(String name) throws SQLException{
-        resetConnection();
         return RoleDownloader.loadMusicianRolesByName(this.connection, name);
     }
 
@@ -111,12 +78,10 @@ public class ObjectDownloader {
     }
 
     public Contributor loadContributor(int id) throws SQLException {
-        updateNbActions();
         return RoleDownloader.loadContributor(this.connection, id);
     }
 
     public ArrayList<Contributor> loadContributorsByName(String name) throws SQLException{
-        resetConnection();
         return RoleDownloader.loadContributorsByName(this.connection, name);
     }
 
@@ -132,12 +97,10 @@ public class ObjectDownloader {
 
     // Components
     public Compilation loadCompilation(int id) throws SQLException {
-        resetConnection();
         return CompilationDownloader.loadCompilation(this.connection, id);
     }
 
     public ArrayList<Compilation> loadCompilationsByName(String name) throws SQLException{
-        resetConnection();
         return CompilationDownloader.loadCompilationsByName(this.connection, name);
     }
 
@@ -153,12 +116,10 @@ public class ObjectDownloader {
     }
 
     public Recording loadRecording(int id) throws SQLException {
-        updateNbActions();
         return RecordingDownloader.loadRecording(this.connection, id);
     }
 
     public ArrayList<Recording> loadRecordingsByName(String name) throws SQLException{
-        resetConnection();
         return RecordingDownloader.loadRecordingsByName(this.connection, name);
     }
 
@@ -174,7 +135,6 @@ public class ObjectDownloader {
 
     // Collections
     public Collection loadCollection(int id) throws SQLException {
-        resetConnection();
         return CollectionDownloader.loadCollection(this.connection, id);
     }
 
@@ -189,13 +149,11 @@ public class ObjectDownloader {
     }
 
     public ArrayList<Collection> loadCollectionsByName(String name) throws SQLException{
-        resetConnection();
         return CollectionDownloader.loadCollectionsByName(this.connection, name);
     }
 
     // Distributions
     public Distribution loadDistribution(int id) throws SQLException {
-        resetConnection();
         return DistributionDownloader.loadDistribution(this.connection, id);
     }
 
@@ -210,12 +168,10 @@ public class ObjectDownloader {
     }
 
     public Market loadMarket(int id) throws SQLException {
-        updateNbActions();
         return DistributionDownloader.loadMarket(this.connection, id);
     }
 
     public ArrayList<Market> loadMarketsByName(String name) throws SQLException{
-        resetConnection();
         return DistributionDownloader.loadMarketsByName(this.connection, name);
     }
 
@@ -230,12 +186,10 @@ public class ObjectDownloader {
     }
 
     public RecordLabel loadRecordLabel(int id) throws SQLException {
-        updateNbActions();
         return DistributionDownloader.loadRecordLabel(this.connection, id);
     }
 
     public ArrayList<RecordLabel> loadRecordLabelsByName(String name) throws SQLException{
-        resetConnection();
         return DistributionDownloader.loadRecordLabelsByName(this.connection, name);
     }
 
