@@ -31,6 +31,7 @@ class RoleDownloader {
     public static int totalMusicianRoles(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from musicianRoles");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int total = rs.getInt("count(*)");
         ps.close();
         return total;
@@ -79,6 +80,7 @@ class RoleDownloader {
     public static int totalProductionRoles(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from productionRoles");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int total = rs.getInt("count(*)");
         ps.close();
         return total;
@@ -127,6 +129,7 @@ class RoleDownloader {
     public static int totalCompilationRoles(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from compilationRoles");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int total = rs.getInt("count(*)");
         ps.close();
         return total;
@@ -175,6 +178,7 @@ class RoleDownloader {
     public static int totalContributors(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from contributors");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int total = rs.getInt("count(*)");
         ps.close();
         return total;

@@ -48,6 +48,7 @@ class CompilationDownloader {
     public static int totalCompilations(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from compilations");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int total = rs.getInt("count(*)");
         ps.close();
         return total;

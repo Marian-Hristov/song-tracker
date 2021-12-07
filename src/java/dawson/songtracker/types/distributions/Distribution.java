@@ -70,4 +70,15 @@ public class Distribution {
     public int hashCode() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Distribution{" +
+                "id=" + id +
+                ", collection=" + collection +
+                ", releaseDate=" + releaseDate +
+                ", label=" + label +
+                ", market=" + market +
+                '}';
+    }
 }

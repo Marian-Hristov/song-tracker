@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 class DistributionDownloader {
     public static Distribution loadDistribution(Connection connection, int id) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("select * from collections where collection_id = ?");
+        PreparedStatement ps = connection.prepareStatement("select * from distributions where distribution_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
@@ -46,6 +46,7 @@ class DistributionDownloader {
     public static int totalDistributions(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from distributions");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int total = rs.getInt("count(*)");
         ps.close();
         return total;
@@ -80,6 +81,7 @@ class DistributionDownloader {
     public static int totalMarkets(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from markets");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int total = rs.getInt("count(*)");
         ps.close();
         return total;
@@ -128,6 +130,7 @@ class DistributionDownloader {
     public static int totalRecordLabels(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from recordLabels");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int total = rs.getInt("count(*)");
         ps.close();
         return total;
