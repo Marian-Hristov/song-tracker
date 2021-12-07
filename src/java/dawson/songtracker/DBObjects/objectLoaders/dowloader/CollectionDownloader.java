@@ -43,9 +43,12 @@ class CollectionDownloader {
     public static int totalCollections(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from collections");
         ResultSet rs = ps.executeQuery();
-        int total = rs.getInt("count(*)");
-        ps.close();
-        return total;
+        if (rs.next()) {
+            int total = rs.getInt("count(*)");
+            ps.close();
+            return total;
+        }
+        throw new SQLException();
     }
 
     public static ArrayList<Collection> loadCollectionsByName(Connection connection, String name) throws SQLException {
