@@ -36,7 +36,7 @@ public class ContributorPopupController extends AssignPopupController implements
     }
 
     @FXML
-    private void hide() {
+    public void hide() {
         this.setVisible(false);
     }
 
