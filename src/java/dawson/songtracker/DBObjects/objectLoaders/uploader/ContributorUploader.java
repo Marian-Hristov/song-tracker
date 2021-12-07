@@ -16,15 +16,17 @@ class ContributorUploader {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("Given name is empty or null");
         }
+        CallableStatement insertContributor = this.connection.prepareCall("{call CONTRIBUTOR_MGMT.ADDCONTRIBUTOR(?)}");
         try {
-            CallableStatement insertContributor = this.connection.prepareCall("{call CONTRIBUTOR_MGMT.ADDCONTRIBUTOR(?)}");
             insertContributor.setString(1, name);
             if (insertContributor.executeUpdate() != 1) {
                 throw new SQLException("Could not add contributor");
             }
             this.connection.commit();
+            insertContributor.close();
         } catch (Exception e) {
             this.connection.rollback();
+            insertContributor.close();
             throw e;
         }
     }
@@ -33,15 +35,17 @@ class ContributorUploader {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("Given name is empty or null");
         }
+        CallableStatement deleteContributor = this.connection.prepareCall("{call CONTRIBUTOR_MGMT.REMOVECONTRIBUTOR(?)}");
         try {
-            CallableStatement deleteContributor = this.connection.prepareCall("{call CONTRIBUTOR_MGMT.REMOVECONTRIBUTOR(?)}");
             deleteContributor.setString(1, name);
             if (deleteContributor.executeUpdate() != 1) {
                 throw new SQLException("Could not delete contributor");
             }
             this.connection.commit();
+            deleteContributor.close();
         } catch (Exception e) {
             this.connection.rollback();
+            deleteContributor.close();
             throw e;
         }
     }
@@ -50,16 +54,18 @@ class ContributorUploader {
         if (oldName == null || oldName.equals("") || newName == null || newName.equals("")) {
             throw new IllegalArgumentException("One or more given names are empty or null");
         }
+        CallableStatement updateContributor = this.connection.prepareCall("{call CONTRIBUTOR_MGMT.UPDATECONTRIBUTOR(?, ?)}");
         try {
-            CallableStatement updateContributor = this.connection.prepareCall("{call CONTRIBUTOR_MGMT.UPDATECONTRIBUTOR(?, ?)}");
             updateContributor.setString(1, oldName);
             updateContributor.setString(2, newName);
             if (updateContributor.executeUpdate() != 1) {
                 throw new SQLException("Could not update contributor");
             }
             connection.commit();
+            updateContributor.close();
         } catch (Exception e) {
             this.connection.rollback();
+            updateContributor.close();
             throw e;
         }
     }

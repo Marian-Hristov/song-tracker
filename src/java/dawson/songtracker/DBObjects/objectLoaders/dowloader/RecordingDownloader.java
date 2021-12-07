@@ -1,5 +1,6 @@
 package dawson.songtracker.DBObjects.objectLoaders.dowloader;
 
+import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.roles.Contributor;
 import dawson.songtracker.types.roles.MusicianRole;
@@ -21,14 +22,35 @@ class RecordingDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
         Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
-        rs.close();
+        ps.close();
         return recording;
+    }
+
+    public static ArrayList<Recording> loadFirstRecordings(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from recordings fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Recording> recordings = new ArrayList<>();
+        while(rs.next()){
+            Recording recording = loadRecording(connection, rs.getInt("recording_id"));
+            recordings.add(recording);
+        }
+        ps.close();
+        return recordings;
+    }
+
+    public static int totalRecordings(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select count(*) from recordings");
+        ResultSet rs = ps.executeQuery();
+        int total = rs.getInt("count(*)");
+        ps.close();
+        return total;
     }
 
     public static ArrayList<Recording> loadRecordingsByName(Connection connection, String name) throws SQLException{
@@ -41,7 +63,7 @@ class RecordingDownloader {
             Recording recording = loadRecording(connection, rs.getInt("recording_id"));
             recordings.add(recording);
         }
-        rs.close();
+        ps.close();
         return recordings;
     }
 
@@ -50,7 +72,7 @@ class RecordingDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         boolean exists = rs.next();
-        rs.close();
+        ps.close();
         return exists;
     }
 
@@ -61,7 +83,7 @@ class RecordingDownloader {
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return new HashMap<>();
         }
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
@@ -77,7 +99,7 @@ class RecordingDownloader {
             }
         } while (rs.next());
 
-        rs.close();
+        ps.close();
         return productionContributions;
     }
 
@@ -88,7 +110,7 @@ class RecordingDownloader {
         ps.setInt(1, recordingId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return new HashMap<>();
         }
 
@@ -106,7 +128,7 @@ class RecordingDownloader {
             }
         } while (rs.next());
 
-        rs.close();
+        ps.close();
 
         return musicalContributions;
     }

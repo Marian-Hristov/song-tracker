@@ -16,8 +16,8 @@ class DistributionUploader {
         if (collectionId < 1 || labelId < 1 || marketId < 1 || releaseDate == null) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement addDistribution = this.connection.prepareCall("{call DISTRIBUTION_MGMT.ADDDISTRIBUTION(?, ?, ?, ?)}");
         try {
-            CallableStatement addDistribution = this.connection.prepareCall("{call DISTRIBUTION_MGMT.ADDDISTRIBUTION(?, ?, ?, ?)}");
             addDistribution.setInt(1, collectionId);
             addDistribution.setDate(2, releaseDate);
             addDistribution.setInt(3, labelId);
@@ -26,8 +26,10 @@ class DistributionUploader {
                 throw new SQLException("Couldn't add distribution");
             }
             this.connection.commit();
+            addDistribution.close();
         } catch (Exception e) {
             this.connection.rollback();
+            addDistribution.close();
             throw e;
         }
     }
@@ -36,15 +38,17 @@ class DistributionUploader {
         if (id < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement removeDistribution = this.connection.prepareCall("{call DISTRIBUTION_MGMT.REMOVEDISTRIBUTION(?)}");
         try {
-            CallableStatement removeDistribution = this.connection.prepareCall("{call DISTRIBUTION_MGMT.REMOVEDISTRIBUTION(?)}");
             removeDistribution.setInt(1, id);
             if (removeDistribution.executeUpdate() != 1) {
                 throw new SQLException("Couldn't remove distribution");
             }
             this.connection.commit();
+            removeDistribution.close();
         } catch (Exception e) {
             this.connection.rollback();
+            removeDistribution.close();
             throw e;
         }
     }
@@ -53,8 +57,8 @@ class DistributionUploader {
         if (distributionId < 1 || collectionId < 1 || labelId < 1 || marketId < 1 || releaseDate == null) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
+        CallableStatement updateDistribution = this.connection.prepareCall("{call DISTRIBUTION_MGMT.UPDATEDISTRIBUTION(?, ?, ?, ?, ?)}");
         try {
-            CallableStatement updateDistribution = this.connection.prepareCall("{call DISTRIBUTION_MGMT.UPDATEDISTRIBUTION(?, ?, ?, ?, ?)}");
             updateDistribution.setInt(1, distributionId);
             updateDistribution.setInt(2, collectionId);
             updateDistribution.setDate(3, releaseDate);
@@ -64,8 +68,10 @@ class DistributionUploader {
                 throw new SQLException("Couldn't update distribution");
             }
             this.connection.commit();
+            updateDistribution.close();
         } catch (Exception e) {
             this.connection.rollback();
+            updateDistribution.close();
             throw e;
         }
     }

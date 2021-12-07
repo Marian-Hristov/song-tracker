@@ -38,16 +38,18 @@ class RoleUploader {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("Given id is invalid or null");
         } else if (category == 'c' || category == 'm' || category == 'p') {
+            CallableStatement deleteRole = this.connection.prepareCall("{call ROLE_MGMT.REMOVEROLE(?, ?)}");
             try {
-                CallableStatement deleteRole = this.connection.prepareCall("{call ROLE_MGMT.REMOVEROLE(?, ?)}");
                 deleteRole.setString(1, Character.toString(category));
                 deleteRole.setString(2, name);
                 if (deleteRole.executeUpdate() != 1) {
                     throw new SQLException("Could not remove role");
                 }
                 this.connection.commit();
+                deleteRole.close();
             } catch (Exception e) {
                 this.connection.rollback();
+                deleteRole.close();
                 throw e;
             }
         } else {
@@ -59,9 +61,8 @@ class RoleUploader {
         if (oldName == null || newName == null || oldName.equals("") || newName.equals("")) {
             throw new IllegalArgumentException("One or more given names are invalid or null");
         } else if (category == 'c' || category == 'm' || category == 'p') {
-
+            CallableStatement updateRole = this.connection.prepareCall("{call ROLE_MGMT.UPDATEROLE(?, ?, ?)}");
             try {
-                CallableStatement updateRole = this.connection.prepareCall("{call ROLE_MGMT.UPDATEROLE(?, ?, ?)}");
                 updateRole.setString(1, Character.toString(category));
                 updateRole.setString(2, oldName);
                 updateRole.setString(3, newName);
@@ -69,8 +70,10 @@ class RoleUploader {
                     throw new SQLException("Could not update role");
                 }
                 this.connection.commit();
+                updateRole.close();
             } catch (Exception e) {
                 this.connection.rollback();
+                updateRole.close();
                 throw e;
             }
         } else {
