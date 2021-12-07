@@ -48,6 +48,7 @@ class RecordingDownloader {
     public static int totalRecordings(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from recordings");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int total = rs.getInt("count(*)");
         ps.close();
         return total;
