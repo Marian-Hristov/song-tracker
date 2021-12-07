@@ -38,11 +38,15 @@ public class ObjectUploader {
         }
     }
 
+
     public static ObjectUploader getInstance() throws Exception {
         if (instance == null) {
             instance = new ObjectUploader(DBConnection.getConnection());
         }
         return instance;
+    }
+
+    public <T extends Object> void add(T entry) {
     }
 
     public void addCollection(Collection collection) throws Exception {
@@ -106,11 +110,8 @@ public class ObjectUploader {
         }
     }
 
-    public void deleteCompilation(Compilation compilation) throws Exception {
-        if (compilation == null) {
-            throw new Exception("Compilation is null");
-        }
-        this.compilationUploader.deleteCompilation(compilation.getId());
+    public void deleteCompilation(int id) throws Exception {
+        this.compilationUploader.deleteCompilation(id);
     }
 
     public void updateCompilation(Compilation oldComp, Compilation newComp) throws Exception {
@@ -225,11 +226,8 @@ public class ObjectUploader {
         this.recordingUploader.addRecording(recording);
     }
 
-    public void removeRecording(Recording recording) throws Exception {
-        if (recording == null) {
-            throw new Exception("Recording is null");
-        }
-        this.recordingUploader.removeRecording(recording.getId());
+    public void removeRecording(int id) throws Exception {
+        this.recordingUploader.removeRecording(id);
     }
 
     public void updateRecording(Recording oldRecording, Recording newRecording) throws Exception {

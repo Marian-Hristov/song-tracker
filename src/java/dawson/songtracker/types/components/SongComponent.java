@@ -26,6 +26,14 @@ public abstract class SongComponent {
 
     }
 
+    public boolean isReleased() {
+        return true;
+    }
+
+    public boolean isUnreleased() {
+        return true;
+    }
+
     public int getId() {
         return id;
     }

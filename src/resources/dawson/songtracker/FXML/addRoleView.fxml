@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<fx:root xmlns:fx="http://javafx.com/fxml"
+         xmlns="http://javafx.com/javafx"
+         type="Pane"
+         layoutX="65.0" layoutY="53.0" prefHeight="274.0" prefWidth="518.0"
+         style="-fx-background-color: white; -fx-border-style: solid;">
+
+    <children>
+        <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0">
+            <children>
+                <Label fx:id="popupName1" text="Add Role">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <Button layoutX="195.0" layoutY="202.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add" onMouseClicked="#onAdd"/>
+        <Button layoutX="496.0" layoutY="4.0" minHeight="5.0" minWidth="5.0" mnemonicParsing="false" onAction="#hide" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red; -fx-background-radius: 100%;" />
+        <Label layoutX="105.0" layoutY="102.0" text="Role" />
+        <ChoiceBox layoutX="294.0" layoutY="132.0" prefWidth="150.0" fx:id="choiceBox"/>
+        <Label layoutX="335.0" layoutY="102.0" text="Role Type" />
+        <TextField layoutX="45.0" layoutY="132.0" prefHeight="27.0" prefWidth="150.0" fx:id="textInput"/>
+    </children>
+
+
+</fx:root>
