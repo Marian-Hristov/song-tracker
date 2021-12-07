@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
-<fx:root xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" type="Pane">
+<?import javafx.scene.text.Font?>
+<fx:root xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         prefHeight="400.0" prefWidth="600.0"
+         type="Pane">
+
     <children>
         <VBox layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="640.0">
             <children>
@@ -11,27 +16,24 @@
                     <children>
                         <VBox layoutX="20.0" layoutY="14.0" prefHeight="364.0" prefWidth="597.0" spacing="10.0">
                             <children>
-                                <Label fx:id="label">
+                                <Label text="Role" fx:id="label">
                                     <font>
-                                        <Font size="28.0"/>
+                                        <Font size="28.0" />
                                     </font>
                                 </Label>
                                 <TextField prefHeight="25.0" prefWidth="249.0" fx:id="textField"/>
                                 <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="243.0" spacing="20.0">
                                     <children>
-                                        <CheckBox mnemonicParsing="false" text="Released" fx:id="released"/>
-                                        <CheckBox layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Unreleased" fx:id="unreleased"/>
                                         <Button minWidth="70.0" mnemonicParsing="false" text="Add" onMouseClicked="#onAdd"/>
-                                        <Button layoutX="10.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false" text="Delete" />
-                                        <Button layoutX="74.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false" text="Update" />
+                                        <Button layoutX="10.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false" text="Delete" onMouseClicked="#onDelete"/>
+                                        <Button layoutX="74.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false" text="Update" onMouseClicked="#onUpdate"/>
                                     </children>
                                 </HBox>
-                                <TableView prefHeight="296.0" prefWidth="597.0">
-                                    <columns>
-                                        <TableColumn prefWidth="321.0" text="Name"/>
-                                        <TableColumn prefWidth="152.0" text="Creation Time"/>
-                                        <TableColumn prefWidth="123.0" text="Duration"/>
-                                    </columns>
+                                <TableView prefHeight="200.0" prefWidth="200.0" fx:id="tbData">
+<!--                                    <columns>-->
+<!--                                        <TableColumn prefWidth="285.5655002593994" text="Role" fx:id="roleName"/>-->
+<!--                                        <TableColumn prefWidth="311.2663269042969" text="Category" fx:id="roleCategory"/>-->
+<!--                                    </columns>-->
                                 </TableView>
                             </children>
                         </VBox>
@@ -40,4 +42,5 @@
             </children>
         </VBox>
     </children>
+
 </fx:root>

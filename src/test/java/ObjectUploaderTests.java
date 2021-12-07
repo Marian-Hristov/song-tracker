@@ -25,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ObjectUploaderTests {
 
     // TODO Don't forget to remove
-    private final String userName = "A2033348";
-    private final String password = "6019@ria_database";
+    private final String userName = "A2035536";
+    private final String password = "Dawson123";
 
     // Each of the test is run after the build script has
     // been on run on the database
@@ -156,7 +156,7 @@ public class ObjectUploaderTests {
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
         Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
-        ul.deleteCompilation(compilation);
+        ul.deleteCompilation(compilation.getId());
         assertNull(dl.loadCompilation(1));
     }
 
@@ -368,7 +368,7 @@ public class ObjectUploaderTests {
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
         Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
         ul.addRecording(recording);
-        ul.removeRecording(recording);
+        ul.removeRecording(recording.getId());
         assertNull(dl.loadRecording(1));
     }
 

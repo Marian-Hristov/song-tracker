@@ -23,6 +23,8 @@ public abstract class Role {
 
     public abstract boolean equals(Object o);
 
+    public abstract ERoleCategory getRoleCategory();
+
     @Override
     public String toString() {
         return "Role{" +

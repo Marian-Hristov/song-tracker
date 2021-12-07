@@ -14,6 +14,11 @@ public class MusicianRole extends Role {
     }
 
     @Override
+    public ERoleCategory getRoleCategory() {
+        return ERoleCategory.MUSICIAN;
+    }
+
+    @Override
     public int hashCode() {
         return id;
     }

@@ -15,18 +15,39 @@ import java.util.Map;
 // Class can only be accessed by the package and not outside
 class RoleDownloader {
 
-
     public static MusicianRole loadMusicianRole(Connection connection, int id) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from musicianRoles where role_id = ?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         MusicianRole musicianRole = new MusicianRole(id, rs.getString("role_name"));
-        rs.close();
+        ps.close();
         return musicianRole;
+    }
+
+    public static int totalMusicianRoles(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select count(*) from musicianRoles");
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int total = rs.getInt("count(*)");
+        ps.close();
+        return total;
+    }
+
+    public static ArrayList<MusicianRole> loadFirstMusicianRoles(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from musicianRoles fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<MusicianRole> roles = new ArrayList<>();
+        while(rs.next()){
+            MusicianRole role = loadMusicianRole(connection, rs.getInt("role_id"));
+            roles.add(role);
+        }
+        ps.close();
+        return roles;
     }
 
     public static ArrayList<MusicianRole> loadMusicianRolesByName(Connection connection, String name) throws SQLException{
@@ -39,7 +60,7 @@ class RoleDownloader {
             MusicianRole musicianRole = loadMusicianRole(connection, rs.getInt("role_id"));
             musicianRoles.add(musicianRole);
         }
-        rs.close();
+        ps.close();
         return musicianRoles;
     }
 
@@ -48,12 +69,34 @@ class RoleDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         ProductionRole productionRole = new ProductionRole(id, rs.getString("role_name"));
-        rs.close();
+        ps.close();
         return productionRole;
+    }
+
+    public static int totalProductionRoles(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select count(*) from productionRoles");
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int total = rs.getInt("count(*)");
+        ps.close();
+        return total;
+    }
+
+    public static ArrayList<ProductionRole> loadFirstProductionRoles(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from productionRoles fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<ProductionRole> roles = new ArrayList<>();
+        while(rs.next()){
+            ProductionRole role = loadProductionRole(connection, rs.getInt("role_id"));
+            roles.add(role);
+        }
+        ps.close();
+        return roles;
     }
 
     public static ArrayList<ProductionRole> loadProductionRolesByName(Connection connection, String name) throws SQLException{
@@ -66,7 +109,7 @@ class RoleDownloader {
             ProductionRole productionRole = loadProductionRole(connection, rs.getInt("role_id"));
             productionRoles.add(productionRole);
         }
-        rs.close();
+        ps.close();
         return productionRoles;
     }
 
@@ -75,12 +118,34 @@ class RoleDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         CompilationRole compilationRole = new CompilationRole(id, rs.getString("role_name"));
-        rs.close();
+        ps.close();
         return compilationRole;
+    }
+
+    public static int totalCompilationRoles(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select count(*) from compilationRoles");
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int total = rs.getInt("count(*)");
+        ps.close();
+        return total;
+    }
+
+    public static ArrayList<CompilationRole> loadFirstCompilationRoles(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from compilationRoles fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<CompilationRole> compilationRoles = new ArrayList<>();
+        while(rs.next()){
+            CompilationRole compilationRole = loadCompilationRole(connection, rs.getInt("role_id"));
+            compilationRoles.add(compilationRole);
+        }
+        ps.close();
+        return compilationRoles;
     }
 
     public static ArrayList<CompilationRole> loadCompilationRoleByName(Connection connection, String name) throws SQLException{
@@ -93,7 +158,7 @@ class RoleDownloader {
             CompilationRole compilationRole = loadCompilationRole(connection, rs.getInt("role_id"));
             compilationRoles.add(compilationRole);
         }
-        rs.close();
+        ps.close();
         return compilationRoles;
     }
 
@@ -102,14 +167,34 @@ class RoleDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
-
         Contributor contributor = new Contributor(id, rs.getString("contributor_name"));
-
-        rs.close();
+        ps.close();
         return contributor;
+    }
+
+    public static int totalContributors(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select count(*) from contributors");
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int total = rs.getInt("count(*)");
+        ps.close();
+        return total;
+    }
+
+    public static ArrayList<Contributor> loadFirstContributors(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from contributors fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Contributor> contributors = new ArrayList<>();
+        while(rs.next()){
+            Contributor contributor = loadContributor(connection, rs.getInt("contributor_id"));
+            contributors.add(contributor);
+        }
+        ps.close();
+        return contributors;
     }
 
     public static ArrayList<Contributor> loadContributorsByName(Connection connection, String name) throws SQLException {
@@ -122,7 +207,7 @@ class RoleDownloader {
             Contributor contributor = loadContributor(connection, rs.getInt("contributor_id"));
             contributors.add(contributor);
         }
-        rs.close();
+        ps.close();
         return contributors;
     }
 
@@ -150,7 +235,7 @@ class RoleDownloader {
                 contributions.put(compilation, compilationRoles);
             }
         }
-        rs.close();
+        ps.close();
         return contributions;
     }
 
@@ -173,7 +258,7 @@ class RoleDownloader {
                 contributions.put(recording, productionRoles);
             }
         }
-        rs.close();
+        ps.close();
         return contributions;
     }
 
@@ -196,7 +281,7 @@ class RoleDownloader {
                 contributions.put(recording, musicianRoles);
             }
         }
-        rs.close();
+        ps.close();
         return contributions;
     }
 }

@@ -1,5 +1,6 @@
-package dawson.songtracker.controllers;
+package dawson.songtracker.controllers.assign;
 
+import dawson.songtracker.event.ContributorAssignedEvent;
 import dawson.songtracker.types.roles.CompilationRole;
 import dawson.songtracker.types.roles.Contributor;
 import dawson.songtracker.types.roles.MusicianRole;
@@ -11,15 +12,23 @@ import javafx.scene.control.ChoiceBox;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AssignContributorController extends Popup {
+public class AssignContributorController extends AssignPopupController {
     @FXML
-    ChoiceBox contributorBox;
+    ChoiceBox<Contributor> contributorBox;
 
     @FXML
-    ChoiceBox roleBox;
+    ChoiceBox<Role> roleBox;
 
     public AssignContributorController() {
         super();
+    }
+
+    @Override
+    public void onAdd() {
+        fireEvent(
+                new ContributorAssignedEvent(roleBox.getSelectionModel().getSelectedItem(),
+                        contributorBox.getSelectionModel().getSelectedItem())
+        );
     }
 
     public void initialize() {
@@ -35,8 +44,8 @@ public class AssignContributorController extends Popup {
             )
         ); //ObjectDownloader.getAllContributors();
 
-        this.contributorBox.setValue(contributors.get(1).getName());
-        contributors.forEach(contributor -> this.contributorBox.getItems().add(contributor.getName()));
+        this.contributorBox.setValue(contributors.get(1));
+        contributors.forEach(contributor -> this.contributorBox.getItems().add(contributor));
     }
 
     private void initializeRoleBox() {
@@ -47,8 +56,8 @@ public class AssignContributorController extends Popup {
                 )
 
         );//ObjectDownloader.getAllContributors();
-        roles.forEach(role-> this.roleBox.getItems().add(role.getName()));
+        roles.forEach(role-> this.roleBox.getItems().add(role));
 
-        this.roleBox.setValue(roles.get(1).getName());
+        this.roleBox.setValue(roles.get(1));
     }
 }

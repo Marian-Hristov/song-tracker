@@ -14,6 +14,11 @@ public class ProductionRole extends Role {
     }
 
     @Override
+    public ERoleCategory getRoleCategory() {
+        return ERoleCategory.PRODUCTION;
+    }
+
+    @Override
     public int hashCode() {
         return id;
     }

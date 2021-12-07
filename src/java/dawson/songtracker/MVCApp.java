@@ -1,22 +1,18 @@
 package dawson.songtracker;
 
-
-import dawson.songtracker.utils.Loader;
+import dawson.songtracker.DBObjects.DBConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
 
 public class MVCApp extends Application {
     @Override
     public void start(Stage stage) {
+        createDBConnection();
         Parent root = null;
         try {
             root = FXMLLoader.load(this.getClass().getResource("FXML/mainView.fxml"));
@@ -34,7 +30,8 @@ public class MVCApp extends Application {
     }
 
     private void createDBConnection() {
-
+        DBConnection.setUsername("A2035536");
+        DBConnection.setPassword("Dawson123");
     }
 
     public static void main(String[] args) {

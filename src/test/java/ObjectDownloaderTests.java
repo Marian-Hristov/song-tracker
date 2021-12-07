@@ -3,6 +3,7 @@ import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.distributions.Collection;
+import dawson.songtracker.types.distributions.Distribution;
 import dawson.songtracker.types.distributions.Market;
 import dawson.songtracker.types.distributions.RecordLabel;
 import dawson.songtracker.types.roles.CompilationRole;
@@ -15,8 +16,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ObjectDownloaderTests {
-    private final String userName = "A2041723";
-    private final String password = "ertatera";
+    private final String userName = "A2035536";
+    private final String password = "Dawson123";
 
     @Test
     public void recordingByName() throws SQLException{
@@ -249,6 +250,18 @@ public class ObjectDownloaderTests {
         for (Collection collection :
                 collections) {
             System.out.println(collection);
+        }
+    }
+
+    @Test
+    public void distributions() throws SQLException{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ArrayList<Distribution> distributions = dl.loadAllDistributions();
+        System.out.println(distributions.size());
+        for(Distribution distribution : distributions){
+            System.out.println(distribution);
         }
     }
 }

@@ -1,4 +1,4 @@
-package dawson.songtracker.controllers;
+package dawson.songtracker.controllers.assign;
 
 import dawson.songtracker.types.components.Segment;
 import dawson.songtracker.types.roles.Role;
@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class CompilationDetailController extends Popup {
+public class CompilationDetailController extends AssignPopupController {
     @FXML
     Label name;
 
@@ -59,4 +59,8 @@ public class CompilationDetailController extends Popup {
         });
     }
 
+    @Override
+    public void onAdd() {
+
+    }
 }

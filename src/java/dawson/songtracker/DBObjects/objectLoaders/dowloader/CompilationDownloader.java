@@ -5,6 +5,7 @@ import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.components.Segment;
 import dawson.songtracker.types.roles.CompilationRole;
 import dawson.songtracker.types.roles.Contributor;
+import dawson.songtracker.types.roles.MusicianRole;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ class CompilationDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
 
@@ -27,8 +28,30 @@ class CompilationDownloader {
         ArrayList<Segment<Compilation>> sampledCompilations = loadCompilationSamples(connection, id);
         ArrayList<Segment<Recording>> sampledRecordings = loadRecordingSamples(connection, id);
         Compilation compilation = new Compilation(id, rs.getString("compilation_name"), rs.getTimestamp("creation_time"), rs.getDouble("duration"), sampledCompilations, sampledRecordings, compilationRoles);
-        rs.close();
+        ps.close();
         return compilation;
+    }
+
+    public static ArrayList<Compilation> loadFirstCompilations(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from compilations fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        while(rs.next()){
+            Compilation compilation = loadCompilation(connection, rs.getInt("compilation_id"));
+            compilations.add(compilation);
+        }
+        ps.close();
+        return compilations;
+    }
+
+    public static int totalCompilations(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select count(*) from compilations");
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int total = rs.getInt("count(*)");
+        ps.close();
+        return total;
     }
 
     public static ArrayList<Compilation> loadCompilationsByName(Connection connection, String name) throws SQLException {
@@ -40,7 +63,7 @@ class CompilationDownloader {
             Compilation compilation = loadCompilation(connection, rs.getInt("compilation_id"));
             compilations.add(compilation);
         }
-        rs.close();
+        ps.close();
         return compilations;
     }
 
@@ -50,7 +73,7 @@ class CompilationDownloader {
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return new HashMap<>();
         }
         Map<CompilationRole, ArrayList<Contributor>> compilationRoles = new HashMap<>();
@@ -65,7 +88,7 @@ class CompilationDownloader {
                 compilationRoles.put(cRole, contributors);
             }
         } while (rs.next());
-        rs.close();
+        ps.close();
         return compilationRoles;
     }
 
@@ -76,7 +99,7 @@ class CompilationDownloader {
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return new ArrayList<>();
         }
         ArrayList<Segment<Compilation>> sampleCompilations = new ArrayList<>();
@@ -84,7 +107,7 @@ class CompilationDownloader {
             Compilation compilation = loadCompilation(connection, rs.getInt("compilation_used"));
             sampleCompilations.add(loadSegment(connection, rs.getInt("segment_id"), compilationId, compilation));
         } while (rs.next());
-        rs.close();
+        ps.close();
         return sampleCompilations;
     }
 
@@ -95,7 +118,7 @@ class CompilationDownloader {
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return new ArrayList<>();
         }
         ArrayList<Segment<Recording>> sampleCompilations = new ArrayList<>();
@@ -103,7 +126,7 @@ class CompilationDownloader {
             Recording recording = RecordingDownloader.loadRecording(connection, rs.getInt("recording_id"));
             sampleCompilations.add(loadSegment(connection, rs.getInt("segment_id"), compilationId, recording));
         } while (rs.next());
-        rs.close();
+        ps.close();
         return sampleCompilations;
     }
 
@@ -112,11 +135,11 @@ class CompilationDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         Segment<Compilation> segment = new Segment<>(id, compilationMainTrackId, compilation, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
-        rs.close();
+        ps.close();
         return segment;
     }
 
@@ -125,11 +148,11 @@ class CompilationDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (!rs.next()) {
-            rs.close();
+            ps.close();
             return null;
         }
         Segment<Recording> segment = new Segment<>(id, compilationMainTrackId, recording, rs.getDouble("main_track_offset"), rs.getDouble("duration_in_main_track"), rs.getDouble("component_track_offset"), rs.getDouble("duration_of_component_used"));
-        rs.close();
+        ps.close();
         return segment;
     }
 
@@ -139,7 +162,7 @@ class CompilationDownloader {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         boolean exists = rs.next();
-        rs.close();
+        ps.close();
         return exists;
     }
 }
