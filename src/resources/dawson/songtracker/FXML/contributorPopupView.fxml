@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Font?>
-<?import dawson.songtracker.controllers.AssignContributorController?>
+<?import dawson.songtracker.controllers.assign.AssignContributorController?>
 <fx:root type="Pane" layoutX="66.0" layoutY="52.0" prefHeight="274.0" prefWidth="518.0"
          style="-fx-background-color: white; -fx-border-style: solid;"
          xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
@@ -22,10 +22,10 @@
         </VBox>
         <Button layoutX="412.0" layoutY="49.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Add"
                 onMouseClicked="#handleAdd"/>
-        <TableView layoutX="25.0" layoutY="82.0" prefHeight="166.0" prefWidth="460.0">
+        <TableView layoutX="25.0" layoutY="82.0" prefHeight="166.0" prefWidth="460.0" fx:id="table">
             <columns>
-                <TableColumn prefWidth="232.0" text="Name"/>
-                <TableColumn prefWidth="227.0" text="Role"/>
+                <TableColumn prefWidth="232.0" text="Name" fx:id="nameCol"/>
+                <TableColumn prefWidth="227.0" text="Role" fx:id="roleCol"/>
             </columns>
         </TableView>
         <Button layoutX="496.0" layoutY="4.0" minHeight="5.0" minWidth="5.0" mnemonicParsing="false" onAction="#hide"

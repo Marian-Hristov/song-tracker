@@ -14,6 +14,11 @@ public class CompilationRole extends Role {
     }
 
     @Override
+    public ERoleCategory getRoleCategory() {
+        return ERoleCategory.COMPILATION;
+    }
+
+    @Override
     public int hashCode() {
         return id;
     }

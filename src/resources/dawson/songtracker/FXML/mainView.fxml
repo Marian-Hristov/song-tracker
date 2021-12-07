@@ -2,11 +2,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
-<?import dawson.songtracker.controllers.RecordingPopupController?>
+<?import dawson.songtracker.controllers.assign.ContributorPopupController?>
 <?import javafx.scene.control.Label?>
-<?import dawson.songtracker.controllers.SearchPanelController?>
-<?import dawson.songtracker.controllers.RecordingController?>
-<?import dawson.songtracker.controllers.CompilationController?>
+<?import dawson.songtracker.controllers.searchPanel.SearchSongController?>
+<?import dawson.songtracker.controllers.paneControllers.RecordingController?>
+<?import dawson.songtracker.controllers.paneControllers.CompilationController?>
+<?import dawson.songtracker.controllers.searchPanel.RoleSearchController?>
+<?import dawson.songtracker.controllers.paneControllers.RoleController?>
+<?import dawson.songtracker.controllers.searchPanel.ContributorSearchController?>
+<?import dawson.songtracker.controllers.paneControllers.ContributorController?>
 <Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <TabPane >
         <tabs>
@@ -22,12 +26,12 @@
             </Tab>
             <Tab closable="false" text="Role">
                 <content>
-                    <VBox prefHeight="400.0" prefWidth="640.0" />
+                    <RoleController/>
                 </content>
             </Tab>
             <Tab closable="false" text="Distribution">
                 <content>
-                    <VBox prefHeight="400.0" prefWidth="640.0" />
+                    <ContributorController/>
                 </content>
             </Tab>
             <Tab closable="false" text="Contributor">

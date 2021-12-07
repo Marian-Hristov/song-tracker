@@ -63,7 +63,7 @@ public class ObjectDownloader {
         ArrayList<CompilationRole> roles = new ArrayList<>();
         for (int i = 1; i < nbRows; i++) {
             CompilationRole compilationRole = loadCompilationRole(i);
-            if (compilationRole == null) break;
+            if (compilationRole == null) continue;
             roles.add(compilationRole);
         }
         return roles;
@@ -123,7 +123,7 @@ public class ObjectDownloader {
         ArrayList<Contributor> contributors = new ArrayList<>();
         for (int i = 1; i < nbRows; i++) {
             Contributor contributor = loadContributor(i);
-            if (contributor == null) break;
+            if (contributor == null) continue;
             contributors.add(contributor);
         }
         return contributors;
@@ -145,7 +145,7 @@ public class ObjectDownloader {
         ArrayList<Compilation> compilations = new ArrayList<>();
         for (int i = 1; i < nbRows; i++) {
             Compilation compilation = loadCompilation(i);
-            if (compilation == null) break;
+            if (compilation == null) continue;
             compilations.add(compilation);
         }
         return compilations;
@@ -165,7 +165,7 @@ public class ObjectDownloader {
         ArrayList<Recording> recordings = new ArrayList<>();
         for (int i = 1; i < nbRows; i++) {
             Recording recording = loadRecording(i);
-            if (recording == null) break;
+            if (recording == null) continue;
             recordings.add(recording);
         }
         return recordings;

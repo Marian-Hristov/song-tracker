@@ -15,8 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ObjectDownloaderTests {
-    private final String userName = "";
-    private final String password = "";
+    private final String userName = "A2035536";
+    private final String password = "Dawson123";
 
     @Test
     public void recordingByName() throws SQLException{
