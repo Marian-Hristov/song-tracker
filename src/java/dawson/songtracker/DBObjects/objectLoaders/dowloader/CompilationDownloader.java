@@ -5,6 +5,7 @@ import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.components.Segment;
 import dawson.songtracker.types.roles.CompilationRole;
 import dawson.songtracker.types.roles.Contributor;
+import dawson.songtracker.types.roles.MusicianRole;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,6 +30,27 @@ class CompilationDownloader {
         Compilation compilation = new Compilation(id, rs.getString("compilation_name"), rs.getTimestamp("creation_time"), rs.getDouble("duration"), sampledCompilations, sampledRecordings, compilationRoles);
         ps.close();
         return compilation;
+    }
+
+    public static ArrayList<Compilation> loadFirstCompilations(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from compilations fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        while(rs.next()){
+            Compilation compilation = loadCompilation(connection, rs.getInt("compilation_id"));
+            compilations.add(compilation);
+        }
+        ps.close();
+        return compilations;
+    }
+
+    public static int totalCompilations(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select count(*) from compilations");
+        ResultSet rs = ps.executeQuery();
+        int total = rs.getInt("count(*)");
+        ps.close();
+        return total;
     }
 
     public static ArrayList<Compilation> loadCompilationsByName(Connection connection, String name) throws SQLException {

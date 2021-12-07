@@ -47,6 +47,11 @@ public class ObjectDownloader {
         return RoleDownloader.loadFirstCompilationRoles(this.connection, nbRows);
     }
 
+    public ArrayList<CompilationRole> loadAllCompilationRoles() throws SQLException{
+        int total = RoleDownloader.totalCompilationRoles(this.connection);
+        return RoleDownloader.loadFirstCompilationRoles(this.connection, total);
+    }
+
     public ProductionRole loadProductionRole(int id) throws SQLException {
         return RoleDownloader.loadProductionRole(this.connection, id);
     }
@@ -57,6 +62,11 @@ public class ObjectDownloader {
 
     public ArrayList<ProductionRole> loadFirstProductionRoles(int nbRows) throws SQLException{
         return RoleDownloader.loadFirstProductionRoles(this.connection, nbRows);
+    }
+
+    public ArrayList<ProductionRole> loadAllProductionRoles() throws SQLException{
+        int total = RoleDownloader.totalProductionRoles(this.connection);
+        return RoleDownloader.loadFirstProductionRoles(this.connection, total);
     }
 
     public MusicianRole loadMusicianRole(int id) throws SQLException {
@@ -71,6 +81,11 @@ public class ObjectDownloader {
         return RoleDownloader.loadFirstMusicianRoles(this.connection, nbRows);
     }
 
+    public ArrayList<MusicianRole> loadAllMusicianRoles() throws SQLException{
+        int total = RoleDownloader.totalMusicianRoles(this.connection);
+        return RoleDownloader.loadFirstMusicianRoles(this.connection, total);
+    }
+
     public Contributor loadContributor(int id) throws SQLException {
         return RoleDownloader.loadContributor(this.connection, id);
     }
@@ -80,13 +95,12 @@ public class ObjectDownloader {
     }
 
     public ArrayList<Contributor> loadFirstContributors(int nbRows) throws SQLException{
-        ArrayList<Contributor> contributors = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            Contributor contributor = loadContributor(i);
-            if (contributor == null) break;
-            contributors.add(contributor);
-        }
-        return contributors;
+        return RoleDownloader.loadFirstContributors(this.connection, nbRows);
+    }
+
+    public ArrayList<Contributor> loadAllContributors() throws SQLException{
+        int total = RoleDownloader.totalContributors(this.connection);
+        return RoleDownloader.loadFirstContributors(this.connection, total);
     }
 
     // Components
@@ -100,13 +114,12 @@ public class ObjectDownloader {
 
 
     public ArrayList<Compilation> loadFirstCompilations(int nbRows) throws SQLException {
-        ArrayList<Compilation> compilations = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            Compilation compilation = loadCompilation(i);
-            if (compilation == null) break;
-            compilations.add(compilation);
-        }
-        return compilations;
+        return CompilationDownloader.loadFirstCompilations(this.connection, nbRows);
+    }
+
+    public ArrayList<Compilation> loadAllCompilations() throws SQLException{
+        int total = CompilationDownloader.totalCompilations(this.connection);
+        return CompilationDownloader.loadFirstCompilations(this.connection, total);
     }
 
     public Recording loadRecording(int id) throws SQLException {
@@ -118,13 +131,12 @@ public class ObjectDownloader {
     }
 
     public ArrayList<Recording> loadFirstRecordings(int nbRows) throws SQLException{
-        ArrayList<Recording> recordings = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            Recording recording = loadRecording(i);
-            if (recording == null) break;
-            recordings.add(recording);
-        }
-        return recordings;
+        return RecordingDownloader.loadFirstRecordings(this.connection, nbRows);
+    }
+
+    public ArrayList<Recording> loadAllRecordings() throws SQLException{
+        int total = RecordingDownloader.totalRecordings(this.connection);
+        return RecordingDownloader.loadFirstRecordings(this.connection, total);
     }
 
     // Collections
@@ -133,13 +145,12 @@ public class ObjectDownloader {
     }
 
     public ArrayList<Collection> loadFirstCollections(int nbRows) throws SQLException{
-        ArrayList<Collection> collections = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            Collection collection = loadCollection(i);
-            if (collection == null) break;
-            collections.add(collection);
-        }
-        return collections;
+        return CollectionDownloader.loadFirstCollections(this.connection, nbRows);
+    }
+
+    public ArrayList<Collection> loadAllCollections() throws SQLException{
+        int total = CollectionDownloader.totalCollections(this.connection);
+        return CollectionDownloader.loadFirstCollections(this.connection, total);
     }
 
     public ArrayList<Collection> loadCollectionsByName(String name) throws SQLException{
@@ -152,13 +163,12 @@ public class ObjectDownloader {
     }
 
     public ArrayList<Distribution> loadFirstDistributions(int nbRows) throws SQLException{
-        ArrayList<Distribution> distributions = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            Distribution distribution = loadDistribution(i);
-            if (distribution == null) break;
-            distributions.add(distribution);
-        }
-        return distributions;
+        return DistributionDownloader.loadFirstDistributions(this.connection, nbRows);
+    }
+
+    public ArrayList<Distribution> loadAllDistributions() throws SQLException{
+        int total = DistributionDownloader.totalDistributions(this.connection);
+        return DistributionDownloader.loadFirstDistributions(this.connection, total);
     }
 
     public Market loadMarket(int id) throws SQLException {
@@ -170,13 +180,12 @@ public class ObjectDownloader {
     }
 
     public ArrayList<Market> loadFirstMarkets(int nbRows) throws SQLException{
-        ArrayList<Market> markets = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            Market market = loadMarket(i);
-            if (market == null) break;
-            markets.add(market);
-        }
-        return markets;
+        return DistributionDownloader.loadFirstMarkets(this.connection, nbRows);
+    }
+
+    public ArrayList<Market> loadAllMarkets() throws SQLException{
+        int total = DistributionDownloader.totalMarkets(this.connection);
+        return DistributionDownloader.loadFirstMarkets(this.connection, total);
     }
 
     public RecordLabel loadRecordLabel(int id) throws SQLException {
@@ -188,17 +197,26 @@ public class ObjectDownloader {
     }
 
     public ArrayList<RecordLabel> loadFirstRecordLabels(int nbRows) throws SQLException{
-        ArrayList<RecordLabel> labels = new ArrayList<>();
-        for (int i = 1; i < nbRows; i++) {
-            RecordLabel label = loadRecordLabel(i);
-            if (label == null) break;
-            labels.add(label);
-        }
-        return labels;
+        return DistributionDownloader.loadFirstRecordLabels(this.connection, nbRows);
     }
+
+    public ArrayList<RecordLabel> loadAllRecordLabels() throws SQLException{
+        int total = DistributionDownloader.totalRecordLabels(this.connection);
+        return DistributionDownloader.loadFirstRecordLabels(this.connection, total);
+    }
+
+    // util loaders
 
     public Map<Compilation, ArrayList<CompilationRole>> getContributorCompilationRoles(Contributor contributor) throws SQLException{
         return RoleDownloader.getContributorCompilationRoles(this.connection, contributor.getId());
+    }
+
+    public Map<Recording, ArrayList<MusicianRole>> getContributorMusicianRoles(Contributor contributor) throws SQLException{
+        return RoleDownloader.getContributorMusicianRoles(this.connection, contributor.getId());
+    }
+
+    public Map<Recording, ArrayList<ProductionRole>> getContributorProductionRoles(Contributor contributor) throws SQLException{
+        return RoleDownloader.getContributorProductionRoles(this.connection, contributor.getId());
     }
 
 }

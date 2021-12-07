@@ -1,5 +1,6 @@
 package dawson.songtracker.DBObjects.objectLoaders.dowloader;
 
+import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.roles.Contributor;
 import dawson.songtracker.types.roles.MusicianRole;
@@ -29,6 +30,27 @@ class RecordingDownloader {
         Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
         ps.close();
         return recording;
+    }
+
+    public static ArrayList<Recording> loadFirstRecordings(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from recordings fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Recording> recordings = new ArrayList<>();
+        while(rs.next()){
+            Recording recording = loadRecording(connection, rs.getInt("recording_id"));
+            recordings.add(recording);
+        }
+        ps.close();
+        return recordings;
+    }
+
+    public static int totalRecordings(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select count(*) from recordings");
+        ResultSet rs = ps.executeQuery();
+        int total = rs.getInt("count(*)");
+        ps.close();
+        return total;
     }
 
     public static ArrayList<Recording> loadRecordingsByName(Connection connection, String name) throws SQLException{

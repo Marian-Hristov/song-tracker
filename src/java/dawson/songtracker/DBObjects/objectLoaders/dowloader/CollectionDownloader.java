@@ -27,6 +27,27 @@ class CollectionDownloader {
         return collection;
     }
 
+    public static ArrayList<Collection> loadFirstCollections(Connection connection, int nbRows) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from collections fetch first ? rows only");
+        ps.setInt(1, nbRows);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Collection> collections = new ArrayList<>();
+        while(rs.next()){
+            Collection collection = loadCollection(connection, rs.getInt("collection_id"));
+            collections.add(collection);
+        }
+        ps.close();
+        return collections;
+    }
+
+    public static int totalCollections(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select count(*) from collections");
+        ResultSet rs = ps.executeQuery();
+        int total = rs.getInt("count(*)");
+        ps.close();
+        return total;
+    }
+
     public static ArrayList<Collection> loadCollectionsByName(Connection connection, String name) throws SQLException {
         if(name == null){
             throw new NullPointerException("the name is null");
