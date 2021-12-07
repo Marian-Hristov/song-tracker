@@ -5,6 +5,7 @@ import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.components.Segment;
 import dawson.songtracker.types.distributions.Collection;
+import dawson.songtracker.types.distributions.Distribution;
 import dawson.songtracker.types.distributions.Market;
 import dawson.songtracker.types.distributions.RecordLabel;
 import dawson.songtracker.types.roles.CompilationRole;
@@ -13,6 +14,7 @@ import dawson.songtracker.types.roles.MusicianRole;
 import dawson.songtracker.types.roles.ProductionRole;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -513,5 +515,83 @@ public class ObjectUploaderTests {
         ul.addLabel(label1);
         ul.updateLabel(label1, label2);
         assertEquals("222 Records", dl.loadRecordLabel(1).getName());
+    }
+
+    @Test
+    public void TestAddDistribution() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet = new ArrayList<>();
+        Collection collection = new Collection(1, "Whatever", compilations, collectionsInSet);
+        RecordLabel label = new RecordLabel(1, "Aftermath");
+        Market market = new Market(7, "Canada");
+        Date releaseDate = new Date(10);
+        Distribution distribution = new Distribution(1, collection, releaseDate, label, market);
+        ul.addCollection(collection);
+        ul.addLabel(label);
+        ul.addMarket(market);
+        ul.addDistribution(distribution);
+        Distribution result = dl.loadDistribution(1);
+        assertEquals("Whatever", result.getCollection().getName());
+        assertEquals(releaseDate, result.getReleaseDate());
+        assertEquals("Aftermath", result.getLabel().getName());
+        assertEquals("Canada", result.getMarket().getName());
+    }
+
+    @Test
+    public void TestRemoveDistribution() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet = new ArrayList<>();
+        Collection collection = new Collection(1, "Whatever", compilations, collectionsInSet);
+        RecordLabel label = new RecordLabel(1, "Aftermath");
+        Market market = new Market(7, "Canada");
+        Date releaseDate = new Date(10);
+        Distribution distribution = new Distribution(1, collection, releaseDate, label, market);
+        ul.addCollection(collection);
+        ul.addLabel(label);
+        ul.addMarket(market);
+        ul.addDistribution(distribution);
+        assertNull(dl.loadDistribution(1));
+    }
+
+    @Test
+    public void TestUpdateDistribution() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        // First distribution
+        ArrayList<Compilation> compilations1 = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet1 = new ArrayList<>();
+        Collection collection1 = new Collection(1, "Whatever", compilations1, collectionsInSet1);
+        RecordLabel label1 = new RecordLabel(1, "Aftermath");
+        Market market1 = new Market(7, "Canada");
+        Date releaseDate1 = new Date(10);
+        Distribution distribution1 = new Distribution(1, collection1, releaseDate1, label1, market1);
+        ul.addCollection(collection1);
+        ul.addLabel(label1);
+        ul.addMarket(market1);
+        ul.addDistribution(distribution1);
+        // Second distribution
+        ArrayList<Compilation> compilations2 = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet2 = new ArrayList<>();
+        Collection collection2 = new Collection(1, "Good For You", compilations2, collectionsInSet2);
+        RecordLabel label2 = new RecordLabel(1, "222 Records");
+        Market market2 = new Market(7, "USA");
+        Date releaseDate2 = new Date(200);
+        Distribution distribution2 = new Distribution(1, collection2, releaseDate2, label2, market2);
+        ul.updateDistribution(distribution1, distribution2);
+        Distribution result = dl.loadDistribution(1);
+        assertEquals("Good For You", result.getCollection().getName());
+        assertEquals(releaseDate2, result.getReleaseDate());
+        assertEquals("222 Records", result.getLabel().getName());
+        assertEquals("USA", result.getMarket().getName());
     }
 }
