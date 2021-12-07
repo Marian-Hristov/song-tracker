@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 
 public abstract class Popup extends Pane {
     @FXML
-    void hide() {
+    public void hide() {
         this.setVisible(false);
     }
 

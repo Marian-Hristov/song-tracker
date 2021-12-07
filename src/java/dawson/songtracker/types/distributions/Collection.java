@@ -24,6 +24,10 @@ public class Collection {
         return compilations;
     }
 
+    public int getTracks() {
+        return compilations.size();
+    }
+
     public void setCompilation(ArrayList<Compilation> compilations) {
         if (compilations == null) {
             throw new NullPointerException("the compilation array list is null");
