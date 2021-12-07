@@ -25,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ObjectUploaderTests {
 
     // TODO Don't forget to remove
-    private final String userName = "A2035536";
-    private final String password = "Dawson123";
+    private final String userName = "A2033348";
+    private final String password = "6019@ria_database";
 
     // Each of the test is run after the build script has
     // been on run on the database
@@ -536,7 +536,7 @@ public class ObjectUploaderTests {
         ul.addDistribution(distribution);
         Distribution result = dl.loadDistribution(1);
         assertEquals("Whatever", result.getCollection().getName());
-        assertEquals(releaseDate, result.getReleaseDate());
+        assertEquals(releaseDate.toString(), result.getReleaseDate().toString());
         assertEquals("Aftermath", result.getLabel().getName());
         assertEquals("Canada", result.getMarket().getName());
     }
@@ -558,6 +558,7 @@ public class ObjectUploaderTests {
         ul.addLabel(label);
         ul.addMarket(market);
         ul.addDistribution(distribution);
+        ul.removeDistribution(distribution);
         assertNull(dl.loadDistribution(1));
     }
 
@@ -573,7 +574,7 @@ public class ObjectUploaderTests {
         Collection collection1 = new Collection(1, "Whatever", compilations1, collectionsInSet1);
         RecordLabel label1 = new RecordLabel(1, "Aftermath");
         Market market1 = new Market(7, "Canada");
-        Date releaseDate1 = new Date(10);
+        Date releaseDate1 = new Date(10000);
         Distribution distribution1 = new Distribution(1, collection1, releaseDate1, label1, market1);
         ul.addCollection(collection1);
         ul.addLabel(label1);
@@ -583,15 +584,17 @@ public class ObjectUploaderTests {
         ArrayList<Compilation> compilations2 = new ArrayList<>();
         ArrayList<Collection> collectionsInSet2 = new ArrayList<>();
         Collection collection2 = new Collection(1, "Good For You", compilations2, collectionsInSet2);
-        RecordLabel label2 = new RecordLabel(1, "222 Records");
-        Market market2 = new Market(7, "USA");
-        Date releaseDate2 = new Date(200);
+        RecordLabel label2 = new RecordLabel(2, "222 Records");
+        Market market2 = new Market(8, "USA");
+        Date releaseDate2 = new Date(2000000);
         Distribution distribution2 = new Distribution(1, collection2, releaseDate2, label2, market2);
+        ul.addLabel(label2);
+        ul.addMarket(market2);
         ul.updateDistribution(distribution1, distribution2);
         Distribution result = dl.loadDistribution(1);
-        assertEquals("Good For You", result.getCollection().getName());
-        assertEquals(releaseDate2, result.getReleaseDate());
-        assertEquals("222 Records", result.getLabel().getName());
-        assertEquals("USA", result.getMarket().getName());
+        assertEquals(collection2.getName(), result.getCollection().getName());
+        assertEquals(releaseDate2.toString(), result.getReleaseDate().toString());
+        assertEquals(label2.getName(), result.getLabel().getName());
+        assertEquals(market2.getName(), result.getMarket().getName());
     }
 }
