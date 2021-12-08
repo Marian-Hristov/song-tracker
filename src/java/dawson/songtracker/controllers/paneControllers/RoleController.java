@@ -1,7 +1,7 @@
 package dawson.songtracker.controllers.paneControllers;
 
-import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
-import dawson.songtracker.DBObjects.objectLoaders.uploader.ObjectUploader;
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.dbObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.controllers.add.AddRoleController;
 import dawson.songtracker.controllers.searchPanel.RoleSearchController;
 import dawson.songtracker.event.AddRoleEvent;

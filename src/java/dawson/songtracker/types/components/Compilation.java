@@ -80,7 +80,7 @@ public class Compilation extends SongComponent {
     }
 
     public Map<CompilationRole, ArrayList<Contributor>> getContributions() {
-        return contributions;
+        return this.contributions;
     }
 
     @Override
@@ -98,12 +98,6 @@ public class Compilation extends SongComponent {
 
     @Override
     public String toString() {
-        return "Compilation{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", creationTime=" + creationTime +
-                ", duration=" + duration +
-                ", released=" + released +
-                '}';
+        return name;
     }
 }

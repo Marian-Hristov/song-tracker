@@ -3,11 +3,12 @@ package dawson.songtracker.types.distributions;
 import dawson.songtracker.types.components.Compilation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Collection {
     private final int id;
     private String name;
-    private ArrayList<Compilation> compilations;
+    private List<Compilation> compilations;
     private final ArrayList<Collection> collectionsInSet;
 
     public Collection(int id, String name, ArrayList<Compilation> compilations, ArrayList<Collection> collectionsInSet) {
@@ -20,7 +21,7 @@ public class Collection {
         this.collectionsInSet = collectionsInSet;
     }
 
-    public ArrayList<Compilation> getCompilations() {
+    public List<Compilation> getCompilations() {
         return compilations;
     }
 
@@ -28,7 +29,7 @@ public class Collection {
         return compilations.size();
     }
 
-    public void setCompilation(ArrayList<Compilation> compilations) {
+    public void setCompilations(List<Compilation> compilations) {
         if (compilations == null) {
             throw new NullPointerException("the compilation array list is null");
         }

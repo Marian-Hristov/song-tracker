@@ -7,9 +7,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Map;
 
 public abstract class SimpleAddPopupController extends Popup {
     @FXML
@@ -20,7 +22,6 @@ public abstract class SimpleAddPopupController extends Popup {
 
     public void initialize() {
         this.setName();
-
     }
 
     abstract public void setName();
@@ -37,5 +38,6 @@ public abstract class SimpleAddPopupController extends Popup {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }

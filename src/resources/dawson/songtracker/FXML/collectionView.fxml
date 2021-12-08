@@ -3,6 +3,7 @@
 
 <?import dawson.songtracker.controllers.searchPanel.CollectionSearchController?>
 <?import dawson.songtracker.controllers.add.AddCollectionController?>
+<?import dawson.songtracker.controllers.edit.CollectionDetailEditController?>
 <fx:root type="Pane"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
@@ -10,6 +11,7 @@
 
     <children>
         <CollectionSearchController fx:id="searchPanel"/>
+        <CollectionDetailEditController fx:id="detailPane"/>
         <AddCollectionController fx:id="addPanel"/>
     </children>
 

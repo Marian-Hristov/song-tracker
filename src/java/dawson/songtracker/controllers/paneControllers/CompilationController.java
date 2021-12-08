@@ -1,13 +1,12 @@
 package dawson.songtracker.controllers.paneControllers;
 
 
-import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
-import dawson.songtracker.DBObjects.objectLoaders.uploader.ObjectUploader;
-import dawson.songtracker.controllers.assign.CompilationDetailController;
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.dbObjects.objectLoaders.uploader.ObjectUploader;
+import dawson.songtracker.controllers.detail.CompilationDetailController;
 import dawson.songtracker.controllers.add.AddSongController;
 import dawson.songtracker.controllers.searchPanel.SearchSongController;
 import dawson.songtracker.event.SearchEvent;
-import dawson.songtracker.event.UpdateTableEvent;
 import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.utils.*;
 

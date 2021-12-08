@@ -1,4 +1,4 @@
-package dawson.songtracker.DBObjects;
+package dawson.songtracker.dbObjects;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

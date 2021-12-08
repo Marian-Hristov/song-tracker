@@ -4,7 +4,7 @@ import dawson.songtracker.utils.Loader;
 import dawson.songtracker.utils.Popup;
 
 public abstract class AssignPopupController extends Popup {
-    @Override
+
     public void onAdd() {
         System.out.println("onAdd hasn't been implemented yet.");
     }
