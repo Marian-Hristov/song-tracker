@@ -4,7 +4,6 @@ import dawson.songtracker.DBObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.components.Segment;
-import dawson.songtracker.types.components.SongComponent;
 import dawson.songtracker.types.distributions.Collection;
 import dawson.songtracker.types.distributions.Distribution;
 import dawson.songtracker.types.distributions.Market;
@@ -26,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ObjectUploaderTests {
 
     // TODO Don't forget to remove
-    private final String userName = "";
-    private final String password = "";
+    private final String userName = "A2033348";
+    private final String password = "6019@ria_database";
 
     // Each of the test is run after the build script has
     // been on run on the database
@@ -138,8 +137,8 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
-        Recording recording = new Recording(1, "Random instrumental", new Timestamp(1000000), 240, new HashMap<>(), new HashMap<>());
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0),  110.3, false, sampledCompilations, sampledRecordings, contributions);
+        Recording recording = new Recording(1, "Random instrumental", new Timestamp(1000000), 240, false, new HashMap<>(), new HashMap<>());
         Segment<Recording> sample = new Segment<>(1, 1, recording, 0, 100, 0, 100);
         ul.addCompilation(compilation);
         ul.addRecording(recording);
@@ -157,8 +156,8 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
-        Recording recording = new Recording(1, "Random instrumental", new Timestamp(1000000), 240, new HashMap<>(), new HashMap<>());
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
+        Recording recording = new Recording(1, "Random instrumental", new Timestamp(1000000), 240, false,  new HashMap<>(), new HashMap<>());
         Segment<Recording> sample = new Segment<>(1, 1, recording, 0, 100, 0, 100);
         ul.addCompilation(compilation);
         ul.addRecording(recording);
@@ -178,8 +177,8 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
-        Recording recording = new Recording(1, "Random instrumental", new Timestamp(1000000), 240, new HashMap<>(), new HashMap<>());
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false,  sampledCompilations, sampledRecordings, contributions);
+        Recording recording = new Recording(1, "Random instrumental", new Timestamp(1000000), 240, false, new HashMap<>(), new HashMap<>());
         Segment<Recording> sample = new Segment<>(1, 1, recording, 0, 100, 0, 100);
         ul.addCompilation(compilation);
         ul.addRecording(recording);
@@ -237,7 +236,7 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         ul.addContributor(contributor);
         ul.addCompilation(compilation);
         ul.addContributorToCompilation(compilation, contributor, role);
@@ -256,13 +255,13 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         ul.addContributor(contributor);
         ul.addCompilation(compilation);
         ul.addContributorToCompilation(compilation, contributor, role);
         ul.removeContributorToCompilation(compilation, contributor, role);
-        ArrayList<Contributor> result = dl.loadCompilation(1).getContributorsInRole();
-        assertEquals(contributor.getName(), result.get(0).getName());
+        Map<CompilationRole, ArrayList<Contributor>> result = dl.loadCompilation(1).getContributions();
+        assertNull(result.get(role));
     }
 
     @Test

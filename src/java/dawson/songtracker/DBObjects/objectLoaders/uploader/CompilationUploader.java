@@ -171,7 +171,7 @@ class CompilationUploader {
         if (compilationId < 1 || contributorId < 1 || roleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
-        CallableStatement removeContributorToCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.REMOVECONTRIBUTORTOCOMPILATION(?, ?, ?)}");
+        CallableStatement removeContributorToCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.REMOVECONTRIBUTORFROMCOMPILATION(?, ?, ?)}");
         try {
             removeContributorToCompilation.setInt(1, compilationId);
             removeContributorToCompilation.setInt(2, contributorId);
