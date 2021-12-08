@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ObjectUploaderTests {
 
     // TODO Don't forget to remove
-    private final String userName = "A2035536";
-    private final String password = "Dawson123";
+    private final String userName = "";
+    private final String password = "";
 
     // Each of the test is run after the build script has
     // been on run on the database
@@ -52,7 +52,7 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, true, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
 
         ArrayList<Compilation> compilations = new ArrayList<>();
@@ -76,7 +76,7 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, true, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
 
         ArrayList<Compilation> compilations = new ArrayList<>();
@@ -120,7 +120,7 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
         assertEquals("Pipe it up", dl.loadCompilation(1).getName());
 
@@ -152,7 +152,7 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
         ul.deleteCompilation(compilation.getId());
         assertNull(dl.loadCompilation(1));
@@ -168,8 +168,8 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
-        Compilation compilation1 = new Compilation(1, "Pipe it down", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, true, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation1 = new Compilation(1, "Pipe it down", new Timestamp(0), 110.3, true, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
         ul.updateCompilation(compilation, compilation1);
         Compilation updatedCompilation = dl.loadCompilation(1);
@@ -350,7 +350,7 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, false, musicalContributions, productionContributions);
         ul.addRecording(recording);
         Recording result = dl.loadRecording(1);
         assertEquals("See You Again", result.getName());
@@ -364,7 +364,7 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
         ul.addRecording(recording);
         ul.removeRecording(recording.getId());
         assertNull(dl.loadRecording(1));
@@ -378,8 +378,8 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording oldRecording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
-        Recording newRecording = new Recording(1, "Pipe it up", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording oldRecording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
+        Recording newRecording = new Recording(1, "Pipe it up", new Timestamp(System.currentTimeMillis()), 203, false, musicalContributions, productionContributions);
         ul.addRecording(oldRecording);
         ul.updateRecording(oldRecording, newRecording);
         Recording result = dl.loadRecording(1);
@@ -394,7 +394,7 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
         Contributor contributor1 = new Contributor(1, "Bob");
         Contributor contributor2 = new Contributor(2, "Marley");
         ProductionRole pRole = new ProductionRole(1, "composer");
@@ -423,7 +423,7 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
         Contributor contributor1 = new Contributor(1, "Bob");
         Contributor contributor2 = new Contributor(2, "Marley");
         ProductionRole pRole = new ProductionRole(1, "composer");

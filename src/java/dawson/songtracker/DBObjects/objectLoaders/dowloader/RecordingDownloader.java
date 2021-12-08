@@ -1,6 +1,5 @@
 package dawson.songtracker.DBObjects.objectLoaders.dowloader;
 
-import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.roles.Contributor;
 import dawson.songtracker.types.roles.MusicianRole;
@@ -27,7 +26,7 @@ class RecordingDownloader {
         }
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = loadProductionContributions(connection, id);
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = loadMusicalContributions(connection, id);
-        Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), musicalContributions, productionContributions);
+        Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), isReleased(connection, id), musicalContributions, productionContributions);
         ps.close();
         return recording;
     }
@@ -43,6 +42,19 @@ class RecordingDownloader {
         }
         ps.close();
         return recordings;
+    }
+
+    public static boolean isReleased(Connection connection, int recordingId) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select * from recordingSamples where recording_id = ?");
+        ps.setInt(1, recordingId);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            if(CompilationDownloader.isReleased(connection, rs.getInt("compilation_id"))){
+                return true;
+            }
+        }
+        ps.close();
+        return false;
     }
 
     public static int totalRecordings(Connection connection) throws SQLException{
