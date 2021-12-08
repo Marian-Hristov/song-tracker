@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComboBoxCheckBuilder {
+public class ComboBoxCheckBuilder<T> {
     public static <T> ComboBox<ComboBoxItemWrap<T>> ComboBox(List<T> checked, List<T> unchecked) {
         ComboBox<ComboBoxItemWrap<T>> cb = new ComboBox<>();
         ObservableList<ComboBoxItemWrap<T>> options = FXCollections.observableArrayList();
@@ -44,5 +44,12 @@ public class ComboBoxCheckBuilder {
         cb.setItems(options);
 
         return cb;
+    }
+
+    public static <T> ComboBox<T> ComboBox(List<T> options) {
+        ComboBox<T> comboBox = new ComboBox<>();
+        ObservableList<T> observableList = FXCollections.observableList(options);
+        comboBox.setItems(observableList);
+        return comboBox;
     }
 }

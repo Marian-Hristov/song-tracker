@@ -1,6 +1,8 @@
 package dawson.songtracker.types.distributions;
 
-public class Market {
+import dawson.songtracker.types.DatabaseObject;
+
+public class Market extends DatabaseObject {
     private final int id;
     private String name;
 

@@ -11,17 +11,19 @@ import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.utils.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CompilationController extends DefaultWithDetailsController
         <Compilation, SearchSongController, AddSongController, CompilationDetailController>
 {
     public CompilationController() {
+        super(Compilation.class);
         Loader.LoadAndSet(this);
     }
 
     public void initialize() {
         super.initialize();
-        this.populateTable();
+//        this.populateTable();
         searchPanel.setLabel("Compilation");
     }
 
@@ -42,13 +44,13 @@ public class CompilationController extends DefaultWithDetailsController
     }
 
     @Override
-    public void populateTable() {
-        try {
-            var objects = ObjectDownloader.getInstance().loadFirstCompilations(10);
+    public void populateTable(ArrayList<Compilation> objects) {
             this.searchPanel.populateTable(objects);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+    }
+
+    @Override
+    public void setCacheUpdateMethod() {
+        this.cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllCompilations());
     }
 
     @Override

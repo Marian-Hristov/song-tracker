@@ -1,11 +1,12 @@
 package dawson.songtracker.types.distributions;
 
+import dawson.songtracker.types.DatabaseObject;
 import dawson.songtracker.types.components.Compilation;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Collection {
+public class Collection extends DatabaseObject {
     private final int id;
     private String name;
     private List<Compilation> compilations;

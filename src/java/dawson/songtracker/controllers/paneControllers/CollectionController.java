@@ -1,5 +1,6 @@
 package dawson.songtracker.controllers.paneControllers;
 
+import dawson.songtracker.CacheManager;
 import dawson.songtracker.controllers.edit.CollectionDetailEditController;
 import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.dbObjects.objectLoaders.uploader.ObjectUploader;
@@ -10,6 +11,8 @@ import dawson.songtracker.types.distributions.Collection;
 import dawson.songtracker.utils.Loader;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CollectionController extends DefaultWithDetailsController<
         Collection,
@@ -19,14 +22,19 @@ public class CollectionController extends DefaultWithDetailsController<
 {
 
     public CollectionController() {
+        super(Collection.class);
         Loader.LoadAndSet(this);
+    }
+
+    @Override
+    public void setCacheUpdateMethod() {
+        cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllCollections());
     }
 
     @Override
     public void initialize() {
         super.initialize();
         this.searchPanel.setLabel("Collection");
-        this.populateTable();
         this.searchPanel.displayDefault();
     }
 
@@ -35,8 +43,7 @@ public class CollectionController extends DefaultWithDetailsController<
         System.out.println("Added new collection");
         try {
             ObjectUploader.getInstance().addCollection(entry);
-            this.populateTable();
-            this.searchPanel.displayDefault();
+            this.cache.update();
             this.addPanel.hide();
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,15 +78,5 @@ public class CollectionController extends DefaultWithDetailsController<
             throwables.printStackTrace();
         }
 
-    }
-
-    @Override
-    public void populateTable() {
-        try {
-            var collections = ObjectDownloader.getInstance().loadAllCollections();
-            searchPanel.populateTable(collections);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 }

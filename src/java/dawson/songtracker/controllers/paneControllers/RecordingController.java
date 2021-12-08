@@ -16,14 +16,20 @@ public class RecordingController extends DefaultWithDetailsController
 {
 
     public RecordingController() {
+        super(Recording.class);
         Loader.LoadAndSet(this);
+    }
+
+    @Override
+    public void setCacheUpdateMethod() {
+        this.cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllRecordings());
     }
 
     public void initialize() {
         super.initialize();
         this.searchPanel.setLabel("Recording");
-        this.populateTable();
-        this.searchPanel.displayDefault();
+//        this.populateTable();
+//        this.searchPanel.displayDefault();
     }
 
     @Override
@@ -36,16 +42,6 @@ public class RecordingController extends DefaultWithDetailsController
                 var result = od.loadRecordingsByName(event.message);
                 searchPanel.displaySearchResult(result);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    @Override
-    public void populateTable() {
-        try {
-            ObjectDownloader od = ObjectDownloader.getInstance();
-            this.searchPanel.populateTable(od.loadFirstRecordings(10));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -66,7 +62,7 @@ public class RecordingController extends DefaultWithDetailsController
             try {
                 System.out.println("removed!");
                 ObjectUploader.getInstance().removeRecording(entry.getId());
-                populateTable();
+                this.cache.update();
             } catch (Exception e) {
                 e.printStackTrace();
             }

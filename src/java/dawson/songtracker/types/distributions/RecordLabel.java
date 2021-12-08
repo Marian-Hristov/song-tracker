@@ -1,6 +1,8 @@
 package dawson.songtracker.types.distributions;
 
-public class RecordLabel {
+import dawson.songtracker.types.DatabaseObject;
+
+public class RecordLabel extends DatabaseObject {
     private final int id;
     private String name;
 

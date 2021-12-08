@@ -1,9 +1,14 @@
 package dawson.songtracker.controllers.edit;
 
+import dawson.songtracker.Cache;
+import dawson.songtracker.CacheManager;
 import dawson.songtracker.controllers.detail.DetailPopupController;
 import dawson.songtracker.event.UpdateEntityEvent;
+import dawson.songtracker.types.DatabaseObject;
+import dawson.songtracker.utils.ComboBoxCheckBuilder;
 import dawson.songtracker.utils.ICrud;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -12,6 +17,7 @@ import javafx.scene.layout.VBox;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,7 +42,7 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
         }
     }
 
-    private ArrayList<Method> getMethods() {
+    private Map<Method, Method> getMethods() {
         List<Field> fields = Arrays.stream(entity.getClass().getDeclaredFields())
                 .collect(Collectors.toList());
 
@@ -51,22 +57,40 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
                     if (name.contains(fields.get(j).getName())) {
                         setters.add(methods[i]);
                     }
-
                 }
             }
+
         }
 
-        return setters;
+        Map<Method, Method> gettersAndSetters = new HashMap<>();
+
+        setters.forEach(m -> {
+            var basicName = m.getName().toLowerCase().substring(3);
+
+            for (int i = 0; i < methods.length; i++) {
+                String name = methods[i].getName().toLowerCase();
+                if (name.startsWith("get") && name.substring(3).equals(basicName)) {
+                    gettersAndSetters.put(methods[i], m);
+                }
+            }
+        });
+
+        gettersAndSetters.forEach((getter, setter) -> {
+            System.out.println(getter);
+            System.out.println(setter);
+        });
+
+        return gettersAndSetters;
     }
 
     public void createFields() {
         var methods = this.getMethods();
 
-        methods.forEach(method -> {
+        methods.forEach((getter, setter)-> {
             if (numberOfFields % 2 == 0) {
-                leftCol.getChildren().add(generateHBox(method));
+                leftCol.getChildren().add(generateHBox(getter, setter));
             } else {
-                rightCol.getChildren().add(generateHBox(method));
+                rightCol.getChildren().add(generateHBox(getter, setter));
             }
 
             numberOfFields++;
@@ -74,26 +98,62 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
 
     }
 
-    private HBox generateHBox(Method method) {
-        String name = method.getName();
+    protected void addMoreNodes(Node node) {
+        if (numberOfFields % 2 == 0) {
+            leftCol.getChildren().add(node);
+        } else {
+            rightCol.getChildren().add(node);
+        }
+        numberOfFields++;
+
+    }
+
+    private HBox generateHBox(Method getter, Method setter) {
+        String name = getter.getName();
         Label label = new Label();
         label.setText(name.substring(3));
 
-        if (method.getParameterTypes()[0].equals(List.class)) {
-            return arrayListHbox(method, label);
+        var type = setter.getParameterTypes()[0];
+        if (DatabaseObject.class.isAssignableFrom(type)) {
+            return arrayListHbox(setter, label, type);
+        } else if (List.class.isAssignableFrom(type)) {
+            // That's when we pray the type is ArrayList<DatabaseObject>
+            return multipleArrayListHBox(setter, label, type, getter);
         }
 
         HBox hbox = new HBox();
         TextField textField = new TextField();
         hbox.getChildren().addAll(label, textField);
 
-        map.put(textField, method);
+        map.put(textField, setter);
 
         return hbox;
     }
 
-    abstract HBox arrayListHbox(Method method, Label label);
+    abstract HBox multipleArrayListHBox(Method setter, Label label, Class type, Method getter);
 
+    HBox arrayListHbox(Method method, Label label, Class dataType) {
+        HBox hbox = new HBox();
+        hbox.getChildren().add(label);
+
+        Cache cache = CacheManager.getCache(dataType);
+        var options = cache.getCachedItems();
+
+        var comboBox = ComboBoxCheckBuilder.ComboBox(options);
+        hbox.getChildren().add(comboBox);
+
+        hbox.addEventHandler(UpdateEntityEvent.UPDATE_ENTITY, event -> {
+            try {
+                method.invoke(entity, comboBox.getValue());
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        });
+
+        return hbox;
+    }
     @FXML
     public void onUpdate() {
         map.forEach((textField, setter) -> {
@@ -112,7 +172,6 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
 
         if (this.getParent() instanceof ICrud) {
             ((ICrud<T>) this.getParent()).updateEntry(this.entity);
-            System.out.println("updated entry.");
         }
     }
 

@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 
 public class MarketDetailEditController extends DefaultDetailEditController<Market> {
     @Override
-    HBox arrayListHbox(Method method, Label label) {
+    HBox arrayListHbox(Method method, Label label, Class c) {
         return null;
     }
 }

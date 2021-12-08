@@ -26,7 +26,6 @@ public class MVCApp extends Application {
         stage.setTitle("Test title.");
         stage.setScene(new Scene(root));
         stage.show();
-
     }
 
     private void createDBConnection() {

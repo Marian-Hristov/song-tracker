@@ -21,9 +21,9 @@ import javafx.scene.layout.Pane;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RoleController extends Pane implements
-        PopupOwner, ICrud<Role>,
-        ISearchPanelOwner {
+public class RoleController extends DefaultController
+    <Role, RoleSearchController, AddRoleController>
+{
 
     @FXML
     private RoleSearchController searchPanel;
@@ -32,15 +32,29 @@ public class RoleController extends Pane implements
     private AddRoleController addPanel;
 
     public RoleController() {
+        super(Role.class);
         Loader.LoadAndSet(this);
     }
 
+    @Override
+    public void setCacheUpdateMethod() {
+        cache.setUpdateMethod(() -> {
+            var mr =  ObjectDownloader.getInstance().loadAllMusicianRoles();
+            var cr =  ObjectDownloader.getInstance().loadAllCompilationRoles();
+            var pr = ObjectDownloader.getInstance().loadAllProductionRoles();
+
+            // Sub optimal
+            ArrayList<Role> all = new ArrayList<>();
+            all.addAll(mr);
+            all.addAll(cr);
+            all.addAll(pr);
+            return all;
+        });
+    }
+
     public void initialize() {
-        this.searchPanel.addEventHandler(SearchEvent.SEARCH_EVENT, this::onSearch);
-        this.searchPanel.addEventHandler(UpdateTableEvent.UPDATE_TABLE_EVENT, this::onUpdate);
+        super.initialize();
         this.addPanel.addEventHandler(AddRoleEvent.ADD_ROLE_EVENT, this::onAddRole);
-        this.populateTable();
-        this.searchPanel.displayDefault();
     }
 
     private void onAddRole(AddRoleEvent event) {
@@ -76,11 +90,6 @@ public class RoleController extends Pane implements
     }
 
     @Override
-    public void onPopupClicked() {
-        this.addPanel.show();
-    }
-
-    @Override
     public void onSearch(SearchEvent search) {
 
         if (search.message.isEmpty()) {
@@ -107,19 +116,8 @@ public class RoleController extends Pane implements
 
     @Override
     public void onUpdate(UpdateTableEvent event) {
-        this.populateTable();
+        this.cache.update();
         this.searchPanel.displayDefault();
     }
 
-    @Override
-    public void populateTable() {
-        System.out.println("j");
-        try {
-            var cr = ObjectDownloader.getInstance().loadFirstMusicianRoles(10);
-            cr.forEach(System.out::println);
-            searchPanel.populateTable(cr);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
 }

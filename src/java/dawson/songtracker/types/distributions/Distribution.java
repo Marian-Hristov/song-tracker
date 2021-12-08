@@ -1,9 +1,11 @@
 package dawson.songtracker.types.distributions;
 
 
+import dawson.songtracker.types.DatabaseObject;
+
 import java.sql.Date;
 
-public class Distribution {
+public class Distribution extends DatabaseObject {
     private final int id;
     private final Collection collection;
     private final Date releaseDate;

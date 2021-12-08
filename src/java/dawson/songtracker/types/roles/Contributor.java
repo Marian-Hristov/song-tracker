@@ -1,6 +1,8 @@
 package dawson.songtracker.types.roles;
 
-public class Contributor {
+import dawson.songtracker.types.DatabaseObject;
+
+public class Contributor extends DatabaseObject {
     private final int id;
     private String name;
 

@@ -15,14 +15,20 @@ public class MarketController extends DefaultWithDetailsController<Market, Marke
 {
 
     public MarketController() {
+        super(Market.class);
         Loader.LoadAndSet(this);
+    }
+
+    @Override
+    public void setCacheUpdateMethod() {
+        cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllMarkets());
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        this.populateTable();
-        searchPanel.displayDefault();
+//        this.populateTable();
+//        searchPanel.displayDefault();
     }
 
     @Override
@@ -57,16 +63,6 @@ public class MarketController extends DefaultWithDetailsController<Market, Marke
         try {
             var markets = ObjectDownloader.getInstance().loadMarketsByName(search.message);
             searchPanel.displaySearchResult(markets);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    @Override
-    public void populateTable() {
-        try {
-            var markets = ObjectDownloader.getInstance().loadAllMarkets();
-            searchPanel.populateTable(markets);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -15,6 +15,7 @@
 <?import dawson.songtracker.controllers.paneControllers.CollectionController?>
 <?import dawson.songtracker.controllers.paneControllers.DistributionController?>
 <?import dawson.songtracker.controllers.paneControllers.MarketController?>
+<?import dawson.songtracker.controllers.paneControllers.RecordLabelController?>
 <Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <TabPane >
         <tabs>
@@ -51,6 +52,11 @@
             <Tab closable="false" text="Collection">
                 <content>
                     <CollectionController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Label">
+                <content>
+                    <RecordLabelController/>
                 </content>
             </Tab>
         </tabs>

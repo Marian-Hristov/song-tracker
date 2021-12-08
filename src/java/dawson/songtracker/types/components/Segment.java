@@ -1,6 +1,8 @@
 package dawson.songtracker.types.components;
 
-public class Segment<T extends SongComponent> {
+import dawson.songtracker.types.DatabaseObject;
+
+public class Segment<T extends SongComponent> extends DatabaseObject {
     private final int id;
     private final int mainTrackId;
     private final T componentTrack;

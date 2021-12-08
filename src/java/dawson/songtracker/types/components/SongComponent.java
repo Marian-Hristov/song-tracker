@@ -1,12 +1,13 @@
 package dawson.songtracker.types.components;
 
+import dawson.songtracker.types.DatabaseObject;
 import dawson.songtracker.types.roles.Contributor;
 import dawson.songtracker.types.roles.Role;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-public abstract class SongComponent {
+public abstract class SongComponent extends DatabaseObject {
     protected final int id;
     protected String name;
     protected final Timestamp creationTime;

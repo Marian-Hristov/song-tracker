@@ -17,14 +17,20 @@ public class ContributorController extends DefaultWithDetailsController<
 {
 
     public ContributorController() {
+        super(Contributor.class);
         Loader.LoadAndSet(this);
+    }
+
+    @Override
+    public void setCacheUpdateMethod() {
+        cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllContributors());
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        this.populateTable();
-        searchPanel.displayDefault();
+//        this.populateTable();
+//        searchPanel.displayDefault();
         this.addPanel.addEventHandler(AddContributorEvent.ADD_CONTRIBUTOR_EVENT, c -> addNewEntry(c.contributor));
     }
 
@@ -63,16 +69,5 @@ public class ContributorController extends DefaultWithDetailsController<
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
-
-    @Override
-    public void populateTable() {
-        try {
-            var contributors = ObjectDownloader.getInstance().loadFirstContributors(10);
-            searchPanel.populateTable(contributors);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
     }
 }
