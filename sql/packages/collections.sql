@@ -1,5 +1,6 @@
 create or replace package collection_mgmt as
     procedure createCollection (collection_name in collections.collection_name%type);
+    procedure removeCollection (ref_collection_id collections.collection_id%type);
     procedure addCompilationToCollection(collection_id in collections.collection_id%type, compilation_id in compilations.compilation_id%type);
     procedure removeCompilationFromCollection( collection_id in collections.collection_id%type, compilation_id in compilations.compilation_id%type);
     procedure updateCollection(ref_collection_id in collections.collection_id%type, ref_collection_name in collections.collection_name%type);
@@ -26,6 +27,15 @@ create or replace package body collection_mgmt as
         delete from collectionSets where collection_id = collection_id and set_id = set_id;
     end;
     
+    procedure removeCollection(ref_collection_id collections.collection_id%type) is
+    begin
+        if(ref_collection_id < 1) then
+            raise_application_error(-20001, 'the collection_id is invalid');
+        end if;
+        delete from collectioncompilations where collection_id = ref_collection_id;
+        delete from collectionssets where collection_id = ref_collection_id;
+        delete from collections where collection_id = ref_collection_id;
+    end;
 
     procedure createCollection(collection_name in collections.collection_name%type)
     as

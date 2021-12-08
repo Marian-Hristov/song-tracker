@@ -46,6 +46,20 @@ public class ObjectUploaderTests {
     }
 
     @Test
+    public void TestRemoveCollection() throws Exception {
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet = new ArrayList<>();
+        Collection collection = new Collection(1, "Whatever", compilations, collectionsInSet);
+        ul.addCollection(collection);
+        ul.removeCollection(collection);
+        assertNull(dl.loadCollection(1));
+    }
+
+    @Test
     public void TestaddCompilationToCollection() throws Exception {
         DBConnection.setUsername(userName);
         DBConnection.setPassword(password);
@@ -101,7 +115,6 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
-
         ArrayList<Compilation> compilations = new ArrayList<>();
         ArrayList<Collection> collections = new ArrayList<>();
         Collection collection = new Collection(1, "culture II", compilations, collections);
@@ -118,15 +131,14 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
-
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
         Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
         assertEquals("Pipe it up", dl.loadCompilation(1).getName());
-
     }
+
 
     @Test
     public void TestaddSampleToCompilation() throws Exception {

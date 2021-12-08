@@ -56,6 +56,13 @@ public class ObjectUploader {
         this.collectionUploader.addCollection(collection.getName());
     }
 
+    public void removeCollection(Collection collection) throws Exception{
+        if(collection == null){
+            throw new Exception("Collection is null");
+        }
+        this.collectionUploader.removeCollection(collection.getId());
+    }
+
     public void addCompilationToCollection(Collection collection, Compilation compilation) throws Exception {
         if (collection == null || compilation == null) {
             throw new Exception("One or many given objects are null");
@@ -153,7 +160,7 @@ public class ObjectUploader {
         if (contributor == null) {
             throw new Exception("Contributor is null");
         }
-        this.contributorUploader.deleteContributor(contributor.getName());
+        this.contributorUploader.deleteContributor(contributor.getId());
     }
 
     public void updateContributor(Contributor oldContributor, Contributor newContributor) throws Exception {
