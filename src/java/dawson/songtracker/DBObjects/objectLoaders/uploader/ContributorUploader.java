@@ -31,13 +31,13 @@ class ContributorUploader {
         }
     }
 
-    public void deleteContributor(String name) throws Exception {
-        if (name == null || name.equals("")) {
+    public void deleteContributor(int id) throws Exception {
+        if (id < 1) {
             throw new IllegalArgumentException("Given name is empty or null");
         }
         CallableStatement deleteContributor = this.connection.prepareCall("{call CONTRIBUTOR_MGMT.REMOVECONTRIBUTOR(?)}");
         try {
-            deleteContributor.setString(1, name);
+            deleteContributor.setInt(1, id);
             if (deleteContributor.executeUpdate() != 1) {
                 throw new SQLException("Could not delete contributor");
             }

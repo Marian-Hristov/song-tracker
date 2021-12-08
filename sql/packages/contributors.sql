@@ -34,25 +34,21 @@ create or replace package body contributor_mgmt as
         values (contributor_id_seq.nextval, new_contributor_name);
     end;
     -- Remove a contributor
-    procedure removeContributor(deleted_contributor_name varchar2)
-    is
-        found contributors.contributor_id%type;
+    procedure removeContributor(deleted_contributor_id number) is
     begin
         if deleted_contributor_name is null then
             raise_application_error(-20001, 'one or more arguments are null or empty');
         elsif (contributorExists(deleted_contributor_name) = 1) then
             raise_application_error(-20003, 'cannot delete contributor that does not exist');
         end if;
-        -- Getting the id of the contributor base on the name
-        select contributor_id into found from contributors where contributor_name = deleted_contributor_name;
         -- Deleting the contributor from contribution tables
         delete from musicalContributions
-        where contributor_id = found;
+        where contributor_id = deleted_contributor_id;
         delete from productionContributions
-        where contributor_id = found;
+        where contributor_id = deleted_contributor_id;
         -- Deleting contributor in contributors table
         delete from contributors
-        where contributor_id = found;
+        where contributor_id = deleted_contributor_id;
     end;
     -- Updating a contributor
     procedure updateContributor(old_contributor_name varchar2, new_contributor_name varchar2)

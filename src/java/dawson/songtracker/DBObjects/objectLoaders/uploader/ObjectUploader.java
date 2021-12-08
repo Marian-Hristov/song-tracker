@@ -153,7 +153,7 @@ public class ObjectUploader {
         if (contributor == null) {
             throw new Exception("Contributor is null");
         }
-        this.contributorUploader.deleteContributor(contributor.getName());
+        this.contributorUploader.deleteContributor(contributor.getId());
     }
 
     public void updateContributor(Contributor oldContributor, Contributor newContributor) throws Exception {
