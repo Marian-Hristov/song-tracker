@@ -83,6 +83,30 @@ class CompilationUploader {
         }
     }
 
+    public void updateSample(double id, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponentUsed) throws Exception{
+        if(id < 1 || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 || durationOfComponentUsed < 0){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        } else {
+            CallableStatement updateSample = this.connection.prepareCall("{call COMPILATION_MGMT.UPDATESEGMENT(?, ?, ?, ?, ?)}");
+            try {
+                updateSample.setDouble(1, id);
+                updateSample.setDouble(2, mainTrackOffset);
+                updateSample.setDouble(3, durationInMainTrack);
+                updateSample.setDouble(4, componentTrackOffset);
+                updateSample.setDouble(5, durationOfComponentUsed);
+                if(updateSample.executeUpdate() != 1){
+                    throw new SQLException("Couldn't update segment");
+                }
+                this.connection.commit();
+                updateSample.close();
+            } catch (Exception e){
+                this.connection.rollback();
+                updateSample.close();
+                throw e;
+            }
+        }
+    }
+
     public void deleteCompilation(int id) throws Exception {
         if (id < 0) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");

@@ -19,7 +19,13 @@ create or replace package compilation_mgmt as
     procedure updateCompilation(ref_compilation_id in compilations.compilation_id%type, ref_compilation_name in compilations.compilation_name%type);
     procedure addContributorToCompilation(ref_compilation_id in compilations.compilation_id%type, ref_contributor_id in contributors.contributor_id%type, ref_role_id in compilationRoles.role_id%type);
     procedure removeContributorFromCompilation(ref_compilation_id in compilations.compilation_id%type, ref_contributor_id in contributors.contributor_id%type, ref_role_id in compilationRoles.role_id%type);
-
+    procedure updateSegment(
+        ref_segment_id segment.segment_id%type, 
+        new_main_track_offset segment.main_track_offset%type, 
+        new_duration_in_main_track segment.duration_in_main_track%type, 
+        new_component_track_offset segment.component_track_offset%type, 
+        new_duration_of_component_used segment.duration_of_component_used%type
+    );
 end compilation_mgmt;
 /
 commit;
@@ -134,7 +140,7 @@ create or replace package body compilation_mgmt as
     )
     as
     begin
-        update compilations set compilation_name = compilation_name where compilation_id = ref_compilation_id;
+        update compilations set compilation_name = ref_compilation_name where compilation_id = ref_compilation_id;
     end;
     procedure addContributorToCompilation(
         ref_compilation_id in compilations.compilation_id%type,
@@ -160,6 +166,27 @@ create or replace package body compilation_mgmt as
             raise_application_error(-20001, 'one or more of the parameters for the procedure removeContributorFromCompilation is invalid');
         end if;
         delete from compilationContributions where compilation_id = ref_compilation_id and contributor_id = ref_contributor_id and role_id = ref_role_id;
+    end;
+    
+    procedure updateSegment(
+        ref_segment_id segment.segment_id%type, 
+        new_main_track_offset segment.main_track_offset%type, 
+        new_duration_in_main_track segment.duration_in_main_track%type, 
+        new_component_track_offset segment.component_track_offset%type, 
+        new_duration_of_component_used segment.duration_of_component_used%type
+    )
+    as
+    begin
+        if(ref_segment_id < 1 or new_main_track_offset < 0 or new_duration_in_main_track < 0 or new_component_track_offset < 0 or new_duration_of_component_used < 0) then
+            raise_application_error(-20001, 'one or more of the parameters for the procedure updateSegment is invalid');
+        end if;
+        update segment
+        set
+        main_track_offset = new_main_track_offset,
+        duration_in_main_track = new_duration_in_main_track,
+        component_track_offset = new_component_track_offset,
+        duration_of_component_used = new_duration_of_component_used
+        where segment_id = ref_segment_id;
     end;
     
 end compilation_mgmt;

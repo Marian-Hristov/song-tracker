@@ -67,7 +67,7 @@ create or replace package body distribution_mgmt as
         if (changed_distribution_id is null or new_ref_collection_id is null or new_ref_release_date is null or new_ref_label_id is null or new_ref_market_id is null) then
             raise_application_error(-20001, 'one or many arguments are null or empty');
         end if;
-        if((new_ref_collection_id < 1) || (new_ref_label_id < 1) || (new_ref_market_id < 1)) then
+        if(new_ref_collection_id < 1 or new_ref_label_id < 1 or new_ref_market_id < 1) then
             raise_application_error(-20001, 'one or many arguments are in invalid range'); 
         end if; 
         if (distributionExists(new_ref_collection_id , new_ref_release_date, new_ref_label_id, new_ref_market_id) = 0) then

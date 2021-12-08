@@ -84,7 +84,7 @@ public class ObjectUploader {
         this.compilationUploader.addCompilation(compilation.getName());
     }
 
-    public void addSampleToCompilation(Segment<SongComponent> segment) throws Exception {
+    public void addSampleToCompilation(Segment<?> segment) throws Exception {
         if (segment == null) {
             throw new Exception("Segment is null");
         }
@@ -97,7 +97,7 @@ public class ObjectUploader {
         }
     }
 
-    public void deleteSampleFromCompilation(Segment<SongComponent> segment) throws Exception {
+    public void deleteSampleFromCompilation(Segment<?> segment) throws Exception {
         if (segment == null) {
             throw new Exception("Segment is null");
         }
@@ -108,6 +108,13 @@ public class ObjectUploader {
         } else {
             throw new Exception("Segment has an invalid component track");
         }
+    }
+
+    public void updateSample(Segment<?> segment, Segment<?> newSegment) throws Exception {
+        if (segment == null) {
+            throw new Exception("Segment is null");
+        }
+        this.compilationUploader.updateSample(segment.getId(), newSegment.getMainTrackOffset(), newSegment.getDurationInMainTrack(), newSegment.getComponentTrackOffset(), newSegment.getComponentTrack().getDuration());
     }
 
     public void deleteCompilation(int id) throws Exception {
