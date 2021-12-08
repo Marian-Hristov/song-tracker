@@ -30,6 +30,25 @@ class CollectionUploader {
         }
     }
 
+    public void removeCollection(int id) throws Exception {
+        if(id < 1){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        CallableStatement removeCollection = this.connection.prepareCall("{call COLLECTION_MGMT.REMOVECOLLECTION(?)}");
+        try {
+            removeCollection.setInt(1, id);
+            if(removeCollection.executeUpdate() != 1){
+                throw new SQLException("Couldn't remove collection");
+            }
+            this.connection.commit();
+            removeCollection.close();
+        } catch (Exception e){
+            this.connection.rollback();
+            removeCollection.close();
+            throw e;
+        }
+    }
+
     public void addCompilationToCollection(int collectionId, int compilationId) throws Exception {
         if (collectionId < 1 || compilationId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
