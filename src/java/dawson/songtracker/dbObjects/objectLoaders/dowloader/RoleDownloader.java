@@ -223,7 +223,7 @@ class RoleDownloader {
         Map<Compilation, ArrayList<CompilationRole>> contributions = new HashMap<>();
         while(rs.next()){
             // Fake compilation equaling the compilation in that row to check if it already is in the map without loading it from the db
-            Compilation compilation = new Compilation(rs.getInt("compilation_id"), "", new Timestamp(0), 0, new ArrayList<>(), new ArrayList<>(), new HashMap<>());
+            Compilation compilation = new Compilation(rs.getInt("compilation_id"), "", new Timestamp(0), 0, true, new ArrayList<>(), new ArrayList<>(), new HashMap<>());
             CompilationRole compilationRole = loadCompilationRole(connection, rs.getInt("role_id"));
             if(contributions.containsKey(compilation)){
                 contributions.get(compilation).add(compilationRole);
@@ -246,7 +246,7 @@ class RoleDownloader {
         Map<Recording, ArrayList<ProductionRole>> contributions = new HashMap<>();
         while(rs.next()){
             // Fake compilation equaling the compilation in that row to check if it already is in the map without loading it from the db
-            Recording recording = new Recording(rs.getInt("recording_id"), "", new Timestamp(0), 0, new HashMap<>(),new HashMap<>());
+            Recording recording = new Recording(rs.getInt("recording_id"), "", new Timestamp(0), 0, true, new HashMap<>(),new HashMap<>());
             ProductionRole productionRole = loadProductionRole(connection, rs.getInt("role_id"));
             if(contributions.containsKey(recording)){
                 contributions.get(recording).add(productionRole);
@@ -269,7 +269,7 @@ class RoleDownloader {
         Map<Recording, ArrayList<MusicianRole>> contributions = new HashMap<>();
         while(rs.next()){
             // Fake compilation equaling the compilation in that row to check if it already is in the map without loading it from the db
-            Recording recording = new Recording(rs.getInt("recording_id"), "", new Timestamp(0), 0, new HashMap<>(),new HashMap<>());
+            Recording recording = new Recording(rs.getInt("recording_id"), "", new Timestamp(0), 0, true, new HashMap<>(),new HashMap<>());
             MusicianRole musicianRole = loadMusicianRole(connection, rs.getInt("role_id"));
             if(contributions.containsKey(recording)){
                 contributions.get(recording).add(musicianRole);

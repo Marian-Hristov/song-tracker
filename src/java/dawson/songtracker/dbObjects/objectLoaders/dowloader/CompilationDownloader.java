@@ -26,9 +26,32 @@ class CompilationDownloader {
         Map<CompilationRole, ArrayList<Contributor>> compilationRoles = loadCompilationRoles(connection, id);
         ArrayList<Segment<Compilation>> sampledCompilations = loadCompilationSamples(connection, id);
         ArrayList<Segment<Recording>> sampledRecordings = loadRecordingSamples(connection, id);
-        Compilation compilation = new Compilation(id, rs.getString("compilation_name"), rs.getTimestamp("creation_time"), rs.getDouble("duration"), sampledCompilations, sampledRecordings, compilationRoles);
+        Compilation compilation = new Compilation(id, rs.getString("compilation_name"), rs.getTimestamp("creation_time"), rs.getDouble("duration"), isReleased(connection, id), sampledCompilations, sampledRecordings, compilationRoles);
         ps.close();
+
         return compilation;
+    }
+
+    public static boolean isReleased(Connection connection, int compilationId) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("select * from collectionCompilations where compilation_id = ?");
+        ps.setInt(1, compilationId);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            PreparedStatement selectDistributions = connection.prepareStatement("select * from distributions where collection_id = ?");
+            selectDistributions.setInt(1, rs.getInt("collection_id"));
+            ResultSet allDistributions = selectDistributions.executeQuery();
+            while(allDistributions.next()){
+                Date releaseDate = allDistributions.getDate("release_date");
+                if(releaseDate.before(new Date(new java.util.Date().getTime()))){
+                    selectDistributions.close();
+                    ps.close();
+                    return true;
+                }
+            }
+            selectDistributions.close();
+        }
+        ps.close();
+        return false;
     }
 
     public static ArrayList<Compilation> loadFirstCompilations(Connection connection, int nbRows) throws SQLException{

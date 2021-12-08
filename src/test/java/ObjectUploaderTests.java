@@ -5,6 +5,7 @@ import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.components.Segment;
 import dawson.songtracker.types.distributions.Collection;
+import dawson.songtracker.types.distributions.Distribution;
 import dawson.songtracker.types.distributions.Market;
 import dawson.songtracker.types.distributions.RecordLabel;
 import dawson.songtracker.types.roles.CompilationRole;
@@ -13,6 +14,7 @@ import dawson.songtracker.types.roles.MusicianRole;
 import dawson.songtracker.types.roles.ProductionRole;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ObjectUploaderTests {
 
     // TODO Don't forget to remove
-    private final String userName = "A2035536";
-    private final String password = "Dawson123";
+    private final String userName = "A2033348";
+    private final String password = "6019@ria_database";
 
     // Each of the test is run after the build script has
     // been on run on the database
@@ -52,7 +54,7 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, true, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
 
         ArrayList<Compilation> compilations = new ArrayList<>();
@@ -76,7 +78,7 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, true, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
 
         ArrayList<Compilation> compilations = new ArrayList<>();
@@ -120,7 +122,7 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
         assertEquals("Pipe it up", dl.loadCompilation(1).getName());
 
@@ -132,6 +134,17 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0),  110.3, false, sampledCompilations, sampledRecordings, contributions);
+        Recording recording = new Recording(1, "Random instrumental", new Timestamp(1000000), 240, false, new HashMap<>(), new HashMap<>());
+        Segment<Recording> sample = new Segment<>(1, 1, recording, 0, 100, 0, 100);
+        ul.addCompilation(compilation);
+        ul.addRecording(recording);
+        ul.addSampleToCompilation(sample);
+        ArrayList<Segment<Recording>> result = dl.loadCompilation(1).getSampledRecordings();
+        assertEquals(recording.getName(), result.get(0).getComponentTrack().getName());
     }
 
     @Test
@@ -140,6 +153,43 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
+        Recording recording = new Recording(1, "Random instrumental", new Timestamp(1000000), 240, false,  new HashMap<>(), new HashMap<>());
+        Segment<Recording> sample = new Segment<>(1, 1, recording, 0, 100, 0, 100);
+        ul.addCompilation(compilation);
+        ul.addRecording(recording);
+        ul.addSampleToCompilation(sample);
+        ul.deleteSampleFromCompilation(sample);
+        ArrayList<Segment<Recording>> result = dl.loadCompilation(1).getSampledRecordings();
+        assertEquals(recording.getName(), result.get(0).getComponentTrack().getName());
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    public void TestUpdateSample() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false,  sampledCompilations, sampledRecordings, contributions);
+        Recording recording = new Recording(1, "Random instrumental", new Timestamp(1000000), 240, false, new HashMap<>(), new HashMap<>());
+        Segment<Recording> sample = new Segment<>(1, 1, recording, 0, 100, 0, 100);
+        ul.addCompilation(compilation);
+        ul.addRecording(recording);
+        ul.addSampleToCompilation(sample);
+        Segment<Recording> newSample = new Segment<>(1, 1, recording, 10, 78, 34, 67);
+        ul.updateSample(sample, newSample);
+        ArrayList<Segment<Recording>> result = dl.loadCompilation(1).getSampledRecordings();
+        assertEquals(newSample.getMainTrackOffset(), result.get(0).getMainTrackOffset());
+        assertEquals(newSample.getDurationInMainTrack(), result.get(0).getDurationInMainTrack());
+        assertEquals(newSample.getComponentTrackOffset(), result.get(0).getComponentTrackOffset());
+        assertEquals(newSample.getComponentTrack().getDuration(), result.get(0).getComponentTrack().getDuration());
     }
 
     @Test
@@ -152,7 +202,7 @@ public class ObjectUploaderTests {
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
         ul.deleteCompilation(compilation.getId());
         assertNull(dl.loadCompilation(1));
@@ -164,12 +214,11 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
-
         ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
         ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
-        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
-        Compilation compilation1 = new Compilation(1, "Pipe it down", new Timestamp(0), 110.3, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, true, sampledCompilations, sampledRecordings, contributions);
+        Compilation compilation1 = new Compilation(1, "Pipe it down", new Timestamp(0), 110.3, true, sampledCompilations, sampledRecordings, contributions);
         ul.addCompilation(compilation);
         ul.updateCompilation(compilation, compilation1);
         Compilation updatedCompilation = dl.loadCompilation(1);
@@ -182,6 +231,17 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+        Contributor contributor = new Contributor(1, "Bob");
+        CompilationRole role = new CompilationRole(2, "remixer");
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
+        ul.addContributor(contributor);
+        ul.addCompilation(compilation);
+        ul.addContributorToCompilation(compilation, contributor, role);
+        ArrayList<Contributor> result = dl.loadCompilation(1).getContributorsInRole(role);
+        assertEquals(contributor.getName(), result.get(0).getName());
     }
 
     @Test
@@ -190,6 +250,18 @@ public class ObjectUploaderTests {
         DBConnection.setPassword(password);
         ObjectDownloader dl = ObjectDownloader.getInstance();
         ObjectUploader ul = ObjectUploader.getInstance();
+        Contributor contributor = new Contributor(1, "Bob");
+        CompilationRole role = new CompilationRole(2, "remixer");
+        ArrayList<Segment<Compilation>> sampledCompilations = new ArrayList<>();
+        ArrayList<Segment<Recording>> sampledRecordings = new ArrayList<>();
+        Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
+        Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
+        ul.addContributor(contributor);
+        ul.addCompilation(compilation);
+        ul.addContributorToCompilation(compilation, contributor, role);
+        ul.removeContributorToCompilation(compilation, contributor, role);
+        Map<CompilationRole, ArrayList<Contributor>> result = dl.loadCompilation(1).getContributions();
+        assertNull(result.get(role));
     }
 
     @Test
@@ -350,7 +422,7 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, false, musicalContributions, productionContributions);
         ul.addRecording(recording);
         Recording result = dl.loadRecording(1);
         assertEquals("See You Again", result.getName());
@@ -364,7 +436,7 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
         ul.addRecording(recording);
         ul.removeRecording(recording.getId());
         assertNull(dl.loadRecording(1));
@@ -378,8 +450,8 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording oldRecording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
-        Recording newRecording = new Recording(1, "Pipe it up", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording oldRecording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
+        Recording newRecording = new Recording(1, "Pipe it up", new Timestamp(System.currentTimeMillis()), 203, false, musicalContributions, productionContributions);
         ul.addRecording(oldRecording);
         ul.updateRecording(oldRecording, newRecording);
         Recording result = dl.loadRecording(1);
@@ -394,7 +466,7 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
         Contributor contributor1 = new Contributor(1, "Bob");
         Contributor contributor2 = new Contributor(2, "Marley");
         ProductionRole pRole = new ProductionRole(1, "composer");
@@ -423,7 +495,7 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, musicalContributions, productionContributions);
+        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
         Contributor contributor1 = new Contributor(1, "Bob");
         Contributor contributor2 = new Contributor(2, "Marley");
         ProductionRole pRole = new ProductionRole(1, "composer");
@@ -513,5 +585,87 @@ public class ObjectUploaderTests {
         ul.addLabel(label1);
         ul.updateLabel(label1, label2);
         assertEquals("222 Records", dl.loadRecordLabel(1).getName());
+    }
+
+    @Test
+    public void TestAddDistribution() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet = new ArrayList<>();
+        Collection collection = new Collection(1, "Whatever", compilations, collectionsInSet);
+        RecordLabel label = new RecordLabel(1, "Aftermath");
+        Market market = new Market(7, "Canada");
+        Date releaseDate = new Date(10);
+        Distribution distribution = new Distribution(1, collection, releaseDate, label, market);
+        ul.addCollection(collection);
+        ul.addLabel(label);
+        ul.addMarket(market);
+        ul.addDistribution(distribution);
+        Distribution result = dl.loadDistribution(1);
+        assertEquals("Whatever", result.getCollection().getName());
+        assertEquals(releaseDate.toString(), result.getReleaseDate().toString());
+        assertEquals("Aftermath", result.getLabel().getName());
+        assertEquals("Canada", result.getMarket().getName());
+    }
+
+    @Test
+    public void TestRemoveDistribution() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        ArrayList<Compilation> compilations = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet = new ArrayList<>();
+        Collection collection = new Collection(1, "Whatever", compilations, collectionsInSet);
+        RecordLabel label = new RecordLabel(1, "Aftermath");
+        Market market = new Market(7, "Canada");
+        Date releaseDate = new Date(10);
+        Distribution distribution = new Distribution(1, collection, releaseDate, label, market);
+        ul.addCollection(collection);
+        ul.addLabel(label);
+        ul.addMarket(market);
+        ul.addDistribution(distribution);
+        ul.removeDistribution(distribution);
+        assertNull(dl.loadDistribution(1));
+    }
+
+    @Test
+    public void TestUpdateDistribution() throws Exception{
+        DBConnection.setUsername(userName);
+        DBConnection.setPassword(password);
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        ObjectUploader ul = ObjectUploader.getInstance();
+        // First distribution
+        ArrayList<Compilation> compilations1 = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet1 = new ArrayList<>();
+        Collection collection1 = new Collection(1, "Whatever", compilations1, collectionsInSet1);
+        RecordLabel label1 = new RecordLabel(1, "Aftermath");
+        Market market1 = new Market(7, "Canada");
+        Date releaseDate1 = new Date(10000000);
+        Distribution distribution1 = new Distribution(1, collection1, releaseDate1, label1, market1);
+        ul.addCollection(collection1);
+        ul.addLabel(label1);
+        ul.addMarket(market1);
+        ul.addDistribution(distribution1);
+        // Second distribution
+        ArrayList<Compilation> compilations2 = new ArrayList<>();
+        ArrayList<Collection> collectionsInSet2 = new ArrayList<>();
+        Collection collection2 = new Collection(2, "Good For You", compilations2, collectionsInSet2);
+        RecordLabel label2 = new RecordLabel(2, "222 Records");
+        Market market2 = new Market(8, "USA");
+        Date releaseDate2 = new Date(2000000000);
+        Distribution distribution2 = new Distribution(1, collection2, releaseDate2, label2, market2);
+        ul.addLabel(label2);
+        ul.addMarket(market2);
+        ul.addCollection(collection2);
+        ul.updateDistribution(distribution1, distribution2);
+        Distribution result = dl.loadDistribution(1);
+        assertEquals(collection2.getName(), result.getCollection().getName());
+        assertEquals(releaseDate2.toString(), result.getReleaseDate().toString());
+        assertEquals(label2.getName(), result.getLabel().getName());
+        assertEquals(market2.getName(), result.getMarket().getName());
     }
 }
