@@ -11,8 +11,9 @@ public abstract class SongComponent {
     protected String name;
     protected final Timestamp creationTime;
     protected double duration;
+    protected final boolean released;
 
-    public SongComponent(int id, String name, Timestamp creationTime, double duration) {
+    public SongComponent(int id, String name, Timestamp creationTime, double duration, boolean released) {
         if (name == null) {
             throw new NullPointerException("the name is null");
         }
@@ -23,6 +24,7 @@ public abstract class SongComponent {
         this.name = name;
         this.creationTime = creationTime;
         this.duration = duration;
+        this.released = released;
 
     }
 
