@@ -1,6 +1,8 @@
 package dawson.songtracker.controllers.assign;
 
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.event.ContributorAssignedEvent;
+import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.roles.CompilationRole;
 import dawson.songtracker.types.roles.Contributor;
 import dawson.songtracker.types.roles.MusicianRole;
@@ -19,6 +21,8 @@ public class AssignContributorController extends AssignPopupController {
     @FXML
     ChoiceBox<Role> roleBox;
 
+    private Recording recording;
+
     public AssignContributorController() {
         super();
     }
@@ -31,21 +35,20 @@ public class AssignContributorController extends AssignPopupController {
         );
     }
 
+    public void setRecording(Recording recording) {
+       this.recording = recording;
+    }
+
     public void initialize() {
        initializeContributorBox();
        initializeRoleBox();
     }
 
     private void initializeContributorBox() {
-        ArrayList<Contributor> contributors = new ArrayList<Contributor>(Arrays.asList(
-                new Contributor(1, "Lucas"),
-                new Contributor(2, "Marian"),
-                new Contributor(3, "Jude")
-            )
-        ); //ObjectDownloader.getAllContributors();
+//        ObjectDownloader.getInstance().ge
 
-        this.contributorBox.setValue(contributors.get(1));
-        contributors.forEach(contributor -> this.contributorBox.getItems().add(contributor));
+//        this.contributorBox.setValue(contributors.get(1));
+//        contributors.forEach(contributor -> this.contributorBox.getItems().add(contributor));
     }
 
     private void initializeRoleBox() {

@@ -1,6 +1,6 @@
-package dawson.songtracker.DBObjects.objectLoaders.dowloader;
+package dawson.songtracker.dbObjects.objectLoaders.dowloader;
 
-import dawson.songtracker.DBObjects.DBConnection;
+import dawson.songtracker.dbObjects.DBConnection;
 import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.distributions.Collection;

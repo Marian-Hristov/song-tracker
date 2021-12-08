@@ -17,7 +17,5 @@ public abstract class Popup extends Pane {
         this.hide();
     }
 
-    public abstract void onAdd();
-
 
 }

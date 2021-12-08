@@ -1,6 +1,5 @@
-package dawson.songtracker.DBObjects.objectLoaders.dowloader;
+package dawson.songtracker.dbObjects.objectLoaders.dowloader;
 
-import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.distributions.Collection;
 import dawson.songtracker.types.distributions.Distribution;
 import dawson.songtracker.types.distributions.Market;

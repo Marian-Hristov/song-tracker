@@ -1,6 +1,6 @@
 package dawson.songtracker;
 
-import dawson.songtracker.DBObjects.DBConnection;
+import dawson.songtracker.dbObjects.DBConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

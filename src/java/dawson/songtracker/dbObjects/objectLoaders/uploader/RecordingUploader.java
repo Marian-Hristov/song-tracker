@@ -1,4 +1,4 @@
-package dawson.songtracker.DBObjects.objectLoaders.uploader;
+package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.roles.*;

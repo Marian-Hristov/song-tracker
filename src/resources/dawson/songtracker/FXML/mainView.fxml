@@ -13,6 +13,8 @@
 <?import dawson.songtracker.controllers.paneControllers.ContributorController?>
 <?import dawson.songtracker.controllers.searchPanel.CollectionSearchController?>
 <?import dawson.songtracker.controllers.paneControllers.CollectionController?>
+<?import dawson.songtracker.controllers.paneControllers.DistributionController?>
+<?import dawson.songtracker.controllers.paneControllers.MarketController?>
 <Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <TabPane >
         <tabs>
@@ -33,7 +35,7 @@
             </Tab>
             <Tab closable="false" text="Distribution">
                 <content>
-                    <VBox prefHeight="400.0" prefWidth="640.0" />
+                    <DistributionController/>
                 </content>
             </Tab>
             <Tab closable="false" text="Contributor">
@@ -43,7 +45,7 @@
             </Tab>
             <Tab closable="false" text="Market">
                 <content>
-                    <VBox prefHeight="400.0" prefWidth="640.0" />
+                   <MarketController/>
                 </content>
             </Tab>
             <Tab closable="false" text="Collection">

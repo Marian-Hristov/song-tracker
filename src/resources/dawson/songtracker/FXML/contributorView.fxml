@@ -3,6 +3,7 @@
 
 <?import dawson.songtracker.controllers.searchPanel.ContributorSearchController?>
 <?import dawson.songtracker.controllers.add.AddContributorController?>
+<?import dawson.songtracker.controllers.edit.ContributorDetailEditController?>
 <fx:root type="Pane" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          prefHeight="400.0" prefWidth="600.0">
@@ -10,6 +11,7 @@
     <children>
         <ContributorSearchController fx:id="searchPanel"/>
         <AddContributorController fx:id="addPanel"/>
+        <ContributorDetailEditController fx:id="detailPane"/>
     </children>
 
 </fx:root>

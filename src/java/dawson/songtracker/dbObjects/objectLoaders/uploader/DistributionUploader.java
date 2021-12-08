@@ -1,4 +1,4 @@
-package dawson.songtracker.DBObjects.objectLoaders.uploader;
+package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
 import java.sql.Connection;
 import java.sql.Date;

@@ -1,4 +1,4 @@
-package dawson.songtracker.DBObjects.objectLoaders.dowloader;
+package dawson.songtracker.dbObjects.objectLoaders.dowloader;
 
 import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;

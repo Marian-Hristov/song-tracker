@@ -79,6 +79,10 @@ public class Compilation extends SongComponent {
             throw new NoSuchElementException("this segment cannot be removed because it isn't in this compilation yet");
     }
 
+    public Map<CompilationRole, ArrayList<Contributor>> getContributions() {
+        return this.contributions;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,11 +98,6 @@ public class Compilation extends SongComponent {
 
     @Override
     public String toString() {
-        return "Compilation{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", creationTime=" + creationTime +
-                ", duration=" + duration +
-                '}';
+        return name;
     }
 }

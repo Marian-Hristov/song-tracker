@@ -1,7 +1,8 @@
 package dawson.songtracker.controllers.paneControllers;
 
-import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
-import dawson.songtracker.DBObjects.objectLoaders.uploader.ObjectUploader;
+import dawson.songtracker.controllers.edit.CollectionDetailEditController;
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.dbObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.controllers.add.AddCollectionController;
 import dawson.songtracker.controllers.searchPanel.CollectionSearchController;
 import dawson.songtracker.event.SearchEvent;
@@ -10,10 +11,11 @@ import dawson.songtracker.utils.Loader;
 
 import java.sql.SQLException;
 
-public class CollectionController extends DefaultController<
+public class CollectionController extends DefaultWithDetailsController<
         Collection,
         CollectionSearchController,
-        AddCollectionController>
+        AddCollectionController,
+        CollectionDetailEditController>
 {
 
     public CollectionController() {
@@ -45,7 +47,6 @@ public class CollectionController extends DefaultController<
     public void removeEntry(Collection entry) {
         try {
             System.out.println("Can't delete collections yet.");
-            //ObjectUploader.getInstance().collec(entry);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -76,7 +77,6 @@ public class CollectionController extends DefaultController<
     public void populateTable() {
         try {
             var collections = ObjectDownloader.getInstance().loadAllCollections();
-            collections.forEach(System.out::println);
             searchPanel.populateTable(collections);
         } catch (SQLException throwables) {
             throwables.printStackTrace();

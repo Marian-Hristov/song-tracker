@@ -1,5 +1,7 @@
 package dawson.songtracker.controllers.assign;
 
+import dawson.songtracker.controllers.detail.DetailPopupController;
+import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.roles.Contributor;
 import dawson.songtracker.utils.ICrud;
 import dawson.songtracker.utils.Popup;
@@ -7,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class ContributorPopupController extends AssignPopupController implements ICrud<Contributor> {
+public class ContributorPopupController extends DetailPopupController<Recording> {
     @FXML
     Button closeButton;
     @FXML
@@ -35,28 +37,8 @@ public class ContributorPopupController extends AssignPopupController implements
         title.setText("Recording");
     }
 
-    @FXML
-    public void hide() {
-        this.setVisible(false);
-    }
-
     @Override
-    public void onAdd() {
-
-    }
-
-    @Override
-    public void addNewEntry(Contributor k) {
-
-    }
-
-    @Override
-    public void removeEntry(Contributor entry) {
-
-    }
-
-    @Override
-    public void updateEntry(Contributor entry) {
-
+    public void show(Recording entity) {
+        System.out.println(entity);
     }
 }

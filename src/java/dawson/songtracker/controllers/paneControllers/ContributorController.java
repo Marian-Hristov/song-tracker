@@ -1,7 +1,8 @@
 package dawson.songtracker.controllers.paneControllers;
 
-import dawson.songtracker.DBObjects.objectLoaders.dowloader.ObjectDownloader;
-import dawson.songtracker.DBObjects.objectLoaders.uploader.ObjectUploader;
+import dawson.songtracker.controllers.edit.ContributorDetailEditController;
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.dbObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.controllers.add.AddContributorController;
 import dawson.songtracker.controllers.searchPanel.ContributorSearchController;
 import dawson.songtracker.event.AddContributorEvent;
@@ -11,8 +12,8 @@ import dawson.songtracker.utils.Loader;
 
 import java.sql.SQLException;
 
-public class ContributorController extends DefaultController<
-        Contributor, ContributorSearchController, AddContributorController>
+public class ContributorController extends DefaultWithDetailsController<
+        Contributor, ContributorSearchController, AddContributorController, ContributorDetailEditController>
 {
 
     public ContributorController() {
