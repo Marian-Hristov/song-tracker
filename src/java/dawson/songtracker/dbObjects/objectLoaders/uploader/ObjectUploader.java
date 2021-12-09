@@ -4,8 +4,6 @@ import dawson.songtracker.dbObjects.DBConnection;
 import dawson.songtracker.types.DatabaseObject;
 import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Recording;
-import dawson.songtracker.types.components.Segment;
-import dawson.songtracker.types.components.SongComponent;
 import dawson.songtracker.types.distributions.*;
 import dawson.songtracker.types.roles.*;
 
