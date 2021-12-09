@@ -26,4 +26,6 @@ module dawson.songtracker {
     opens dawson.songtracker.controllers.assign to javafx.fxml;
     opens dawson.songtracker.controllers.detail to javafx.fxml;
     opens dawson.songtracker.controllers.edit to javafx.fxml;
+    exports messageLogger;
+    opens messageLogger to javafx.fxml;
 }

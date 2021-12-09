@@ -26,7 +26,7 @@
                                     <children>
                                         <Button minWidth="70.0" mnemonicParsing="false" text="Add" onMouseClicked="#onAdd"/>
                                         <Button layoutX="10.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false" text="Delete" onMouseClicked="#onDelete"/>
-                                        <Button layoutX="74.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false" text="Update" onMouseClicked="#onUpdate"/>
+                                        <Button layoutX="74.0" layoutY="10.0" minWidth="70.0" mnemonicParsing="false" text="Refresh" onMouseClicked="#onUpdate"/>
                                     </children>
                                 </HBox>
                                 <TableView prefHeight="200.0" prefWidth="200.0" fx:id="tbData">

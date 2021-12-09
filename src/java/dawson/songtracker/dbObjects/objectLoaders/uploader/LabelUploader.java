@@ -1,10 +1,13 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.types.distributions.RecordLabel;
+import javafx.scene.control.Label;
+
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 
-class LabelUploader {
+class LabelUploader implements IDBUploader<RecordLabel> {
     private final Connection connection;
 
     public LabelUploader(Connection connection) {
@@ -68,5 +71,20 @@ class LabelUploader {
             updateLabel.close();
             throw e;
         }
+    }
+
+    @Override
+    public void add(RecordLabel recordLabel) {
+
+    }
+
+    @Override
+    public void update(RecordLabel recordLabel) {
+
+    }
+
+    @Override
+    public void remove(RecordLabel recordLabel) {
+
     }
 }

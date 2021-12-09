@@ -1,10 +1,12 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.types.roles.Contributor;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-class ContributorUploader {
+class ContributorUploader implements IDBUploader<Contributor>{
     private final Connection connection;
 
     public ContributorUploader(Connection connection) {
@@ -67,5 +69,20 @@ class ContributorUploader {
             updateContributor.close();
             throw e;
         }
+    }
+
+    @Override
+    public void add(Contributor contributor) {
+
+    }
+
+    @Override
+    public void update(Contributor contributor) {
+
+    }
+
+    @Override
+    public void remove(Contributor contributor) {
+
     }
 }

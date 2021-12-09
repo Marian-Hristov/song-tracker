@@ -102,6 +102,7 @@ public class CompilationDetailController extends DetailPopupController<Compilati
 
     @Override
     public void show(Compilation entity) {
+        this.oldEntity = entity;
         this.entity = entity;
         this.populateRolesTable();
         this.populateSegmentsTable();

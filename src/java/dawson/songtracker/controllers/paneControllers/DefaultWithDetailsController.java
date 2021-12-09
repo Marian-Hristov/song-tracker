@@ -2,13 +2,17 @@ package dawson.songtracker.controllers.paneControllers;
 
 import dawson.songtracker.controllers.detail.DetailPopupController;
 import dawson.songtracker.controllers.searchPanel.SearchPanelController;
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.event.SearchEvent;
 import dawson.songtracker.types.DatabaseObject;
 import dawson.songtracker.utils.IDetailedInfo;
 import dawson.songtracker.utils.Popup;
 import dawson.songtracker.utils.PopupOwner;
 import javafx.fxml.FXML;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public abstract class DefaultWithDetailsController<
         Type extends DatabaseObject,
@@ -29,5 +33,19 @@ public abstract class DefaultWithDetailsController<
         this.detailPane.show(entry);
     }
 
+    @Override
+    public void onSearch(SearchEvent search) {
+        ArrayList<Type> collection = (ArrayList<Type>) cache.getCachedItems();
 
+        if (search.message.isEmpty()) {
+            searchPanel.filterAndDisplay(collection);
+            return;
+        }
+            collection = (ArrayList<Type>) collection
+                    .stream()
+                    .filter(c -> c.toString().toLowerCase().contains(search.message.toLowerCase()))
+                    .collect(Collectors.toList());
+
+            searchPanel.filterAndDisplay((ArrayList) collection);
+        }
 }

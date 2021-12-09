@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 
-class RecordingUploader {
+class RecordingUploader implements IDBUploader<Recording> {
     private final Connection connection;
 
     public RecordingUploader(Connection connection) {
@@ -160,5 +160,20 @@ class RecordingUploader {
         } else {
             throw new Exception("Type of object role given is not specified");
         }
+    }
+
+    @Override
+    public void add(Recording recording) {
+
+    }
+
+    @Override
+    public void update(Recording recording) {
+
+    }
+
+    @Override
+    public void remove(Recording recording) {
+
     }
 }

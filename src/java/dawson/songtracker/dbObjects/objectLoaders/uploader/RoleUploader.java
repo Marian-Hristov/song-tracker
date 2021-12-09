@@ -1,10 +1,12 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.types.roles.Role;
+
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 
-class RoleUploader {
+class RoleUploader implements IDBUploader<Role> {
     private final Connection connection;
 
     public RoleUploader(Connection connection) {
@@ -79,5 +81,20 @@ class RoleUploader {
         } else {
             throw new IllegalArgumentException("Given category doesn't exist");
         }
+    }
+
+    @Override
+    public void add(Role role) {
+
+    }
+
+    @Override
+    public void update(Role role) {
+
+    }
+
+    @Override
+    public void remove(Role role) {
+
     }
 }

@@ -3,6 +3,8 @@ package dawson.songtracker.controllers.paneControllers;
 import dawson.songtracker.Cache;
 import dawson.songtracker.CacheManager;
 import dawson.songtracker.controllers.searchPanel.SearchPanelController;
+import dawson.songtracker.dbObjects.objectLoaders.uploader.IDBUploader;
+import dawson.songtracker.dbObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.event.SearchEvent;
 import dawson.songtracker.event.UpdateTableEvent;
 import dawson.songtracker.types.DatabaseObject;
@@ -28,12 +30,20 @@ public abstract class DefaultController<
     implements ICrud<Type>, ISearchPanelOwner<Type>, PopupOwner {
     
     protected Cache<Type> cache;
+    private IDBUploader<Type> uploader;
+
 
     public DefaultController(Class<Type> t) {
         cache = CacheManager.getCache(t);
         setCacheUpdateMethod();
         cache.subscribe(arg -> this.populateTable(arg));
         cache.update();
+
+        try {
+            uploader = (IDBUploader<Type>) ObjectUploader.getInstance().getUploader(t);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -42,6 +52,7 @@ public abstract class DefaultController<
         this.searchPanel.populateTable(t);
         this.searchPanel.displayDefault();
     }
+
 
     abstract public void setCacheUpdateMethod();
 
@@ -57,6 +68,7 @@ public abstract class DefaultController<
 
     @Override
     public void onUpdate(UpdateTableEvent event) {
+        this.cache.update();
         this.searchPanel.displayDefault();
     }
 
@@ -70,5 +82,19 @@ public abstract class DefaultController<
         this.addPanel.show();
     }
 
+    @Override
+    public void addNewEntry(Type entry) {
+        this.uploader.add(entry);
+    }
 
+    @Override
+    public void removeEntry(Type entry) {
+        this.uploader.remove(entry);
+    }
+
+    @Override
+    public void updateEntry(Type old, Type entry) {
+        this.uploader.update(entry);
+        this.cache.update();
+    }
 }

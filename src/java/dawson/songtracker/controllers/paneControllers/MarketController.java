@@ -30,42 +30,4 @@ public class MarketController extends DefaultWithDetailsController<Market, Marke
 //        this.populateTable();
 //        searchPanel.displayDefault();
     }
-
-    @Override
-    public void addNewEntry(Market entry) {
-        try {
-            ObjectUploader.getInstance().addMarket(entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void removeEntry(Market entry) {
-        try {
-            ObjectUploader.getInstance().removeMarket(entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updateEntry(Market entry) {
-        try {
-            ObjectUploader.getInstance().updateMarket(entry, entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onSearch(SearchEvent search) {
-        try {
-            var markets = ObjectDownloader.getInstance().loadMarketsByName(search.message);
-            searchPanel.displaySearchResult(markets);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
 }

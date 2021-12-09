@@ -33,35 +33,4 @@ public class RecordLabelController extends DefaultWithDetailsController<RecordLa
         this.cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllRecordLabels());
     }
 
-    @Override
-    public void addNewEntry(RecordLabel entry) {
-        try {
-            ObjectUploader.getInstance().addLabel(entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void removeEntry(RecordLabel entry) {
-        try {
-            ObjectUploader.getInstance().removeLabel(entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updateEntry(RecordLabel entry) {
-        try {
-            ObjectUploader.getInstance().updateLabel(entry, entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onSearch(SearchEvent search) {
-        this.searchPanel.filterAndDisplay((ArrayList<? extends RecordLabel>) cache.getCachedItems());
-    }
 }
