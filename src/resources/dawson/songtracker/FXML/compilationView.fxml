@@ -1,8 +1,8 @@
 <?import javafx.scene.layout.Pane?>
 
 <?import dawson.songtracker.controllers.searchPanel.SearchSongController?>
-<?import dawson.songtracker.controllers.assign.ContributorPopupController?>
 <?import dawson.songtracker.controllers.add.AddSongController?>
+<?import dawson.songtracker.controllers.edit.CompilationDetailEditController?>
 <?import dawson.songtracker.controllers.detail.CompilationDetailController?>
 <fx:root xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" type="Pane">
     <children>

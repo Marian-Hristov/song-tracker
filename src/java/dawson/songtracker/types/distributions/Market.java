@@ -38,9 +38,6 @@ public class Market extends DatabaseObject {
 
     @Override
     public String toString() {
-        return "Market{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

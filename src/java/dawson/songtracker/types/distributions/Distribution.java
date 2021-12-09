@@ -75,12 +75,6 @@ public class Distribution extends DatabaseObject {
 
     @Override
     public String toString() {
-        return "Distribution{" +
-                "id=" + id +
-                ", collection=" + collection +
-                ", releaseDate=" + releaseDate +
-                ", label=" + label +
-                ", market=" + market +
-                '}';
+        return  label + "-" + market + "-" + releaseDate;
     }
 }

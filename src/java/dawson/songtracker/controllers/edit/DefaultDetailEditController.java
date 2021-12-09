@@ -4,6 +4,7 @@ import dawson.songtracker.Cache;
 import dawson.songtracker.CacheManager;
 import dawson.songtracker.customNodes.ComboBoxItemWrap;
 import dawson.songtracker.event.UpdateEntityEvent;
+import dawson.songtracker.types.DatabaseObject;
 import dawson.songtracker.utils.ComboBoxCheckBuilder;
 import dawson.songtracker.utils.Loader;
 import javafx.scene.control.ComboBox;
@@ -50,7 +51,7 @@ public abstract class DefaultDetailEditController<T> extends DetailEditPopupCont
         }
 
 
-        Cache cache = CacheManager.getCache(type);
+        Cache<DatabaseObject> cache = CacheManager.getCache(type);
 
         ArrayList getResult = null;
         try {

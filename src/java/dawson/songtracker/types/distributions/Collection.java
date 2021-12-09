@@ -81,9 +81,6 @@ public class Collection extends DatabaseObject {
 
     @Override
     public String toString() {
-        return "Collection{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

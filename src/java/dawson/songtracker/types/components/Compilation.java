@@ -36,6 +36,11 @@ public class Compilation extends SongComponent {
         }
     }
 
+//    public void setContributions(Map<CompilationRole, ArrayList<Contributor>> contributions) {
+//        this.contributions.clear();;
+//        this.contributions.putAll(contributions);
+//    }
+
     @Override
     public ArrayList<Contributor> getContributorsInRole(Role role) {
         if (role == null) throw new NullPointerException("the role is null");

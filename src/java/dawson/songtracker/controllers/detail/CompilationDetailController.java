@@ -3,8 +3,10 @@ package dawson.songtracker.controllers.detail;
 import dawson.songtracker.controllers.assign.AssignPopupController;
 import dawson.songtracker.types.components.Compilation;
 import dawson.songtracker.types.components.Segment;
+import dawson.songtracker.types.components.SongComponent;
 import dawson.songtracker.types.roles.Contributor;
 import dawson.songtracker.types.roles.Role;
+import dawson.songtracker.utils.Loader;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +33,10 @@ public class CompilationDetailController extends DetailPopupController<Compilati
 
     @FXML
     TableView samplesTable;
+
+    public CompilationDetailController() {
+        Loader.LoadAndSet(this);
+    }
 
     public void initialize() {
         this.samplesTable.getColumns().get(0);
@@ -72,10 +78,33 @@ public class CompilationDetailController extends DetailPopupController<Compilati
         rolesTable.setItems(cr);
     }
 
+    public void populateSegmentsTable() {
+        var sampledCompilations = this.entity.getSampledCompilations();
+        var sampledRecordings = this.entity.getSampledRecordings();
+
+        TableColumn<Segment, String> nameCol = (TableColumn) samplesTable.getColumns().get(0);
+        nameCol.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().toString()));
+
+        TableColumn<Segment, Double> durationCol = (TableColumn) samplesTable.getColumns().get(1);
+        durationCol.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getDurationInMainTrack()));
+
+        TableColumn<Segment, Double> startCol = (TableColumn) samplesTable.getColumns().get(2);
+        startCol.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().getComponentTrackOffset()));
+
+        ObservableList<Segment> segmentObservableList = FXCollections.observableArrayList();
+
+        segmentObservableList.addAll(sampledCompilations);
+        segmentObservableList.addAll(sampledRecordings);
+
+        samplesTable.setItems(segmentObservableList);
+
+    }
+
     @Override
     public void show(Compilation entity) {
         this.entity = entity;
         this.populateRolesTable();
+        this.populateSegmentsTable();
         this.setVisible(true);
     }
 

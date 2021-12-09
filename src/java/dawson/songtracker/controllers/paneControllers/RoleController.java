@@ -1,5 +1,6 @@
 package dawson.songtracker.controllers.paneControllers;
 
+import dawson.songtracker.controllers.edit.RoleDetailEditController;
 import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.dbObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.controllers.add.AddRoleController;
@@ -21,8 +22,8 @@ import javafx.scene.layout.Pane;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RoleController extends DefaultController
-    <Role, RoleSearchController, AddRoleController>
+public class RoleController extends DefaultWithDetailsController
+    <Role, RoleSearchController, AddRoleController, RoleDetailEditController>
 {
 
     @FXML

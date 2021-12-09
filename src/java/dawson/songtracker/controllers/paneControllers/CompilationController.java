@@ -1,6 +1,7 @@
 package dawson.songtracker.controllers.paneControllers;
 
 
+import dawson.songtracker.controllers.edit.CompilationDetailEditController;
 import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.dbObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.controllers.detail.CompilationDetailController;
@@ -23,7 +24,6 @@ public class CompilationController extends DefaultWithDetailsController
 
     public void initialize() {
         super.initialize();
-//        this.populateTable();
         searchPanel.setLabel("Compilation");
     }
 

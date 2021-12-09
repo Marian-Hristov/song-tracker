@@ -38,9 +38,6 @@ public class RecordLabel extends DatabaseObject {
 
     @Override
     public String toString() {
-        return "RecordLabel{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

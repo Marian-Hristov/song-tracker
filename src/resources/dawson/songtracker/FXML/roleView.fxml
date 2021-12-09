@@ -4,6 +4,7 @@
 
 <?import dawson.songtracker.controllers.add.AddRoleController?>
 <?import dawson.songtracker.controllers.searchPanel.RoleSearchController?>
+<?import dawson.songtracker.controllers.edit.RoleDetailEditController?>
 <fx:root type="Pane" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          prefHeight="400.0" prefWidth="600.0">
@@ -11,6 +12,7 @@
     <children>
         <RoleSearchController fx:id="searchPanel"/>
         <AddRoleController fx:id="addPanel"/>
+        <RoleDetailEditController fx:id="detailPane"/>
     </children>
 
 </fx:root>

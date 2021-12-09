@@ -80,4 +80,8 @@ public class Segment<T extends SongComponent> extends DatabaseObject {
     public int hashCode() {
         return id;
     }
+
+    public String toString() {
+        return this.componentTrack.toString();
+    }
 }

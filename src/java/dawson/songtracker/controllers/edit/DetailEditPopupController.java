@@ -35,6 +35,7 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
     @Override
     public void hide() {
         super.hide();
+        numberOfFields = 0;
 
         if (leftCol != null) {
             this.leftCol.getChildren().clear();
@@ -45,6 +46,10 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
     private Map<Method, Method> getMethods() {
         List<Field> fields = Arrays.stream(entity.getClass().getDeclaredFields())
                 .collect(Collectors.toList());
+
+        var parentFields = Arrays.stream(entity.getClass().getSuperclass().getDeclaredFields()).collect(Collectors.toList());
+        fields.addAll(parentFields);
+
 
         var methods = entity.getClass().getMethods();
         ArrayList<Method> setters = new ArrayList<>();
@@ -115,7 +120,7 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
 
         var type = setter.getParameterTypes()[0];
         if (DatabaseObject.class.isAssignableFrom(type)) {
-            return arrayListHbox(setter, label, type);
+            return arrayListHbox(setter, label, type, getter);
         } else if (List.class.isAssignableFrom(type)) {
             // That's when we pray the type is ArrayList<DatabaseObject>
             return multipleArrayListHBox(setter, label, type, getter);
@@ -123,6 +128,17 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
 
         HBox hbox = new HBox();
         TextField textField = new TextField();
+
+        Object obj = null;
+        try {
+            obj = getter.invoke(entity);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        textField.setPromptText(obj.toString());
         hbox.getChildren().addAll(label, textField);
 
         map.put(textField, setter);
@@ -132,14 +148,23 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
 
     abstract HBox multipleArrayListHBox(Method setter, Label label, Class type, Method getter);
 
-    HBox arrayListHbox(Method method, Label label, Class dataType) {
+    HBox arrayListHbox(Method method, Label label, Class dataType, Method getter) {
         HBox hbox = new HBox();
         hbox.getChildren().add(label);
 
         Cache cache = CacheManager.getCache(dataType);
         var options = cache.getCachedItems();
 
-        var comboBox = ComboBoxCheckBuilder.ComboBox(options);
+        Object selected = null;
+        try {
+            selected = getter.invoke(entity);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        var comboBox = ComboBoxCheckBuilder.singleComboBox(options, selected);
         hbox.getChildren().add(comboBox);
 
         hbox.addEventHandler(UpdateEntityEvent.UPDATE_ENTITY, event -> {

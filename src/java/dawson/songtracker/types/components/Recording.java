@@ -112,12 +112,6 @@ public class Recording extends SongComponent {
 
     @Override
     public String toString() {
-        return "Recording{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", creationTime=" + creationTime +
-                ", duration=" + duration +
-                ", released=" + released +
-                '}';
+        return name;
     }
 }

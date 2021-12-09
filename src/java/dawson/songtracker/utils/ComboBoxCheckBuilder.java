@@ -46,10 +46,11 @@ public class ComboBoxCheckBuilder<T> {
         return cb;
     }
 
-    public static <T> ComboBox<T> ComboBox(List<T> options) {
+    public static <T> ComboBox<T> singleComboBox(List<T> options, T selected) {
         ComboBox<T> comboBox = new ComboBox<>();
         ObservableList<T> observableList = FXCollections.observableList(options);
         comboBox.setItems(observableList);
+        comboBox.getSelectionModel().select(selected);
         return comboBox;
     }
 }
