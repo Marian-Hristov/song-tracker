@@ -111,18 +111,65 @@ class CollectionUploader implements IDBUploader<Collection> {
         }
     }
 
+    public void addCollectionToSet(int collectionId, int setId) throws Exception {
+        if(collectionId < 1 || setId < 1){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        CallableStatement addCollectionToSet = this.connection.prepareCall("{call COLLECTION_MGMT.ADDCOLLECTIONTOSET(?, ?)}");
+        try {
+            addCollectionToSet.setInt(1, collectionId);
+            addCollectionToSet.setInt(2, setId);
+            if(addCollectionToSet.executeUpdate() != 1){
+                throw new SQLException("Couldn't add collection to set");
+            }
+            this.connection.commit();
+            addCollectionToSet.close();
+        } catch (Exception e){
+            this.connection.rollback();
+            addCollectionToSet.close();
+            throw e;
+        }
+    }
+
+    public void removeCollectionFromSet(int collectionId, int setId) throws Exception {
+        if(collectionId < 1 || setId < 1){
+            throw new IllegalArgumentException("One or more arguments are invalid or null");
+        }
+        CallableStatement removeCollectionFromSet = this.connection.prepareCall("{call COLLECTION_MGMT.REMOVECOLLECTIONFROMSET(?, ?)}");
+        try {
+            removeCollectionFromSet.setInt(1, collectionId);
+            removeCollectionFromSet.setInt(2, setId);
+            if(removeCollectionFromSet.executeUpdate() != 1){
+                throw new SQLException("Couldn't remove collection from set");
+            }
+            this.connection.commit();
+            removeCollectionFromSet.close();
+        } catch (Exception e){
+            this.connection.rollback();
+            removeCollectionFromSet.close();
+            throw e;
+        }
+    }
+
     @Override
-    public void add(Collection collection) {
+    public void add(Collection collection) throws Exception {
+        if(collection == null){
+            throw new Exception("Collection is null");
+        }
 
     }
 
     @Override
-    public void update(Collection collection) {
-
+    public void remove(Collection collection) throws Exception {
+        if(collection == null){
+            throw new Exception("Collection is null");
+        }
     }
 
     @Override
-    public void remove(Collection collection) {
-
+    public void update(Collection collection) throws Exception {
+        if(collection == null){
+            throw new Exception("Collection is null");
+        }
     }
 }

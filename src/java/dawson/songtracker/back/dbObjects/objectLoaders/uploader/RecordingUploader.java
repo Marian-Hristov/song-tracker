@@ -229,7 +229,7 @@ class RecordingUploader implements IDBUploader<Recording> {
         }
         ObjectDownloader dl = ObjectDownloader.getInstance();
         Recording oldRecording = dl.loadRecording(newRecording.getId());
-
+        this.removeAllContributions(oldRecording);
         this.updateRecording(oldRecording.getId(), newRecording.getName(), newRecording.getDuration());
         this.addAllContributions(newRecording);
     }

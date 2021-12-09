@@ -6,7 +6,6 @@ module dawson.songtracker {
 
     opens dawson.songtracker to javafx.fxml;
     opens dawson.songtracker.front.controllers to javafx.fxml;
-    opens dawson.songtracker.back.utils to javafx.fxml;
     opens dawson.songtracker.front.event to javafx.fxml;
     opens dawson.songtracker.back.dbObjects to javafx.fxml;
     opens dawson.songtracker.back.dbObjects.objectLoaders.dowloader to javafx.fxml;
@@ -16,7 +15,6 @@ module dawson.songtracker {
     exports dawson.songtracker.back.types.roles;
     exports dawson.songtracker.back.types.distributions;
     exports dawson.songtracker.back.types.components;
-    exports dawson.songtracker.back.utils;
     exports dawson.songtracker.back.dbObjects;
     exports dawson.songtracker.back.dbObjects.objectLoaders.dowloader;
     exports dawson.songtracker.back.dbObjects.objectLoaders.uploader;

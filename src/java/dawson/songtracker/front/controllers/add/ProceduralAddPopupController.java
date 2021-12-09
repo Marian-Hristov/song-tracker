@@ -111,7 +111,7 @@ public class ProceduralAddPopupController<T extends DatabaseObject, K extends Bu
             System.out.println(name);
             if (name.startsWith("set")) {
                 for (int j = 0; j < fields.size(); j++) {
-                    if (name.contains(fields.get(j).getName())) {
+                    if (name.contains(fields.get(j).getName().toLowerCase())) {
                         setters.add(methods[i]);
                     }
                 }
@@ -219,17 +219,26 @@ public class ProceduralAddPopupController<T extends DatabaseObject, K extends Bu
         return hbox;
     }
 
+    public boolean call(Method setter, Object o) {
+        try {
+            setter.invoke(builder, o);
+            return true;
+        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException e) {
+        } catch (IllegalArgumentException e) {
+        }
+        return false;
+    }
+
     @FXML
     public void onUpdate() {
+        // This is so cursed I'm sorry..
+        // If it's not a string it should be a number....
         map.forEach((textField, setter) -> {
-            try {
-                setter.invoke(builder, textField.getText());
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        });
+                    if (!call(setter, textField.getText())) {
+                        System.out.println(call(setter, Integer.parseInt(textField.getText())));
+                    }
+                });
 
         rightCol.getChildren().forEach(node -> node.fireEvent(new UpdateEntityEvent()));
         leftCol.getChildren().forEach(node -> node.fireEvent(new UpdateEntityEvent()));
