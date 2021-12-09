@@ -167,12 +167,26 @@ class RecordingUploader implements IDBUploader<Recording> {
         }
     }
 
-    @Override
-    public void add(Recording recording) throws Exception {
-        if(recording == null){
-            throw new Exception("Recording is null");
+    private void removeAllContributions(Recording recording) throws Exception{
+        if(recording.getMusicalContributions().size() != 0){
+            Map<MusicianRole, ArrayList<Contributor>> map = recording.getMusicalContributions();
+            for (Map.Entry<MusicianRole, ArrayList<Contributor>> entry : map.entrySet()){
+                for(Contributor contributor : entry.getValue()){
+                    this.removeContributorFromRecording(recording, contributor, entry.getKey());
+                }
+            }
         }
-        this.addRecording(recording);
+        if(recording.getProductionContributions().size() != 0){
+            Map<ProductionRole, ArrayList<Contributor>> map = recording.getProductionContributions();
+            for (Map.Entry<ProductionRole, ArrayList<Contributor>> entry : map.entrySet()){
+                for(Contributor contributor : entry.getValue()){
+                    this.removeContributorFromRecording(recording, contributor, entry.getKey());
+                }
+            }
+        }
+    }
+
+    private void addAllContributions(Recording recording) throws Exception {
         if(recording.getMusicalContributions().size() != 0){
             Map<MusicianRole, ArrayList<Contributor>> map = recording.getMusicalContributions();
             for (Map.Entry<MusicianRole, ArrayList<Contributor>> entry : map.entrySet()){
@@ -192,6 +206,15 @@ class RecordingUploader implements IDBUploader<Recording> {
     }
 
     @Override
+    public void add(Recording recording) throws Exception {
+        if(recording == null){
+            throw new Exception("Recording is null");
+        }
+        this.addRecording(recording);
+        this.addAllContributions(recording);
+    }
+
+    @Override
     public void remove(Recording recording) throws Exception {
         if(recording == null){
             throw new Exception("Recording is null");
@@ -201,43 +224,13 @@ class RecordingUploader implements IDBUploader<Recording> {
 
     @Override
     public void update(Recording newRecording) throws Exception {
-        if(newRecording == null){
+        if (newRecording == null) {
             throw new Exception("Recording is null");
         }
         ObjectDownloader dl = ObjectDownloader.getInstance();
         Recording oldRecording = dl.loadRecording(newRecording.getId());
-        if(oldRecording.getMusicalContributions().size() != 0){
-            Map<MusicianRole, ArrayList<Contributor>> map = oldRecording.getMusicalContributions();
-            for (Map.Entry<MusicianRole, ArrayList<Contributor>> entry : map.entrySet()){
-                for(Contributor contributor : entry.getValue()){
-                    this.removeContributorFromRecording(oldRecording, contributor, entry.getKey());
-                }
-            }
-        }
-        if(oldRecording.getProductionContributions().size() != 0){
-            Map<ProductionRole, ArrayList<Contributor>> map = oldRecording.getProductionContributions();
-            for (Map.Entry<ProductionRole, ArrayList<Contributor>> entry : map.entrySet()){
-                for(Contributor contributor : entry.getValue()){
-                    this.removeContributorFromRecording(oldRecording, contributor, entry.getKey());
-                }
-            }
-        }
+
         this.updateRecording(oldRecording.getId(), newRecording.getName(), newRecording.getDuration());
-        if(newRecording.getMusicalContributions().size() != 0){
-            Map<MusicianRole, ArrayList<Contributor>> map = newRecording.getMusicalContributions();
-            for (Map.Entry<MusicianRole, ArrayList<Contributor>> entry : map.entrySet()){
-                for(Contributor contributor : entry.getValue()){
-                    this.addContributorToRecording(newRecording, contributor, entry.getKey());
-                }
-            }
-        }
-        if(newRecording.getProductionContributions().size() != 0){
-            Map<ProductionRole, ArrayList<Contributor>> map = newRecording.getProductionContributions();
-            for (Map.Entry<ProductionRole, ArrayList<Contributor>> entry : map.entrySet()){
-                for(Contributor contributor : entry.getValue()){
-                    this.addContributorToRecording(newRecording, contributor, entry.getKey());
-                }
-            }
-        }
+        this.addAllContributions(newRecording);
     }
 }
