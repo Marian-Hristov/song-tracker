@@ -1,5 +1,7 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.back.types.distributions.Collection;
 
 import java.sql.Connection;
@@ -13,7 +15,7 @@ class CollectionUploader implements IDBUploader<Collection> {
         this.connection = connection;
     }
 
-    public void addCollection(String name) throws Exception {
+    private void addCollection(String name) throws Exception {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -32,7 +34,7 @@ class CollectionUploader implements IDBUploader<Collection> {
         }
     }
 
-    public void removeCollection(int id) throws Exception {
+    private void removeCollection(int id) throws Exception {
         if(id < 1){
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -51,7 +53,7 @@ class CollectionUploader implements IDBUploader<Collection> {
         }
     }
 
-    public void addCompilationToCollection(int collectionId, int compilationId) throws Exception {
+    private void addCompilationToCollection(int collectionId, int compilationId) throws Exception {
         if (collectionId < 1 || compilationId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -71,7 +73,7 @@ class CollectionUploader implements IDBUploader<Collection> {
         }
     }
 
-    public void removeCompilationFromCollection(int collectionId, int compilationId) throws Exception {
+    private void removeCompilationFromCollection(int collectionId, int compilationId) throws Exception {
         if (collectionId < 1 || compilationId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -91,7 +93,7 @@ class CollectionUploader implements IDBUploader<Collection> {
         }
     }
 
-    public void updateCollection(int collectionId, String newName) throws Exception {
+    private void updateCollection(int collectionId, String newName) throws Exception {
         if (collectionId < 1 || newName == null || newName.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -111,7 +113,7 @@ class CollectionUploader implements IDBUploader<Collection> {
         }
     }
 
-    public void addCollectionToSet(int collectionId, int setId) throws Exception {
+    private void addCollectionToSet(int collectionId, int setId) throws Exception {
         if(collectionId < 1 || setId < 1){
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -131,7 +133,7 @@ class CollectionUploader implements IDBUploader<Collection> {
         }
     }
 
-    public void removeCollectionFromSet(int collectionId, int setId) throws Exception {
+    private void removeCollectionFromSet(int collectionId, int setId) throws Exception {
         if(collectionId < 1 || setId < 1){
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -151,12 +153,37 @@ class CollectionUploader implements IDBUploader<Collection> {
         }
     }
 
+    private void addAllCompilations(Collection collection) throws Exception {
+        for(Compilation compilation : collection.getCompilations()){
+            this.addCompilationToCollection(collection.getId(), compilation.getId());
+        }
+    }
+
+    private void removeAllCompilations(Collection collection) throws Exception{
+        for(Compilation compilation : collection.getCompilations()){
+            this.removeCompilationFromCollection(collection.getId(), compilation.getId());
+        }
+    }
+
+    private void addAllCollectionsToSet(Collection collection) throws Exception{
+        for(Collection collection1 : collection.getCollectionsInSet()){
+            this.addCollectionToSet(collection1.getId(), collection.getId());
+        }
+    }
+    private void removeAllCollectionsFromSet(Collection collection) throws Exception{
+        for(Collection collection1 : collection.getCollectionsInSet()){
+            this.removeCollectionFromSet(collection1.getId(), collection.getId());
+        }
+    }
+
     @Override
     public void add(Collection collection) throws Exception {
         if(collection == null){
             throw new Exception("Collection is null");
         }
-
+        this.addCollection(collection.getName());
+        this.addAllCompilations(collection);
+        this.addAllCollectionsToSet(collection);
     }
 
     @Override
@@ -164,12 +191,20 @@ class CollectionUploader implements IDBUploader<Collection> {
         if(collection == null){
             throw new Exception("Collection is null");
         }
+        this.removeCollection(collection.getId());
     }
 
     @Override
-    public void update(Collection collection) throws Exception {
-        if(collection == null){
+    public void update(Collection newCollection) throws Exception {
+        if(newCollection == null){
             throw new Exception("Collection is null");
         }
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        Collection oldCollection = dl.loadCollection(newCollection.getId());
+        this.removeAllCompilations(oldCollection);
+        this.removeAllCollectionsFromSet(oldCollection);
+        this.updateCollection(newCollection.getId(), newCollection.getName());
+        this.addAllCompilations(newCollection);
+        this.addAllCollectionsToSet(newCollection);
     }
 }
