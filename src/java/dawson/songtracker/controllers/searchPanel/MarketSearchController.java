@@ -12,6 +12,12 @@ public class MarketSearchController extends SimpleSearchController<Market> {
     TableColumn<Market, String> nameCol;
 
     @Override
+    public void initialize() {
+        super.initialize();
+        this.label.setText("Market");
+    }
+
+    @Override
     void onEnter(String text) {
         fireEvent(new SearchEvent(this.textField.getText()));
     }

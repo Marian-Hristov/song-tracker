@@ -1,10 +1,12 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.types.components.Compilation;
+
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 
-class CompilationUploader {
+class CompilationUploader implements IDBUploader<Compilation> {
     private final Connection connection;
 
     public CompilationUploader(Connection connection) {
@@ -188,4 +190,18 @@ class CompilationUploader {
         }
     }
 
+    @Override
+    public void add(Compilation compilation) {
+
+    }
+
+    @Override
+    public void update(Compilation compilation) {
+
+    }
+
+    @Override
+    public void remove(Compilation compilation) {
+
+    }
 }

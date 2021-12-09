@@ -36,3 +36,12 @@ the new guitarist role is in the musician category instead of the production cat
 1. Make sure the app is not running anymore
 2. Delete the database
     - Run uninstall.sql onto your database to remove the database needed for the app
+=======
+### Assumptions
+
+#### Recordings
+- A recording's creation time cannot be modified
+
+#### Compilations
+- A compilation's creation time cannot be modified
+- A compilation's duration cannot be directly modified. It is dependent on the segment that it uses

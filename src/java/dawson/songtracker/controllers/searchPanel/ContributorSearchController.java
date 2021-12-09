@@ -13,8 +13,13 @@ public class ContributorSearchController extends SimpleSearchController<Contribu
 
     @Override
     void onEnter(String text) {
-        System.out.println("enter.");
         fireEvent(new SearchEvent(text));
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        this.label.setText("Contributor");
     }
 
     @Override

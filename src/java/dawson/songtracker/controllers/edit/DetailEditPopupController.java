@@ -21,7 +21,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class DetailEditPopupController<T> extends DetailPopupController<T> {
+public abstract class DetailEditPopupController<T extends DatabaseObject> extends DetailPopupController<T> {
     @FXML
     VBox leftCol;
 
@@ -196,7 +196,7 @@ public abstract class DetailEditPopupController<T> extends DetailPopupController
 
 
         if (this.getParent() instanceof ICrud) {
-            ((ICrud<T>) this.getParent()).updateEntry(this.entity);
+            ((ICrud<T>) this.getParent()).updateEntry(this.entity, this.oldEntity);
         }
     }
 

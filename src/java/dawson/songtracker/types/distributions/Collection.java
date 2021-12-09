@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Collection extends DatabaseObject {
-    private int id;
+    private final int id;
     private String name;
     private List<Compilation> compilations;
     private ArrayList<Collection> collectionsInSet;
@@ -30,7 +30,8 @@ public class Collection extends DatabaseObject {
         return collectionsInSet;
     }
 
-    public void setFinalCollectionsInSet(ArrayList<Collection> collectionsInSet) {
+    public void setCollectionsInSet(ArrayList<Collection> collectionsInSet) {
+        if(collectionsInSet == null) throw new NullPointerException("the  is null");
         this.collectionsInSet = collectionsInSet;
     }
 
@@ -43,20 +44,6 @@ public class Collection extends DatabaseObject {
             throw new NullPointerException("the compilation array list is null");
         }
         this.compilations = compilations;
-    }
-
-    public void addCompilation(Compilation compilation) {
-        if (compilation == null) {
-            throw new NullPointerException("The compilation is null");
-        }
-        this.compilations.add(compilation);
-    }
-
-    public void removeCompilation(Compilation compilation) {
-        if (compilation == null) {
-            throw new NullPointerException("The compilation is null");
-        }
-        this.compilations.remove(compilation);
     }
 
     public String getName() {
@@ -72,10 +59,6 @@ public class Collection extends DatabaseObject {
 
     public int getId() {
         return id;
-    }
-
-    public void setFinalId(int id) {
-        this.id = id;
     }
 
     @Override

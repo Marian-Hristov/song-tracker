@@ -1,10 +1,12 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.types.distributions.Market;
+
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 
-class MarketUploader {
+class MarketUploader implements IDBUploader<Market> {
     private final Connection connection;
 
     public MarketUploader(Connection connection) {
@@ -67,5 +69,20 @@ class MarketUploader {
             updateMarket.close();
             throw e;
         }
+    }
+
+    @Override
+    public void add(Market market) {
+
+    }
+
+    @Override
+    public void update(Market market) {
+
+    }
+
+    @Override
+    public void remove(Market market) {
+
     }
 }

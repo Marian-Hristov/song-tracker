@@ -1,6 +1,7 @@
 package dawson.songtracker.controllers.searchPanel;
 
 import dawson.songtracker.event.UpdateTableEvent;
+import dawson.songtracker.types.DatabaseObject;
 import dawson.songtracker.utils.ICrud;
 import dawson.songtracker.utils.IDetailedInfo;
 import dawson.songtracker.utils.Loader;
@@ -19,7 +20,7 @@ import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 
-public abstract class SearchPanelController<T> extends Pane {
+public abstract class SearchPanelController<T extends DatabaseObject> extends Pane {
     @FXML
     protected TextField textField;
 

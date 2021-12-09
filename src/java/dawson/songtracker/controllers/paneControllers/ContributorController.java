@@ -34,40 +34,4 @@ public class ContributorController extends DefaultWithDetailsController<
         this.addPanel.addEventHandler(AddContributorEvent.ADD_CONTRIBUTOR_EVENT, c -> addNewEntry(c.contributor));
     }
 
-    @Override
-    public void addNewEntry(Contributor entry) {
-        try {
-            ObjectUploader.getInstance().addContributor(entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void removeEntry(Contributor entry) {
-        try {
-            ObjectUploader.getInstance().deleteContributor(entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updateEntry(Contributor entry) {
-        try {
-            ObjectUploader.getInstance().updateContributor(entry, entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onSearch(SearchEvent search) {
-        try {
-            var contributors = ObjectDownloader.getInstance().loadContributorsByName(search.message);
-            searchPanel.displaySearchResult(contributors);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
 }

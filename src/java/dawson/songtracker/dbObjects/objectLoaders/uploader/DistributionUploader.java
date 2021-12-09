@@ -1,11 +1,13 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.types.distributions.Distribution;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 
-class DistributionUploader {
+class DistributionUploader implements IDBUploader<Distribution> {
     private final Connection connection;
 
     public DistributionUploader(Connection connection) {
@@ -76,4 +78,18 @@ class DistributionUploader {
         }
     }
 
+    @Override
+    public void add(Distribution distribution) {
+
+    }
+
+    @Override
+    public void update(Distribution distribution) {
+
+    }
+
+    @Override
+    public void remove(Distribution distribution) {
+
+    }
 }

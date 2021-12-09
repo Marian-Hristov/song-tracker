@@ -28,35 +28,6 @@ public class DistributionController extends DefaultWithDetailsController<
         super.initialize();
         this.searchPanel.setLabel("Distribution");
     }
-
-    @Override
-    public void addNewEntry(Distribution entry) {
-        try {
-            ObjectUploader.getInstance().addDistribution(entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void removeEntry(Distribution entry) {
-        try {
-            ObjectUploader.getInstance().removeDistribution(entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updateEntry(Distribution entry) {
-        try {
-            ObjectUploader.getInstance().updateDistribution(entry, entry);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
     @Override
     public void onSearch(SearchEvent search) {
         System.out.println("You can't search for distributions?");

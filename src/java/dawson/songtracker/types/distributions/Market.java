@@ -3,7 +3,7 @@ package dawson.songtracker.types.distributions;
 import dawson.songtracker.types.DatabaseObject;
 
 public class Market extends DatabaseObject {
-    private int id;
+    private final int id;
     private String name;
 
     public Market(int id, String name) {
@@ -13,10 +13,6 @@ public class Market extends DatabaseObject {
 
     public int getId() {
         return id;
-    }
-
-    public void setFinalId(int id) {
-        this.id = id;
     }
 
     public String getName() {

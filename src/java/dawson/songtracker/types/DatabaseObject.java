@@ -1,4 +1,4 @@
 package dawson.songtracker.types;
 
-public class DatabaseObject {
+public abstract class DatabaseObject {
 }

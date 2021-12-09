@@ -28,22 +28,6 @@ public class CompilationController extends DefaultWithDetailsController
     }
 
     @Override
-    public void onSearch(SearchEvent event) {
-        try {
-            if (event.message.isEmpty()) {
-                this.searchPanel.displayDefault();
-            } else {
-                var matches = ObjectDownloader.getInstance().loadCompilationsByName(event.message);
-                this.searchPanel.displaySearchResult(matches);
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        System.out.println("Searched for in compilation " + event.message);
-    }
-
-    @Override
     public void populateTable(ArrayList<Compilation> objects) {
             this.searchPanel.populateTable(objects);
     }
@@ -53,26 +37,4 @@ public class CompilationController extends DefaultWithDetailsController
         this.cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllCompilations());
     }
 
-    @Override
-    public void addNewEntry(Compilation comp) {
-        try {
-            ObjectUploader.getInstance().addCompilation(comp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void removeEntry(Compilation entry) {
-        try {
-            ObjectUploader.getInstance().deleteCompilation(entry.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updateEntry(Compilation entry) {
-        //ObjectUploader.getInstance().updateCompilation(entry, );
-    }
 }

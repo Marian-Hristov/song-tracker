@@ -1,7 +1,9 @@
 package dawson.songtracker.utils;
 
-public interface ICrud<Type> {
+import dawson.songtracker.types.DatabaseObject;
+
+public interface ICrud<Type extends DatabaseObject> {
     void addNewEntry(Type entry);
     void removeEntry(Type entry);
-    void updateEntry(Type entry);
+    void updateEntry(Type old, Type entry);
 }

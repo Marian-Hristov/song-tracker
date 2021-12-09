@@ -67,55 +67,6 @@ public class RoleController extends DefaultWithDetailsController
     }
 
     @Override
-    public void addNewEntry(Role role) {
-        try {
-            ObjectUploader.getInstance().addRole(role);
-            System.out.println("Added.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void removeEntry(Role entry) {
-        try {
-            ObjectUploader.getInstance().deleteRole(searchPanel.getSelectedRow());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void updateEntry(Role entry) {
-        //ObjectUploader.getInstance().updateRole(entry.getId(), entry);
-    }
-
-    @Override
-    public void onSearch(SearchEvent search) {
-
-        if (search.message.isEmpty()) {
-            searchPanel.displayDefault();
-            return;
-        }
-
-        try {
-            var mr =  ObjectDownloader.getInstance().loadMusicianRolesByName(search.message);
-            var cr =  ObjectDownloader.getInstance().loadCompilationRolesByName(search.message);
-            var pr = ObjectDownloader.getInstance().loadProductionRolesByName(search.message);
-
-            // Sub optimal
-            ArrayList<Role> all = new ArrayList<>();
-            all.addAll(mr);
-            all.addAll(cr);
-            all.addAll(pr);
-
-            searchPanel.displaySearchResult(all);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    @Override
     public void onUpdate(UpdateTableEvent event) {
         this.cache.update();
         this.searchPanel.displayDefault();

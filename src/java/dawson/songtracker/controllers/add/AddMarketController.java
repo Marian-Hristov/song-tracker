@@ -6,7 +6,7 @@ import dawson.songtracker.utils.ICrud;
 public class AddMarketController extends SimpleAddPopupController {
     @Override
     public void setName() {
-        this.textInput.setText("Add Market");
+        this.title.setText("Add Market");
     }
 
     public void onAdd() {
