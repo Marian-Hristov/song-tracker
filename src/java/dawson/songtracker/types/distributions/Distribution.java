@@ -6,8 +6,8 @@ import dawson.songtracker.types.DatabaseObject;
 import java.sql.Date;
 
 public class Distribution extends DatabaseObject {
-    private int id;
-    private Collection collection;
+    private final int id;
+    private final Collection collection;
     private Date releaseDate;
     private RecordLabel label;
     private Market market;
@@ -44,16 +44,8 @@ public class Distribution extends DatabaseObject {
         return id;
     }
 
-    public void setFinalId(int id) {
-        this.id = id;
-    }
-
     public Collection getCollection() {
         return collection;
-    }
-
-    public void setFinalCollection(Collection collection) {
-        this.collection = collection;
     }
 
     public Date getReleaseDate() {
