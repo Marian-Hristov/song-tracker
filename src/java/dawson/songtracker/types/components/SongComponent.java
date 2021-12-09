@@ -30,23 +30,15 @@ public abstract class SongComponent extends DatabaseObject {
     }
 
     public boolean isReleased() {
-        return true;
+        return released;
     }
 
     public boolean isUnreleased() {
-        return true;
+        return !released;
     }
 
     public int getId() {
         return id;
-    }
-
-    public void setFinalId(int id) {
-        this.id = id;
-    }
-
-    public void setFinalCreationTime(Timestamp creationTime) {
-        this.creationTime = creationTime;
     }
 
     public String getName() {
