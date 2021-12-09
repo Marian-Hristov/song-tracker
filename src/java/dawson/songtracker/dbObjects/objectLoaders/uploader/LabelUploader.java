@@ -1,5 +1,6 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.types.distributions.RecordLabel;
 import javafx.scene.control.Label;
 
@@ -74,17 +75,19 @@ class LabelUploader implements IDBUploader<RecordLabel> {
     }
 
     @Override
-    public void add(RecordLabel recordLabel) {
-
+    public void add(RecordLabel recordLabel) throws Exception {
+        this.addLabel(recordLabel.getName());
     }
 
     @Override
-    public void update(RecordLabel recordLabel) {
-
+    public void update(RecordLabel recordLabel) throws Exception {
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        RecordLabel oldLabel = dl.loadRecordLabel(recordLabel.getId());
+        if(!oldLabel.getName().equals(recordLabel.getName())) this.updateLabel(oldLabel.getName(), recordLabel.getName());
     }
 
     @Override
-    public void remove(RecordLabel recordLabel) {
-
+    public void remove(RecordLabel recordLabel) throws Exception {
+        this.removeLabel(recordLabel.getId());
     }
 }
