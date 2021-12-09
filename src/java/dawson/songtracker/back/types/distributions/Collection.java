@@ -11,8 +11,9 @@ public class Collection extends DatabaseObject {
     private String name;
     private List<Compilation> compilations;
     private ArrayList<Collection> collectionsInSet;
+    private final boolean released;
 
-    public Collection(int id, String name, ArrayList<Compilation> compilations, ArrayList<Collection> collectionsInSet) {
+    public Collection(int id, String name, boolean realeased, ArrayList<Compilation> compilations, ArrayList<Collection> collectionsInSet) {
         if (compilations == null) {
             throw new NullPointerException("the compilation array list is null");
         }
@@ -20,6 +21,7 @@ public class Collection extends DatabaseObject {
         this.name = name;
         this.compilations = compilations;
         this.collectionsInSet = collectionsInSet;
+        this.released = realeased;
     }
 
     public List<Compilation> getCompilations() {
@@ -44,6 +46,10 @@ public class Collection extends DatabaseObject {
             throw new NullPointerException("the compilation array list is null");
         }
         this.compilations = compilations;
+    }
+
+    public boolean isReleased() {
+        return released;
     }
 
     public String getName() {

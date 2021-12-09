@@ -22,9 +22,18 @@ class CollectionDownloader {
         }
         ArrayList<Compilation> compilations = loadCollectionCompilations(connection, id);
         ArrayList<Collection> collectionsInSet = loadCollectionsInSet(connection, id);
-        Collection collection = new Collection(id, rs.getString("collection_name"), compilations, collectionsInSet);
+        Collection collection = new Collection(id, rs.getString("collection_name"), isReleased(connection,id), compilations, collectionsInSet);
         ps.close();
         return collection;
+    }
+
+    private static boolean isReleased(Connection connection, int collectionId) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("select * from distributions where collection_id = ?");
+        ps.setInt(1, collectionId);
+        ResultSet rs = ps.executeQuery();
+        boolean released = rs.next();
+        ps.close();
+        return released;
     }
 
     public static ArrayList<Collection> loadFirstCollections(Connection connection, int nbRows) throws SQLException{

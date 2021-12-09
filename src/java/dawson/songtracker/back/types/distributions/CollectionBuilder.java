@@ -10,6 +10,7 @@ public class CollectionBuilder extends Builder<Collection> {
     private String name;
     private ArrayList<Compilation> compilations;
     private ArrayList<Collection> collectionsInSet;
+    private boolean released;
 
     public CollectionBuilder setName(String name) {
         this.name = name;
@@ -27,7 +28,7 @@ public class CollectionBuilder extends Builder<Collection> {
     }
 
     public Collection build() {
-        return new Collection(id, name, compilations, collectionsInSet);
+        return new Collection(id, name, released, compilations, collectionsInSet);
     }
 
 }
