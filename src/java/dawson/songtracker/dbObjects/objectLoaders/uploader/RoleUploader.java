@@ -1,5 +1,9 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.types.roles.CompilationRole;
+import dawson.songtracker.types.roles.MusicianRole;
+import dawson.songtracker.types.roles.ProductionRole;
 import dawson.songtracker.types.roles.Role;
 
 import java.sql.Connection;
@@ -8,12 +12,14 @@ import java.sql.SQLException;
 
 class RoleUploader implements IDBUploader<Role> {
     private final Connection connection;
+    private final ObjectDownloader dl;
 
-    public RoleUploader(Connection connection) {
+    public RoleUploader(Connection connection) throws SQLException {
         this.connection = connection;
+        this.dl = ObjectDownloader.getInstance();
     }
 
-    public void addRole(char category, String name) throws Exception {
+    private void addRole(char category, String name) throws Exception {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("One or many given arguments are null or empty");
         } else if (category == 'c' || category == 'm' || category == 'p') {
@@ -36,7 +42,7 @@ class RoleUploader implements IDBUploader<Role> {
         }
     }
 
-    public void deleteRole(char category, String name) throws Exception {
+    private void deleteRole(char category, String name) throws Exception {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("Given id is invalid or null");
         } else if (category == 'c' || category == 'm' || category == 'p') {
@@ -59,7 +65,7 @@ class RoleUploader implements IDBUploader<Role> {
         }
     }
 
-    public void updateRole(char category, String oldName, String newName) throws Exception {
+    private void updateRole(char category, String oldName, String newName) throws Exception {
         if (oldName == null || newName == null || oldName.equals("") || newName.equals("")) {
             throw new IllegalArgumentException("One or more given names are invalid or null");
         } else if (category == 'c' || category == 'm' || category == 'p') {
@@ -84,17 +90,53 @@ class RoleUploader implements IDBUploader<Role> {
     }
 
     @Override
-    public void add(Role role) {
-
+    public void add(Role role) throws Exception {
+        if(role == null){
+            throw new Exception("Role is null");
+        }
+        if(role instanceof CompilationRole){
+            this.addRole('c', role.getName());
+        } else if (role instanceof ProductionRole){
+            this.addRole('p', role.getName());
+        } else if (role instanceof MusicianRole) {
+            this.addRole('m', role.getName());
+        } else {
+            throw new Exception("Type of role not supported");
+        }
     }
 
     @Override
-    public void update(Role role) {
-
+    public void remove(Role role) throws Exception{
+        if(role == null){
+            throw new Exception("Role is null");
+        }
+        if(role instanceof CompilationRole){
+            this.deleteRole('c', role.getName());
+        } else if (role instanceof ProductionRole){
+            this.deleteRole('p', role.getName());
+        } else if (role instanceof MusicianRole) {
+            this.deleteRole('m', role.getName());
+        } else {
+            throw new Exception("Type of role not supported");
+        }
     }
 
     @Override
-    public void remove(Role role) {
-
+    public void update(Role newRole) throws Exception {
+        if(newRole == null){
+            throw new Exception("Role is null");
+        }
+        if(newRole instanceof CompilationRole){
+            CompilationRole oldRole = this.dl.loadCompilationRole(newRole.getId());
+            if(!oldRole.getName().equals(newRole.getName())) this.updateRole('c', oldRole.getName(), newRole.getName());
+        } else if (newRole instanceof ProductionRole){
+            ProductionRole oldRole = this.dl.loadProductionRole(newRole.getId());
+            if(!oldRole.getName().equals(newRole.getName())) this.updateRole('p', oldRole.getName(), newRole.getName());
+        } else if (newRole instanceof MusicianRole) {
+            MusicianRole oldRole = this.dl.loadMusicianRole(newRole.getId());
+            if(!oldRole.getName().equals(newRole.getName())) this.updateRole('m', oldRole.getName(), newRole.getName());
+        } else {
+            throw new Exception("Type of role not supported");
+        }
     }
 }

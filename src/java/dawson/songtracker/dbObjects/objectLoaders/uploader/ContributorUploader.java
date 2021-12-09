@@ -1,5 +1,6 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.types.roles.Contributor;
 
 import java.sql.CallableStatement;
@@ -8,9 +9,11 @@ import java.sql.SQLException;
 
 class ContributorUploader implements IDBUploader<Contributor>{
     private final Connection connection;
+    private final ObjectDownloader dl;
 
-    public ContributorUploader(Connection connection) {
+    public ContributorUploader(Connection connection) throws SQLException {
         this.connection = connection;
+        this.dl = ObjectDownloader.getInstance();
     }
 
     public void addContributor(String name) throws Exception {
@@ -72,17 +75,27 @@ class ContributorUploader implements IDBUploader<Contributor>{
     }
 
     @Override
-    public void add(Contributor contributor) {
-
+    public void add(Contributor contributor) throws Exception {
+        if(contributor == null){
+            throw new Exception("Contributor is null");
+        }
+        this.addContributor(contributor.getName());
     }
 
     @Override
-    public void update(Contributor contributor) {
-
+    public void remove(Contributor contributor) throws Exception {
+        if(contributor == null){
+            throw new Exception("Contributor is null");
+        }
+        this.deleteContributor(contributor.getId());
     }
 
     @Override
-    public void remove(Contributor contributor) {
-
+    public void update(Contributor newContributor) throws Exception {
+        if(newContributor == null){
+            throw new Exception("Contributor is null");
+        }
+        Contributor oldContributor = this.dl.loadContributor(newContributor.getId());
+        if(!oldContributor.getName().equals(newContributor.getName())) this.updateContributor(oldContributor.getName(), newContributor.getName());
     }
 }

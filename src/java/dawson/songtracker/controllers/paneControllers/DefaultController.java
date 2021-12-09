@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Represents a basic controller that will be able to CRUD and contains
@@ -83,17 +84,17 @@ public abstract class DefaultController<
     }
 
     @Override
-    public void addNewEntry(Type entry) {
+    public void addNewEntry(Type entry) throws Exception{
         this.uploader.add(entry);
     }
 
     @Override
-    public void removeEntry(Type entry) {
+    public void removeEntry(Type entry) throws Exception{
         this.uploader.remove(entry);
     }
 
     @Override
-    public void updateEntry(Type old, Type entry) {
+    public void updateEntry(Type old, Type entry) throws Exception {
         this.uploader.update(entry);
         this.cache.update();
     }

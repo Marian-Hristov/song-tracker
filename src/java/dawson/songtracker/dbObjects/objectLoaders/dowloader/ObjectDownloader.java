@@ -24,10 +24,6 @@ public class ObjectDownloader {
         this.connection = connection;
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
     public static ObjectDownloader getInstance() throws SQLException {
         if (instance == null) {
             instance = new ObjectDownloader(DBConnection.getConnection());

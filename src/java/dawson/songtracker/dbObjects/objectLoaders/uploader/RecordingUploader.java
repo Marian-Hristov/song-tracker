@@ -1,5 +1,6 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.types.components.Recording;
 import dawson.songtracker.types.roles.*;
 
@@ -9,9 +10,11 @@ import java.sql.SQLException;
 
 class RecordingUploader implements IDBUploader<Recording> {
     private final Connection connection;
+    private ObjectDownloader dl;
 
-    public RecordingUploader(Connection connection) {
+    public RecordingUploader(Connection connection) throws SQLException {
         this.connection = connection;
+        this.dl = ObjectDownloader.getInstance();
     }
 
 
