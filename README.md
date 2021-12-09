@@ -22,12 +22,13 @@ the new guitarist role is in the musician category instead of the production cat
 
 # Initial Setup
 
-1. Setup the database
+1. Enter your database credentials in the <code>src/java/dawson.songtracker/utils/Credentials.java</code>
+2. Setup the database
     - Run install.sql onto your database server to install the database needed for the app
-2. Compile the app
+3. Compile the app
     - Open the folder of the project and run this command:  
     <code>compiling command</code>
-3. Run the app with this command: 
+4. Run the app with this command: 
     - Still in the folder of the project, run this command:  
     <code>running command</code>
 

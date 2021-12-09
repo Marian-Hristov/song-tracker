@@ -72,17 +72,19 @@ class MarketUploader implements IDBUploader<Market> {
     }
 
     @Override
-    public void add(Market market) {
+    public void add(Market market) throws Exception{
+        if(market == null){
+            throw new Exception("");
+        }
+    }
+
+    @Override
+    public void update(Market market) throws Exception{
 
     }
 
     @Override
-    public void update(Market market) {
-
-    }
-
-    @Override
-    public void remove(Market market) {
+    public void remove(Market market) throws Exception{
 
     }
 }
