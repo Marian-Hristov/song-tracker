@@ -10,7 +10,7 @@ public class Collection extends DatabaseObject {
     private final int id;
     private String name;
     private List<Compilation> compilations;
-    private final ArrayList<Collection> collectionsInSet;
+    private ArrayList<Collection> collectionsInSet;
 
     public Collection(int id, String name, ArrayList<Compilation> compilations, ArrayList<Collection> collectionsInSet) {
         if (compilations == null) {
@@ -26,6 +26,15 @@ public class Collection extends DatabaseObject {
         return compilations;
     }
 
+    public ArrayList<Collection> getCollectionsInSet() {
+        return collectionsInSet;
+    }
+
+    public void setCollectionsInSet(ArrayList<Collection> collectionsInSet) {
+        if(collectionsInSet == null) throw new NullPointerException("the  is null");
+        this.collectionsInSet = collectionsInSet;
+    }
+
     public int getTracks() {
         return compilations.size();
     }
@@ -35,20 +44,6 @@ public class Collection extends DatabaseObject {
             throw new NullPointerException("the compilation array list is null");
         }
         this.compilations = compilations;
-    }
-
-    public void addCompilation(Compilation compilation) {
-        if (compilation == null) {
-            throw new NullPointerException("The compilation is null");
-        }
-        this.compilations.add(compilation);
-    }
-
-    public void removeCompilation(Compilation compilation) {
-        if (compilation == null) {
-            throw new NullPointerException("The compilation is null");
-        }
-        this.compilations.remove(compilation);
     }
 
     public String getName() {

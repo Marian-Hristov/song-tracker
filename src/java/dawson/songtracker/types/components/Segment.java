@@ -5,7 +5,7 @@ import dawson.songtracker.types.DatabaseObject;
 public class Segment<T extends SongComponent> extends DatabaseObject {
     private final int id;
     private final int mainTrackId;
-    private final T componentTrack;
+    private T componentTrack;
     private double mainTrackOffset;
     private double durationInMainTrack;
     private double componentTrackOffset;
@@ -62,6 +62,10 @@ public class Segment<T extends SongComponent> extends DatabaseObject {
 
     public T getComponentTrack() {
         return componentTrack;
+    }
+
+    public void setComponentTrack(T componentTrack) {
+        this.componentTrack = componentTrack;
     }
 
     public int getMainTrackId() {

@@ -7,6 +7,7 @@ import dawson.songtracker.types.distributions.Collection;
 import dawson.songtracker.types.distributions.Distribution;
 import dawson.songtracker.types.distributions.Market;
 import dawson.songtracker.types.distributions.RecordLabel;
+import dawson.songtracker.types.logs.Log;
 import dawson.songtracker.types.roles.CompilationRole;
 import dawson.songtracker.types.roles.*;
 
@@ -217,6 +218,10 @@ public class ObjectDownloader {
 
     public Map<Recording, ArrayList<ProductionRole>> getContributorProductionRoles(Contributor contributor) throws SQLException{
         return RoleDownloader.getContributorProductionRoles(this.connection, contributor.getId());
+    }
+
+    public ArrayList<Log> getLastLogs(int nbLogs) throws SQLException {
+        return LogDownloader.loadLastLogs(this.connection, nbLogs);
     }
 
 }

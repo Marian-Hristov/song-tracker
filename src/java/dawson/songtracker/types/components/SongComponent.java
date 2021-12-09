@@ -8,9 +8,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public abstract class SongComponent extends DatabaseObject {
-    protected final int id;
+    protected int id;
     protected String name;
-    protected final Timestamp creationTime;
+    protected Timestamp creationTime;
     protected double duration;
     protected final boolean released;
 
@@ -30,11 +30,11 @@ public abstract class SongComponent extends DatabaseObject {
     }
 
     public boolean isReleased() {
-        return true;
+        return released;
     }
 
     public boolean isUnreleased() {
-        return true;
+        return !released;
     }
 
     public int getId() {
@@ -55,6 +55,10 @@ public abstract class SongComponent extends DatabaseObject {
 
     public double getDuration() {
         return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 
     public String getDurationString() {

@@ -8,7 +8,7 @@ import java.sql.Date;
 public class Distribution extends DatabaseObject {
     private final int id;
     private final Collection collection;
-    private final Date releaseDate;
+    private Date releaseDate;
     private RecordLabel label;
     private Market market;
 
@@ -50,6 +50,10 @@ public class Distribution extends DatabaseObject {
 
     public Date getReleaseDate() {
         return releaseDate;
+    }
+
+    public void setFinalReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public RecordLabel getLabel() {
