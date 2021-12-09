@@ -1,5 +1,6 @@
 package dawson.songtracker.controllers.paneControllers;
 
+import dawson.songtracker.controllers.add.AddDistributionController;
 import dawson.songtracker.controllers.add.AddSongController;
 import dawson.songtracker.controllers.edit.DistributionDetailEditController;
 import dawson.songtracker.controllers.searchPanel.DistributionSearchController;
@@ -10,7 +11,7 @@ import dawson.songtracker.types.distributions.Distribution;
 import dawson.songtracker.utils.Loader;
 
 public class DistributionController extends DefaultWithDetailsController<
-        Distribution, DistributionSearchController, AddSongController, DistributionDetailEditController>
+        Distribution, DistributionSearchController, AddDistributionController, DistributionDetailEditController>
 {
 
     public DistributionController() {

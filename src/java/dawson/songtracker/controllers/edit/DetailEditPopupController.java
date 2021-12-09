@@ -17,7 +17,6 @@ import javafx.scene.layout.VBox;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,13 +42,12 @@ public abstract class DetailEditPopupController<T extends DatabaseObject> extend
         }
     }
 
-    private Map<Method, Method> getMethods() {
+    protected Map<Method, Method> getMethods() {
         List<Field> fields = Arrays.stream(entity.getClass().getDeclaredFields())
                 .collect(Collectors.toList());
 
         var parentFields = Arrays.stream(entity.getClass().getSuperclass().getDeclaredFields()).collect(Collectors.toList());
         fields.addAll(parentFields);
-
 
         var methods = entity.getClass().getMethods();
         ArrayList<Method> setters = new ArrayList<>();
@@ -64,7 +62,6 @@ public abstract class DetailEditPopupController<T extends DatabaseObject> extend
                     }
                 }
             }
-
         }
 
         Map<Method, Method> gettersAndSetters = new HashMap<>();
@@ -78,11 +75,6 @@ public abstract class DetailEditPopupController<T extends DatabaseObject> extend
                     gettersAndSetters.put(methods[i], m);
                 }
             }
-        });
-
-        gettersAndSetters.forEach((getter, setter) -> {
-            System.out.println(getter);
-            System.out.println(setter);
         });
 
         return gettersAndSetters;
@@ -146,7 +138,7 @@ public abstract class DetailEditPopupController<T extends DatabaseObject> extend
         return hbox;
     }
 
-    abstract HBox multipleArrayListHBox(Method setter, Label label, Class type, Method getter);
+    protected abstract HBox multipleArrayListHBox(Method setter, Label label, Class type, Method getter);
 
     HBox arrayListHbox(Method method, Label label, Class dataType, Method getter) {
         HBox hbox = new HBox();
@@ -190,6 +182,8 @@ public abstract class DetailEditPopupController<T extends DatabaseObject> extend
                 e.printStackTrace();
             }
         });
+
+        map.clear();
 
         rightCol.getChildren().forEach(node -> node.fireEvent(new UpdateEntityEvent()));
         leftCol.getChildren().forEach(node -> node.fireEvent(new UpdateEntityEvent()));

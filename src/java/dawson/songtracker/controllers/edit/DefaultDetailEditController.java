@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,7 @@ public abstract class DefaultDetailEditController<T extends DatabaseObject> exte
     }
 
     @Override
-    HBox multipleArrayListHBox(Method setter, Label label, Class type, Method getter) {
+    protected HBox multipleArrayListHBox(Method setter, Label label, Class type, Method getter) {
 
         var list = getter.getReturnType();
         var pType = (ParameterizedType) getter.getGenericReturnType();
@@ -99,5 +100,10 @@ public abstract class DefaultDetailEditController<T extends DatabaseObject> exte
 
         return hBox;
 
+    }
+
+    @Override
+    protected Map<Method, Method> getMethods() {
+        return super.getMethods();
     }
 }

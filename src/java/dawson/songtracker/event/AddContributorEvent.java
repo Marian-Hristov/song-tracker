@@ -1,7 +1,7 @@
 package dawson.songtracker.event;
 
 import dawson.songtracker.types.roles.Contributor;
-import dawson.songtracker.types.roles.ERoleCategory;
+import dawson.songtracker.types.roles.ContributorBuilder;
 import javafx.event.Event;
 import javafx.event.EventType;
 
@@ -12,6 +12,6 @@ public class AddContributorEvent extends Event {
 
     public AddContributorEvent(String name) {
         super(ADD_CONTRIBUTOR_EVENT);
-        this.contributor = new Contributor(-1, name);
+        this.contributor = new ContributorBuilder().setName(name).build();
     }
 }

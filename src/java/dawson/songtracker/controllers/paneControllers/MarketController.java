@@ -20,6 +20,11 @@ public class MarketController extends DefaultWithDetailsController<Market, Marke
     }
 
     @Override
+    public void onPopupClicked() {
+        super.onPopupClicked();
+    }
+
+    @Override
     public void setCacheUpdateMethod() {
         cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllMarkets());
     }

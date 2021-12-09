@@ -3,8 +3,8 @@
 <?import javafx.scene.layout.*?>
 
 <?import dawson.songtracker.controllers.searchPanel.DistributionSearchController?>
-<?import dawson.songtracker.controllers.add.AddSongController?>
 <?import dawson.songtracker.controllers.edit.DistributionDetailEditController?>
+<?import dawson.songtracker.controllers.add.AddDistributionController?>
 <fx:root type="Pane"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
@@ -12,7 +12,7 @@
 
     <children>
         <DistributionSearchController fx:id="searchPanel"/>
-        <AddSongController fx:id="addPanel"/>
+        <AddDistributionController fx:id="addPanel"/>
         <DistributionDetailEditController fx:id="detailPane"/>
     </children>
 

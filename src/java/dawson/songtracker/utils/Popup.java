@@ -1,6 +1,7 @@
 package dawson.songtracker.utils;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 
 public abstract class Popup extends Pane {
@@ -19,3 +20,5 @@ public abstract class Popup extends Pane {
 
 
 }
+
+

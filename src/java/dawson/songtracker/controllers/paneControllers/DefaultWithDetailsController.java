@@ -47,5 +47,11 @@ public abstract class DefaultWithDetailsController<
                     .collect(Collectors.toList());
 
             searchPanel.filterAndDisplay((ArrayList) collection);
-        }
+    }
+
+    @FXML
+    public void onAdd() {
+        System.out.println("here.");
+        this.addPanel.show();
+    }
 }

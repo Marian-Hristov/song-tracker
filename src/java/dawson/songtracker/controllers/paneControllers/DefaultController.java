@@ -28,7 +28,7 @@ public abstract class DefaultController<
         AddControllerType extends Popup
         > extends Pane
     implements ICrud<Type>, ISearchPanelOwner<Type>, PopupOwner {
-    
+
     protected Cache<Type> cache;
     private IDBUploader<Type> uploader;
 
