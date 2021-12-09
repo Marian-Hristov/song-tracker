@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class Recording extends SongComponent {
-    private final Map<MusicianRole, ArrayList<Contributor>> musicalContributions;
-    private final Map<ProductionRole, ArrayList<Contributor>> productionContributions;
+    private Map<MusicianRole, ArrayList<Contributor>> musicalContributions;
+    private Map<ProductionRole, ArrayList<Contributor>> productionContributions;
 
     public Recording(int id, String name, Timestamp creationTime, double duration, boolean released, Map<MusicianRole, ArrayList<Contributor>> musicalContributions, Map<ProductionRole, ArrayList<Contributor>> productionContributions) {
         super(id, name, creationTime, duration, released);
@@ -17,6 +17,14 @@ public class Recording extends SongComponent {
         if (musicalContributions == null) throw new NullPointerException("the musicalContributions is null");
         this.productionContributions = productionContributions;
         this.musicalContributions = musicalContributions;
+    }
+
+    public void setMusicalContributions(Map<MusicianRole, ArrayList<Contributor>> musicalContributions){
+        this.musicalContributions = musicalContributions;
+    }
+
+    public void setProductionContributions(Map<ProductionRole, ArrayList<Contributor>> productionContributions) {
+        this.productionContributions = productionContributions;
     }
 
     public void addContribution(Role role, Contributor contributor) {

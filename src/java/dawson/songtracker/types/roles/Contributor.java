@@ -3,7 +3,7 @@ package dawson.songtracker.types.roles;
 import dawson.songtracker.types.DatabaseObject;
 
 public class Contributor extends DatabaseObject {
-    private final int id;
+    private int id;
     private String name;
 
     public Contributor(int id, String name) {
@@ -13,6 +13,10 @@ public class Contributor extends DatabaseObject {
 
     public int getId() {
         return id;
+    }
+
+    public void setFinalId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {

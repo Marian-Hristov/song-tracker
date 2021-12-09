@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Collection extends DatabaseObject {
-    private final int id;
+    private int id;
     private String name;
     private List<Compilation> compilations;
-    private final ArrayList<Collection> collectionsInSet;
+    private ArrayList<Collection> collectionsInSet;
 
     public Collection(int id, String name, ArrayList<Compilation> compilations, ArrayList<Collection> collectionsInSet) {
         if (compilations == null) {
@@ -24,6 +24,14 @@ public class Collection extends DatabaseObject {
 
     public List<Compilation> getCompilations() {
         return compilations;
+    }
+
+    public ArrayList<Collection> getCollectionsInSet() {
+        return collectionsInSet;
+    }
+
+    public void setFinalCollectionsInSet(ArrayList<Collection> collectionsInSet) {
+        this.collectionsInSet = collectionsInSet;
     }
 
     public int getTracks() {
@@ -64,6 +72,10 @@ public class Collection extends DatabaseObject {
 
     public int getId() {
         return id;
+    }
+
+    public void setFinalId(int id) {
+        this.id = id;
     }
 
     @Override

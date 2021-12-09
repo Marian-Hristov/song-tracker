@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class Compilation extends SongComponent {
-    private final ArrayList<Segment<Compilation>> sampledCompilations;
-    private final ArrayList<Segment<Recording>> sampledRecordings;
-    private final Map<CompilationRole, ArrayList<Contributor>> contributions;
+    private ArrayList<Segment<Compilation>> sampledCompilations;
+    private ArrayList<Segment<Recording>> sampledRecordings;
+    private Map<CompilationRole, ArrayList<Contributor>> contributions;
 
     public Compilation(int id, String name, Timestamp creationTime, double duration, boolean released, ArrayList<Segment<Compilation>> sampledCompilations, ArrayList<Segment<Recording>> sampledRecordings, Map<CompilationRole, ArrayList<Contributor>> contributions) {
         super(id, name, creationTime, duration, released);
@@ -36,10 +36,9 @@ public class Compilation extends SongComponent {
         }
     }
 
-//    public void setContributions(Map<CompilationRole, ArrayList<Contributor>> contributions) {
-//        this.contributions.clear();;
-//        this.contributions.putAll(contributions);
-//    }
+    public void setContributions(Map<CompilationRole, ArrayList<Contributor>> contributions) {
+        this.contributions = contributions;
+    }
 
     @Override
     public ArrayList<Contributor> getContributorsInRole(Role role) {
@@ -62,9 +61,13 @@ public class Compilation extends SongComponent {
         return sampledRecordings;
     }
 
+    public void setSampledRecordings(ArrayList<Segment<Recording>> sampledRecordings){this.sampledRecordings = sampledRecordings;}
+
     public ArrayList<Segment<Compilation>> getSampledCompilations() {
         return sampledCompilations;
     }
+
+    public void setSampledCompilations(ArrayList<Segment<Compilation>> sampledCompilations) {this.sampledCompilations = sampledCompilations;}
 
     public void addSampleRecoding(Segment<Recording> recordingSegment) {
         this.sampledRecordings.add(recordingSegment);

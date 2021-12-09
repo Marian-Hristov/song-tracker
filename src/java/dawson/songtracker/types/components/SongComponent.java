@@ -8,9 +8,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public abstract class SongComponent extends DatabaseObject {
-    protected final int id;
+    protected int id;
     protected String name;
-    protected final Timestamp creationTime;
+    protected Timestamp creationTime;
     protected double duration;
     protected final boolean released;
 
@@ -41,6 +41,14 @@ public abstract class SongComponent extends DatabaseObject {
         return id;
     }
 
+    public void setFinalId(int id) {
+        this.id = id;
+    }
+
+    public void setFinalCreationTime(Timestamp creationTime) {
+        this.creationTime = creationTime;
+    }
+
     public String getName() {
         return name;
     }
@@ -55,6 +63,10 @@ public abstract class SongComponent extends DatabaseObject {
 
     public double getDuration() {
         return duration;
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
     }
 
     public String getDurationString() {
