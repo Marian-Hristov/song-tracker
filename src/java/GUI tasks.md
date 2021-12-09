@@ -1,0 +1,5 @@
+ - Add the logging (username/password) pane before accessing the main application
+ - add a logs pane (show only)
+ - filter by released and unreleased compilation/recordings (using the boolean)
+ - set the window to not resizable
+ - center the popups
