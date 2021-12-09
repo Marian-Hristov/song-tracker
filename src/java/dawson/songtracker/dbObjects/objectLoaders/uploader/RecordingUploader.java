@@ -7,6 +7,8 @@ import dawson.songtracker.types.roles.*;
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
 
 class RecordingUploader implements IDBUploader<Recording> {
     private final Connection connection;
@@ -122,7 +124,7 @@ class RecordingUploader implements IDBUploader<Recording> {
         }
     }
 
-    public void removeContributorToRecording(Recording recording, Contributor contributor, Role role) throws Exception{
+    public void removeContributorFromRecording(Recording recording, Contributor contributor, Role role) throws Exception{
         if (recording.getName() == null || recording.getName().equals("") || recording.getDuration() < 0 || recording.getId() < 1 || contributor.getId() < 1 || contributor.getName() == null || contributor.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -166,17 +168,76 @@ class RecordingUploader implements IDBUploader<Recording> {
     }
 
     @Override
-    public void add(Recording recording) {
-
+    public void add(Recording recording) throws Exception {
+        if(recording == null){
+            throw new Exception("Recording is null");
+        }
+        this.addRecording(recording);
+        if(recording.getMusicalContributions().size() != 0){
+            Map<MusicianRole, ArrayList<Contributor>> map = recording.getMusicalContributions();
+            for (Map.Entry<MusicianRole, ArrayList<Contributor>> entry : map.entrySet()){
+                for(Contributor contributor : entry.getValue()){
+                    this.addContributorToRecording(recording, contributor, entry.getKey());
+                }
+            }
+        }
+        if(recording.getProductionContributions().size() != 0){
+            Map<ProductionRole, ArrayList<Contributor>> map = recording.getProductionContributions();
+            for (Map.Entry<ProductionRole, ArrayList<Contributor>> entry : map.entrySet()){
+                for(Contributor contributor : entry.getValue()){
+                    this.addContributorToRecording(recording, contributor, entry.getKey());
+                }
+            }
+        }
     }
 
     @Override
-    public void update(Recording recording) {
-
+    public void remove(Recording recording) throws Exception {
+        if(recording == null){
+            throw new Exception("Recording is null");
+        }
+        this.removeRecording(recording.getId());
     }
 
     @Override
-    public void remove(Recording recording) {
-
+    public void update(Recording newRecording) throws Exception {
+        if(newRecording == null){
+            throw new Exception("Recording is null");
+        }
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        Recording oldRecording = dl.loadRecording(newRecording.getId());
+        if(oldRecording.getMusicalContributions().size() != 0){
+            Map<MusicianRole, ArrayList<Contributor>> map = oldRecording.getMusicalContributions();
+            for (Map.Entry<MusicianRole, ArrayList<Contributor>> entry : map.entrySet()){
+                for(Contributor contributor : entry.getValue()){
+                    this.removeContributorFromRecording(oldRecording, contributor, entry.getKey());
+                }
+            }
+        }
+        if(oldRecording.getProductionContributions().size() != 0){
+            Map<ProductionRole, ArrayList<Contributor>> map = oldRecording.getProductionContributions();
+            for (Map.Entry<ProductionRole, ArrayList<Contributor>> entry : map.entrySet()){
+                for(Contributor contributor : entry.getValue()){
+                    this.removeContributorFromRecording(oldRecording, contributor, entry.getKey());
+                }
+            }
+        }
+        this.updateRecording(oldRecording.getId(), newRecording.getName(), newRecording.getDuration());
+        if(newRecording.getMusicalContributions().size() != 0){
+            Map<MusicianRole, ArrayList<Contributor>> map = newRecording.getMusicalContributions();
+            for (Map.Entry<MusicianRole, ArrayList<Contributor>> entry : map.entrySet()){
+                for(Contributor contributor : entry.getValue()){
+                    this.addContributorToRecording(newRecording, contributor, entry.getKey());
+                }
+            }
+        }
+        if(newRecording.getProductionContributions().size() != 0){
+            Map<ProductionRole, ArrayList<Contributor>> map = newRecording.getProductionContributions();
+            for (Map.Entry<ProductionRole, ArrayList<Contributor>> entry : map.entrySet()){
+                for(Contributor contributor : entry.getValue()){
+                    this.addContributorToRecording(newRecording, contributor, entry.getKey());
+                }
+            }
+        }
     }
 }
