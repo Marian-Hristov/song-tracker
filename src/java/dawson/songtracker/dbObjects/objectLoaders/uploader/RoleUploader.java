@@ -1,12 +1,10 @@
 package dawson.songtracker.dbObjects.objectLoaders.uploader;
 
-import dawson.songtracker.dbObjects.DBConnection;
 import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.types.roles.CompilationRole;
 import dawson.songtracker.types.roles.MusicianRole;
 import dawson.songtracker.types.roles.ProductionRole;
 import dawson.songtracker.types.roles.Role;
-import dawson.songtracker.utils.Credentials;
 
 import java.sql.Connection;
 import java.sql.CallableStatement;
@@ -14,7 +12,7 @@ import java.sql.SQLException;
 
 class RoleUploader implements IDBUploader<Role> {
     private final Connection connection;
-    private ObjectDownloader dl;
+    private final ObjectDownloader dl;
 
     public RoleUploader(Connection connection) throws SQLException {
         this.connection = connection;
