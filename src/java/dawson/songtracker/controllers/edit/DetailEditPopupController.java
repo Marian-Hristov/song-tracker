@@ -190,7 +190,12 @@ public abstract class DetailEditPopupController<T extends DatabaseObject> extend
 
 
         if (this.getParent() instanceof ICrud) {
-            ((ICrud<T>) this.getParent()).updateEntry(this.entity, this.oldEntity);
+            try {
+                ((ICrud<T>) this.getParent()).updateEntry(this.entity, this.oldEntity);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 

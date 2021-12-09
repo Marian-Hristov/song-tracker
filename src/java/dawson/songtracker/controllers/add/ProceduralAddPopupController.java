@@ -238,7 +238,12 @@ public class ProceduralAddPopupController<T extends DatabaseObject, K extends Bu
         var entity = builder.build();
 
         if (this.getParent() instanceof ICrud) {
-            ((ICrud<T>) this.getParent()).addNewEntry(entity);
+            try {
+                ((ICrud<T>) this.getParent()).addNewEntry(entity);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 

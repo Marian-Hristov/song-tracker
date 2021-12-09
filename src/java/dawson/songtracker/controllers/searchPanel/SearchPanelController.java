@@ -111,7 +111,12 @@ public abstract class SearchPanelController<T extends DatabaseObject> extends Pa
     public void onDelete() {
         Parent parent = this.getParent();
         if (parent instanceof ICrud) {
-            ((ICrud) parent).removeEntry(this.selectedRow);
+            try {
+                ((ICrud) parent).removeEntry(this.selectedRow);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 

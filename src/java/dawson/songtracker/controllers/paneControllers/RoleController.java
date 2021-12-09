@@ -59,10 +59,14 @@ public class RoleController extends DefaultWithDetailsController
     }
 
     private void onAddRole(AddRoleEvent event) {
-        switch (event.category) {
-            case MUSICIAN -> addNewEntry(new MusicianRole(12391, event.roleName));
-            case PRODUCTION -> addNewEntry(new ProductionRole(12391, event.roleName));
-            case COMPILATION -> addNewEntry(new CompilationRole(12391, event.roleName));
+        try {
+            switch (event.category) {
+                case MUSICIAN -> addNewEntry(new MusicianRole(12391, event.roleName));
+                case PRODUCTION -> addNewEntry(new ProductionRole(12391, event.roleName));
+                case COMPILATION -> addNewEntry(new CompilationRole(12391, event.roleName));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

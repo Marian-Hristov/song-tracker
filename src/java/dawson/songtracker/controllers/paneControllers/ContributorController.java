@@ -31,7 +31,14 @@ public class ContributorController extends DefaultWithDetailsController<
         super.initialize();
 //        this.populateTable();
 //        searchPanel.displayDefault();
-        this.addPanel.addEventHandler(AddContributorEvent.ADD_CONTRIBUTOR_EVENT, c -> addNewEntry(c.contributor));
+        this.addPanel.addEventHandler(AddContributorEvent.ADD_CONTRIBUTOR_EVENT, c -> {
+            try {
+                addNewEntry(c.contributor);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        });
     }
 
 }
