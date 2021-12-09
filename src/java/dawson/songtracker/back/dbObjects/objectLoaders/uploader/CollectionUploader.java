@@ -191,7 +191,11 @@ class CollectionUploader implements IDBUploader<Collection> {
         if(collection == null){
             throw new Exception("Collection is null");
         }
-        this.removeCollection(collection.getId());
+        if(!collection.isReleased()) {
+            this.removeCollection(collection.getId());
+        } else {
+            throw new Exception("Cannot modify released collection");
+        }
     }
 
     @Override
