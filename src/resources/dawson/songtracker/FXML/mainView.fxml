@@ -2,21 +2,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
-<?import dawson.songtracker.controllers.assign.ContributorPopupController?>
+<?import dawson.songtracker.front.controllers.assign.ContributorPopupController?>
 <?import javafx.scene.control.Label?>
-<?import dawson.songtracker.controllers.searchPanel.SearchSongController?>
-<?import dawson.songtracker.controllers.paneControllers.RecordingController?>
-<?import dawson.songtracker.controllers.paneControllers.CompilationController?>
-<?import dawson.songtracker.controllers.searchPanel.RoleSearchController?>
-<?import dawson.songtracker.controllers.paneControllers.RoleController?>
-<?import dawson.songtracker.controllers.searchPanel.ContributorSearchController?>
-<?import dawson.songtracker.controllers.paneControllers.ContributorController?>
-<?import dawson.songtracker.controllers.searchPanel.CollectionSearchController?>
-<?import dawson.songtracker.controllers.paneControllers.CollectionController?>
-<?import dawson.songtracker.controllers.paneControllers.DistributionController?>
-<?import dawson.songtracker.controllers.paneControllers.MarketController?>
-<?import dawson.songtracker.controllers.paneControllers.RecordLabelController?>
-<?import messageLogger.MessageLoggerController?>
+<?import dawson.songtracker.front.controllers.searchPanel.SearchSongController?>
+<?import dawson.songtracker.front.controllers.paneControllers.RecordingController?>
+<?import dawson.songtracker.front.controllers.paneControllers.CompilationController?>
+<?import dawson.songtracker.front.controllers.searchPanel.RoleSearchController?>
+<?import dawson.songtracker.front.controllers.paneControllers.RoleController?>
+<?import dawson.songtracker.front.controllers.searchPanel.ContributorSearchController?>
+<?import dawson.songtracker.front.controllers.paneControllers.ContributorController?>
+<?import dawson.songtracker.front.controllers.searchPanel.CollectionSearchController?>
+<?import dawson.songtracker.front.controllers.paneControllers.CollectionController?>
+<?import dawson.songtracker.front.controllers.paneControllers.DistributionController?>
+<?import dawson.songtracker.front.controllers.paneControllers.MarketController?>
+<?import dawson.songtracker.front.controllers.paneControllers.RecordLabelController?>
+<?import dawson.songtracker.front.messageLogger.MessageLoggerController?>
 <Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <TabPane >
         <tabs>

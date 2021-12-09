@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.*?>
 
-<?import dawson.songtracker.controllers.searchPanel.ContributorSearchController?>
-<?import dawson.songtracker.controllers.add.AddContributorController?>
-<?import dawson.songtracker.controllers.edit.ContributorDetailEditController?>
+<?import dawson.songtracker.front.controllers.searchPanel.ContributorSearchController?>
+<?import dawson.songtracker.front.controllers.add.AddContributorController?>
+<?import dawson.songtracker.front.controllers.edit.ContributorDetailEditController?>
 <fx:root type="Pane" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          prefHeight="400.0" prefWidth="600.0">

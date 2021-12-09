@@ -1,27 +1,3 @@
-import dawson.songtracker.dbObjects.DBConnection;
-import dawson.songtracker.dbObjects.objectLoaders.dowloader.ObjectDownloader;
-import dawson.songtracker.dbObjects.objectLoaders.uploader.ObjectUploader;
-import dawson.songtracker.types.components.Compilation;
-import dawson.songtracker.types.components.Recording;
-import dawson.songtracker.types.components.Segment;
-import dawson.songtracker.types.distributions.Collection;
-import dawson.songtracker.types.distributions.Distribution;
-import dawson.songtracker.types.distributions.Market;
-import dawson.songtracker.types.distributions.RecordLabel;
-import dawson.songtracker.types.roles.CompilationRole;
-import dawson.songtracker.types.roles.Contributor;
-import dawson.songtracker.types.roles.MusicianRole;
-import dawson.songtracker.types.roles.ProductionRole;
-import org.junit.jupiter.api.Test;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 public class ObjectUploaderTests {
 
     // TODO Don't forget to remove

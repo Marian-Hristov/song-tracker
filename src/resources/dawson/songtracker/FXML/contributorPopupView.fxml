@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Font?>
-<?import dawson.songtracker.controllers.assign.AssignContributorController?>
+<?import dawson.songtracker.front.controllers.assign.AssignContributorController?>
 <fx:root type="Pane" layoutX="66.0" layoutY="52.0" prefHeight="274.0" prefWidth="518.0"
          style="-fx-background-color: white; -fx-border-style: solid;"
          xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">

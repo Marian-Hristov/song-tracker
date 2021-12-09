@@ -2,9 +2,9 @@
 
 <?import javafx.scene.layout.*?>
 
-<?import dawson.songtracker.controllers.add.AddRoleController?>
-<?import dawson.songtracker.controllers.searchPanel.RoleSearchController?>
-<?import dawson.songtracker.controllers.edit.RoleDetailEditController?>
+<?import dawson.songtracker.front.controllers.add.AddRoleController?>
+<?import dawson.songtracker.front.controllers.searchPanel.RoleSearchController?>
+<?import dawson.songtracker.front.controllers.edit.RoleDetailEditController?>
 <fx:root type="Pane" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          prefHeight="400.0" prefWidth="600.0">

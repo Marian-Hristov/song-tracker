@@ -2,9 +2,9 @@
 
 <?import javafx.scene.layout.*?>
 
-<?import dawson.songtracker.controllers.searchPanel.DistributionSearchController?>
-<?import dawson.songtracker.controllers.edit.DistributionDetailEditController?>
-<?import dawson.songtracker.controllers.add.AddDistributionController?>
+<?import dawson.songtracker.front.controllers.searchPanel.DistributionSearchController?>
+<?import dawson.songtracker.front.controllers.edit.DistributionDetailEditController?>
+<?import dawson.songtracker.front.controllers.add.AddDistributionController?>
 <fx:root type="Pane"
          xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"

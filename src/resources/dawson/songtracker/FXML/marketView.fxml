@@ -2,9 +2,9 @@
 
 <?import javafx.scene.layout.*?>
 
-<?import dawson.songtracker.controllers.searchPanel.MarketSearchController?>
-<?import dawson.songtracker.controllers.add.AddMarketController?>
-<?import dawson.songtracker.controllers.edit.MarketDetailEditController?>
+<?import dawson.songtracker.front.controllers.searchPanel.MarketSearchController?>
+<?import dawson.songtracker.front.controllers.add.AddMarketController?>
+<?import dawson.songtracker.front.controllers.edit.MarketDetailEditController?>
 <fx:root xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          prefHeight="400.0" prefWidth="600.0"
