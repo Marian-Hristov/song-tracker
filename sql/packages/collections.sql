@@ -24,6 +24,9 @@ create or replace package body collection_mgmt as
     procedure removeCollectionFromSet(collection_id in collections.collection_id%type, set_id in collections.collection_id%type)
     as
     begin
+        if(collection_id < 1 or set_id < 1) then
+            raise_application_error(-20001, 'the collection_id or the set_id are invalid');
+        end if;
         delete from collectionSets where collection_id = collection_id and set_id = set_id;
     end;
     
