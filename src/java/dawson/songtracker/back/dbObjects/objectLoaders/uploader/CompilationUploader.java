@@ -190,6 +190,10 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
+    private void removeAllContributions(Compilation compilation){
+//        for()
+    }
+
     @Override
     public void add(Compilation compilation) {
 
