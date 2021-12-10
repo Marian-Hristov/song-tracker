@@ -15,7 +15,7 @@ class DistributionUploader implements IDBUploader<Distribution> {
         this.connection = connection;
     }
 
-    public void addDistribution(int collectionId, Date releaseDate, int labelId, int marketId) throws Exception {
+    private void addDistribution(int collectionId, Date releaseDate, int labelId, int marketId) throws Exception {
         if (collectionId < 1 || labelId < 1 || marketId < 1 || releaseDate == null) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -37,7 +37,7 @@ class DistributionUploader implements IDBUploader<Distribution> {
         }
     }
 
-    public void removeDistribution(int id) throws Exception {
+    private void removeDistribution(int id) throws Exception {
         if (id < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -56,7 +56,7 @@ class DistributionUploader implements IDBUploader<Distribution> {
         }
     }
 
-    public void updateDistribution(int distributionId, int collectionId, Date releaseDate, int labelId, int marketId) throws Exception {
+    private void updateDistribution(int distributionId, int collectionId, Date releaseDate, int labelId, int marketId) throws Exception {
         if (distributionId < 1 || collectionId < 1 || labelId < 1 || marketId < 1 || releaseDate == null) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }

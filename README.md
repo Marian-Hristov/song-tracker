@@ -46,6 +46,7 @@ the new guitarist role is in the musician category instead of the production cat
 #### Compilations
 - A compilation's creation time cannot be modified
 - A compilation's duration cannot be directly modified. It is dependent on the segment that it uses
+- If a compilation is deleted and is also inside a collection, it will be removed from that collection
 
 #### Collections
 - Once a collection is distributed, it can no longer be deleted.
