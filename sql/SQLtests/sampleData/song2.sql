@@ -25,7 +25,7 @@ values (0, 203, 0, 203);
 --vocals
 insert into compilations (compilation_name, creation_time, duration)
 values ('believer vocals comp', current_timestamp, 203);
-insert into recordingsamples values (6, 4, 6);
+insert into recordingsamples values (6, 4, 8);
 
 insert into collections (collection_name) values ('Believer');
 insert into collectioncompilations values (2, 6);

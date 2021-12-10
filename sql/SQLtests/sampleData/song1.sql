@@ -56,14 +56,20 @@ insert into compilations (compilation_name, creation_time, duration)
 values ('beat it instrumental final', current_timestamp, 258);
 insert into segment (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component_used)
 values (0, 258, 0, 258);
+insert into segment (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component_used)
+values (0, 258, 0, 28);
 insert into compilationsamples values (4, 2, 4);
-insert into compilationsamples values (4, 3, 4);
+insert into compilationsamples values (4, 3, 5);
 
 -- comp vocals plus instrumental
 insert into compilations (compilation_name, creation_time, duration)
 values ('beat it final comp', current_timestamp, 258);
-insert into compilationsamples values (5, 1, 5);
-insert into compilationsamples values (5, 4, 5);
+insert into segment (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component_used)
+values (0, 258, 0, 258);
+insert into segment (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component_used)
+values (0, 258, 0, 28);
+insert into compilationsamples values (5, 1, 6);
+insert into compilationsamples values (5, 4, 7);
 
 commit;
 
