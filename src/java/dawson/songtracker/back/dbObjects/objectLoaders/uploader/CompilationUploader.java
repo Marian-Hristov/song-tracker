@@ -2,11 +2,16 @@ package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
 import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.back.types.components.Compilation;
+import dawson.songtracker.back.types.components.Recording;
 import dawson.songtracker.back.types.components.Segment;
+import dawson.songtracker.back.types.roles.CompilationRole;
+import dawson.songtracker.back.types.roles.Contributor;
 
 import java.sql.Connection;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
 
 class CompilationUploader implements IDBUploader<Compilation> {
     private final Connection connection;
@@ -34,7 +39,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    private void addSampleToCompilation(int compilationId, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent, int sampleId, char sampleType) throws Exception {
+    private void addSampleToCompilation(int compilationId, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent, int sampleId, char sampleType) throws SQLException {
         if (compilationId < 1 || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 || durationOfComponent < 0 || sampleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         } else if (sampleType == 'c' || sampleType == 'r') {
@@ -62,16 +67,15 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    private void deleteSampleFromCompilation(int compilationId, int sampleId, int segmentId, char sampleType) throws Exception {
-        if (compilationId < 1 || sampleId < 1 || segmentId < 1) {
+    private void removeSampleFromCompilation(int compilationId, int sampleId, char sampleType) throws SQLException {
+        if (compilationId < 1 || sampleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         } else if (sampleType == 'c' || sampleType == 'r') {
-            CallableStatement deleteSampleFromCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.DELETESAMPLEFROMCOMPILATION(?, ?, ?, ?)}");
+            CallableStatement deleteSampleFromCompilation = this.connection.prepareCall("{call COMPILATION_MGMT.DELETESAMPLEFROMCOMPILATION(?, ?, ?)}");
             try {
                 deleteSampleFromCompilation.setInt(1, compilationId);
                 deleteSampleFromCompilation.setInt(2, sampleId);
-                deleteSampleFromCompilation.setInt(3, segmentId);
-                deleteSampleFromCompilation.setString(4, Character.toString(sampleType));
+                deleteSampleFromCompilation.setString(3, Character.toString(sampleType));
                 if (deleteSampleFromCompilation.executeUpdate() != 1) {
                     throw new SQLException("Couldn't delete sample from compilation");
                 }
@@ -111,7 +115,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    private void deleteCompilation(int id) throws Exception {
+    private void removeCompilation(int id) throws SQLException {
         if (id < 0) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -130,7 +134,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    private void updateCompilation(int id, String name) throws Exception {
+    private void updateCompilation(int id, String name) throws SQLException {
         if (id < 0 || name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -150,7 +154,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    private void addContributorToCompilation(int compilationId, int contributorId, int roleId) throws Exception {
+    private void addContributorToCompilation(int compilationId, int contributorId, int roleId) throws SQLException {
         if (compilationId < 1 || contributorId < 1 || roleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -171,7 +175,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    private void removeContributorToCompilation(int compilationId, int contributorId, int roleId) throws Exception {
+    private void removeContributorFromCompilation(int compilationId, int contributorId, int roleId) throws SQLException {
         if (compilationId < 1 || contributorId < 1 || roleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -192,22 +196,40 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    private void addAllContributions(Compilation compilation){
-        for(Segment<Compilation> compilationSegment : compilation.getSampledCompilations()){
-//            this.addSampleToCompilation(compilationSegment.getId(), compilationSegment.getMainTrackOffset(), compilationSegment.getDurationInMainTrack(), compilationSegment.getComponentTrackOffset(), compilationSegment.getComponentTrack().getDuration(), );
+    private void addAllContributions(Compilation compilation) throws SQLException {
+        if(compilation == null) throw new NullPointerException("the compilation is null");
+        for(Map.Entry<CompilationRole, ArrayList<Contributor>> entry : compilation.getContributions().entrySet()){
+            for(Contributor contributor : entry.getValue()){
+                this.addContributorToCompilation(compilation.getId(), contributor.getId(), entry.getKey().getId());
+            }
         }
     }
 
-    private void removeAllContributions(Compilation compilation){
-
+    private void removeAllContributions(Compilation compilation) throws SQLException {
+        if(compilation == null) throw new NullPointerException("the compilation is null");
+        for(Segment<Compilation> compilationSegment : compilation.getSampledCompilations()){
+            this.removeSampleFromCompilation(compilation.getId(), compilationSegment.getMainTrackId(), 'c');
+        }
     }
 
-    private void addAllSegments(Compilation compilation){
-
+    private void addAllSegments(Compilation compilation) throws SQLException {
+        for(Segment<Compilation> compilationSegment : compilation.getSampledCompilations()){
+            this.addSampleToCompilation(compilationSegment.getId(), compilationSegment.getMainTrackOffset(), compilationSegment.getDurationInMainTrack(), compilationSegment.getComponentTrackOffset(), compilationSegment.getComponentTrack().getDuration(), compilationSegment.getComponentTrack().getId(), 'c');
+        }
+        for(Segment<Recording> segment : compilation.getSampledRecordings()){
+            this.addSampleToCompilation(segment.getId(), segment.getMainTrackOffset(), segment.getDurationInMainTrack(), segment.getComponentTrackOffset(), segment.getComponentTrack().getDuration(), segment.getComponentTrack().getId(), 'r');
+        }
     }
 
-    private void removeAllSegments(Compilation compilation){
-
+    private void removeAllSegments(Compilation compilation) throws SQLException {
+        for(Segment<Recording> segment : compilation.getSampledRecordings()){
+            this.removeSampleFromCompilation(compilation.getId(), segment.getMainTrackId(), 'r');
+        }
+        for(Map.Entry<CompilationRole, ArrayList<Contributor>> entry : compilation.getContributions().entrySet()){
+            for(Contributor contributor : entry.getValue()){
+                this.removeContributorFromCompilation(compilation.getId(), contributor.getId(), entry.getKey().getId());
+            }
+        }
     }
 
     @Override
@@ -215,16 +237,26 @@ class CompilationUploader implements IDBUploader<Compilation> {
         if(compilation == null) throw new NullPointerException("the compilation is null");
         this.addCompilation(compilation.getName());
         ObjectDownloader dl = ObjectDownloader.getInstance();
-        Compilation addedCompilation = dl.loadLastCompilation();
+        compilation.setId(dl.loadLastCompilation().getId());
+        addAllContributions(compilation);
+        addAllSegments(compilation);
     }
 
     @Override
-    public void update(Compilation compilation) {
-
+    public void update(Compilation compilation) throws SQLException {
+        if(compilation == null) throw new NullPointerException("the compilation is null");
+        removeAllSegments(compilation);
+        removeAllContributions(compilation);
+        addAllContributions(compilation);
+        addAllSegments(compilation);
+        updateCompilation(compilation.getId(), compilation.getName());
     }
 
     @Override
-    public void remove(Compilation compilation) {
-
+    public void remove(Compilation compilation) throws SQLException {
+        if(compilation == null) throw new NullPointerException("the compilation is null");
+        removeAllSegments(compilation);
+        removeAllContributions(compilation);
+        removeCompilation(compilation.getId());
     }
 }
