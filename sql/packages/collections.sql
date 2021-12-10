@@ -36,7 +36,7 @@ create or replace package body collection_mgmt as
             raise_application_error(-20001, 'the collection_id is invalid');
         end if;
         delete from collectioncompilations where collection_id = ref_collection_id;
-        delete from collectionssets where collection_id = ref_collection_id;
+        delete from collectionsets where collection_id = ref_collection_id;
         delete from collections where collection_id = ref_collection_id;
     end;
 

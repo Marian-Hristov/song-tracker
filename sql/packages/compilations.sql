@@ -12,7 +12,6 @@ create or replace package compilation_mgmt as
     procedure deleteSampleFromCompilation(
         ref_compilation_id in compilations.compilation_id%type,
         ref_sample_id in recordings.recording_id%type,
-        ref_segment_id in segment.segment_id%type,
         ref_sample_type in char
     );
     procedure deleteCompilation(ref_compilation_id in compilations.compilation_id%type);
@@ -98,26 +97,23 @@ create or replace package body compilation_mgmt as
     procedure deleteSampleFromCompilation(
         ref_compilation_id in compilations.compilation_id%type,
         ref_sample_id in recordings.recording_id%type,
-        ref_segment_id in segment.segment_id%type,
         ref_sample_type in char
     )
     as
     begin
         if (ref_sample_type = 'c') then
-            delete from compilationSamples
-            where compilation_id = ref_compilation_id
-            and compilation_used = ref_sample_id
-            and segment_id = ref_segment_id;
+            for sample in (select * from compilationSamples where compilation_id = ref_compilation_id and compilation_used = ref_sample_id) loop
+                delete from compilationSamples where segment_id = sample.segment_id and compilation_used = ref_sample_id;
+                delete from segment where segment_id = sample.segment_id;
+            end loop;
         elsif (ref_sample_type = 'r') then
-            delete from recordingSamples
-            where compilation_id = ref_compilation_id
-            and recording_id = ref_sample_id
-            and segment_id = ref_segment_id;
+            for sample in (select * from recordingSamples where compilation_id = ref_compilation_id and recording_id = ref_sample_id) loop
+                delete from recordingSamples where segment_id = sample.segment_id and recording_id = ref_sample_id;
+                delete from segment where segment_id = sample.segment_id;
+            end loop;
         else
             raise_application_error(-20001, 'the sample type must be either (c)ompilation or (r)ecording');
         end if;
-        delete from segment
-        where segment_id = ref_segment_id;
     end;
 
     procedure deleteCompilation(ref_compilation_id in compilations.compilation_id%type)

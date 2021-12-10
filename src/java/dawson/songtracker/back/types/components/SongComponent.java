@@ -30,6 +30,10 @@ public abstract class SongComponent extends DatabaseObject {
 
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public boolean isReleased() {
         return released;
     }
