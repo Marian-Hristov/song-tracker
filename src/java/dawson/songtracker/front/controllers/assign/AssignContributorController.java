@@ -7,9 +7,12 @@ import dawson.songtracker.back.types.roles.CompilationRole;
 import dawson.songtracker.back.types.roles.Contributor;
 import dawson.songtracker.back.types.roles.MusicianRole;
 import dawson.songtracker.back.types.roles.Role;
+import dawson.songtracker.front.utils.Loader;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +31,16 @@ public abstract class AssignContributorController extends AssignPopupController 
     public AssignContributorController(List<Class<? extends Role>> acceptedClasses) {
         super();
         this.acceptedClasses = acceptedClasses;
+        try {
+            var loader = Loader.Load("assignContributorController");
+            loader.setController(this);
+            loader.setRoot(this);
+            loader.load();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

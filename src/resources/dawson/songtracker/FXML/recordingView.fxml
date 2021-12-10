@@ -1,12 +1,15 @@
 <?import javafx.scene.layout.Pane?>
 
 <?import dawson.songtracker.front.controllers.searchPanel.SearchSongController?>
-<?import dawson.songtracker.front.controllers.assign.ContributorPopupController?>
 <?import dawson.songtracker.front.controllers.add.AddRecordingController?>
+<?import dawson.songtracker.front.controllers.detail.RecordingDetailController?>
+<?import dawson.songtracker.front.controllers.assign.AssignContributorToCompilationController?>
+<?import dawson.songtracker.front.controllers.assign.AssignContributorToRecordingController?>
 <fx:root xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" type="Pane">
     <children>
         <SearchSongController fx:id="searchPanel"/>
-        <ContributorPopupController fx:id="detailPane"/>
         <AddRecordingController fx:id="addPanel"/>
+        <RecordingDetailController fx:id="detailPane"/>
+        <AssignContributorToRecordingController fx:id="assignContributor"/>
     </children>
 </fx:root>

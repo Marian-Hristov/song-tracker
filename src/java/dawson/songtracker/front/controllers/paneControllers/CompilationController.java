@@ -2,10 +2,12 @@ package dawson.songtracker.front.controllers.paneControllers;
 
 
 import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.types.components.Segment;
 import dawson.songtracker.back.types.roles.CompilationRole;
 import dawson.songtracker.back.types.roles.Contributor;
 import dawson.songtracker.back.types.roles.Role;
 import dawson.songtracker.front.CacheManager;
+import dawson.songtracker.front.controllers.assign.AssignSegmentController;
 import dawson.songtracker.front.controllers.detail.CompilationDetailController;
 import dawson.songtracker.front.controllers.add.AddSongController;
 import dawson.songtracker.front.controllers.searchPanel.SearchSongController;
@@ -28,7 +30,7 @@ public class CompilationController extends DefaultWithDetailsController
     Popup assignContributor;
 
     @FXML
-    Popup assignSegment;
+    AssignSegmentController assignSegment;
 
     public CompilationController() {
         super(Compilation.class);
@@ -38,29 +40,32 @@ public class CompilationController extends DefaultWithDetailsController
     public void initialize() {
         super.initialize();
         searchPanel.setLabel("Compilation");
-        this.addEventHandler(ContributorAssignedEvent.CONTRIBUTOR_ASSIGNED_EVENT, event -> {
-            HashMap<CompilationRole, ArrayList<Contributor>> map= this.searchPanel.getSelectedRow().getContributorsRoleMap();
-            var key = map.get(event.role);
-            if (key != null) {
-                if (key.contains(event.role)) {
-                    MessageLoggerController.getInstance().addMessage(new Message("User is already a contributor"));
-                } else {
-                    key.add(event.contributor);
-                }
+        this.addEventHandler(ContributorAssignedEvent.CONTRIBUTOR_ASSIGNED_EVENT, this::onContributorAssigned);
+    }
+
+    private void onContributorAssigned(ContributorAssignedEvent event) {
+        HashMap<CompilationRole, ArrayList<Contributor>> map= this.searchPanel.getSelectedRow().getContributorsRoleMap();
+        var key = map.get(event.role);
+        if (key != null) {
+            if (key.contains(event.role)) {
+                MessageLoggerController.getInstance().addMessage(new Message("User is already a contributor"));
             } else {
-                map.put((CompilationRole) event.role, new ArrayList<>(
-                        Arrays.asList(event.contributor)
-                ));
+                key.add(event.contributor);
             }
+        } else {
+            map.put((CompilationRole) event.role, new ArrayList<>(
+                    Arrays.asList(event.contributor)
+            ));
+        }
 
-            this.searchPanel.getSelectedRow().setContributions(map);
+        this.searchPanel.getSelectedRow().setContributions(map);
 
-            try {
-                this.updateEntry(this.searchPanel.getSelectedRow(), this.searchPanel.getSelectedRow());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        try {
+            this.updateEntry(this.searchPanel.getSelectedRow(), this.searchPanel.getSelectedRow());
+            this.assignContributor.hide();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -75,8 +80,9 @@ public class CompilationController extends DefaultWithDetailsController
     }
 
     public void onAddSegment() {
-        this.assignSegment.show();
+        this.assignSegment.show(this.searchPanel.getSelectedRow());
     }
+
 
 
 }

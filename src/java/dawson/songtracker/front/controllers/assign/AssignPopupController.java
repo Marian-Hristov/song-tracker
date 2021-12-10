@@ -12,16 +12,4 @@ public abstract class AssignPopupController extends Popup {
         System.out.println("onAdd hasn't been implemented yet.");
     }
 
-    public AssignPopupController() {
-        try {
-            var loader = Loader.Load("assignContributorController");
-            loader.setController(this);
-            loader.setRoot(this);
-            loader.load();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
