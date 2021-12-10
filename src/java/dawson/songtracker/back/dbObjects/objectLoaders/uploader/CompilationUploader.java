@@ -1,5 +1,6 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.back.types.components.Segment;
 
@@ -14,7 +15,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         this.connection = connection;
     }
 
-    private void addCompilation(String name) throws Exception {
+    public void addCompilation(String name) throws SQLException {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -210,8 +211,11 @@ class CompilationUploader implements IDBUploader<Compilation> {
     }
 
     @Override
-    public void add(Compilation compilation) {
-
+    public void add(Compilation compilation) throws SQLException {
+        if(compilation == null) throw new NullPointerException("the compilation is null");
+        this.addCompilation(compilation.getName());
+        ObjectDownloader dl = ObjectDownloader.getInstance();
+        Compilation addedCompilation = dl.loadLastCompilation();
     }
 
     @Override

@@ -123,14 +123,17 @@ create or replace package body compilation_mgmt as
     procedure deleteCompilation(ref_compilation_id in compilations.compilation_id%type)
     as
     begin
+    
         for sample in (select * from compilationSamples where compilation_id = ref_compilation_id) loop
+            delete from compilationSamples where segment_id = sample.segment_id;
             delete from segment where segment_id = sample.segment_id;
         end loop;
         for sample in (select * from recordingSamples where compilation_id = ref_compilation_id) loop
+            delete from recordingSamples where segment_id = sample.segment_id;
             delete from segment where segment_id = sample.segment_id;
         end loop;
-        delete from recordingSamples where compilation_id = ref_compilation_id;
-        delete from compilationSamples where compilation_id = ref_compilation_id;
+        delete from compilationContributions where compilation_id = ref_compilation_id;
+        delete from collectionCompilations where compilation_id = ref_compilation_id;
         delete from compilations where compilation_id = ref_compilation_id;
     end;
 

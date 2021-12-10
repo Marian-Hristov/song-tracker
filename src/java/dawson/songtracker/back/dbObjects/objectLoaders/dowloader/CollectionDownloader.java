@@ -27,6 +27,14 @@ class CollectionDownloader {
         return collection;
     }
 
+    public static Collection loadLastCollection(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select collection_id from collections order by collection_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("collection_id");
+        ps.close();
+        return loadCollection(connection, lastId);
+    }
+
     private static boolean isReleased(Connection connection, int collectionId) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("select * from distributions where collection_id = ?");
         ps.setInt(1, collectionId);

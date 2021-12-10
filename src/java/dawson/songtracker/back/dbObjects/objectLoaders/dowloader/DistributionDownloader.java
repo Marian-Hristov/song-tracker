@@ -29,6 +29,14 @@ class DistributionDownloader {
         return distribution;
     }
 
+    public static Distribution loadLastDistribution(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select distribution_id from distributions order by distribution_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("distribution_id");
+        ps.close();
+        return loadDistribution(connection, lastId);
+    }
+
     public static ArrayList<Distribution> loadFirstDistributions(Connection connection, int nbRows) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select * from distributions fetch first ? rows only");
         ps.setInt(1, nbRows);
@@ -62,6 +70,14 @@ class DistributionDownloader {
         Market market = new Market(id, rs.getString("market_name"));
         ps.close();
         return market;
+    }
+
+    public static Market loadLastMarket(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select market_id from markets order by market_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("market_id");
+        ps.close();
+        return loadMarket(connection, lastId);
     }
 
     public static ArrayList<Market> loadFirstMarkets(Connection connection, int nbRows) throws SQLException{
@@ -111,6 +127,14 @@ class DistributionDownloader {
         RecordLabel recordLabel = new RecordLabel(id, rs.getString("label_name"));
         ps.close();
         return recordLabel;
+    }
+
+    public static RecordLabel loadLastRecordLabel(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select label_id from recordLabels order by collection_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("label_id");
+        ps.close();
+        return loadRecordLabel(connection, lastId);
     }
 
     public static ArrayList<RecordLabel> loadFirstRecordLabels(Connection connection, int nbRows) throws SQLException{
