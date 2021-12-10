@@ -70,16 +70,16 @@ insert into recordingsamples values (9, 7, 8);
 -- comp of guiter, recorder, and chords
 insert into compilations (compilation_name, creation_time, duration)
 values ('Leave the Door Open instrumental final', current_timestamp, 242);
-insert into compilationsamples values (10, 8, 7);
-insert into compilationsamples values (10, 9, 8);
+insert into compilationsamples values (10, 8, 10);
+insert into compilationsamples values (10, 9, 10);
 insert into segment (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component_used)
 values (0, 258, 0, 258);
 
 -- comp vocals plus instrumental
 insert into compilations (compilation_name, creation_time, duration)
 values ('beat it final comp', current_timestamp, 242);
-insert into compilationsamples values (11, 7, 6);
-insert into compilationsamples values (11, 10, 9);
+insert into compilationsamples values (11, 7, 11);
+insert into compilationsamples values (11, 10, 11);
 
 commit;
 

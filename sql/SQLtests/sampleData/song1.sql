@@ -54,16 +54,16 @@ insert into recordingsamples values (3, 3, 3);
 -- comp of kbs drums and guitars
 insert into compilations (compilation_name, creation_time, duration)
 values ('beat it instrumental final', current_timestamp, 258);
-insert into compilationsamples values (4, 2, 2);
-insert into compilationsamples values (4, 3, 3);
 insert into segment (main_track_offset, duration_in_main_track, component_track_offset, duration_of_component_used)
 values (0, 258, 0, 258);
+insert into compilationsamples values (4, 2, 4);
+insert into compilationsamples values (4, 3, 4);
 
 -- comp vocals plus instrumental
 insert into compilations (compilation_name, creation_time, duration)
 values ('beat it final comp', current_timestamp, 258);
-insert into compilationsamples values (5, 1, 1);
-insert into compilationsamples values (5, 4, 4);
+insert into compilationsamples values (5, 1, 5);
+insert into compilationsamples values (5, 4, 5);
 
 commit;
 
