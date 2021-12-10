@@ -1,5 +1,6 @@
 package dawson.songtracker.front.controllers.searchPanel;
 
+import dawson.songtracker.back.types.DatabaseObject;
 import dawson.songtracker.front.event.SearchEvent;
 import dawson.songtracker.back.types.components.SongComponent;
 import dawson.songtracker.front.utils.Loader;
@@ -11,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchSongController extends SearchPanelController<SongComponent> {
+public class SearchSongController<T extends SongComponent> extends SearchPanelController<T> {
     @FXML
     protected CheckBox released;
 
@@ -40,16 +41,12 @@ public class SearchSongController extends SearchPanelController<SongComponent> {
 
     @Override
     void onEnter(String text) {
-        this.fireEvent(
-                new SearchEvent(
-                        text
-                )
-        );
+        this.fireEvent( new SearchEvent( text ) );
     }
 
-    public void filterAndDisplay(ArrayList<? extends SongComponent> list) {
+    public void filterAndDisplay(ArrayList<? extends T> list) {
         if (released.isSelected() || unreleased.isSelected()) {
-            List<SongComponent> filtered = new ArrayList<>();
+            List<T> filtered = new ArrayList<>();
             if (released.isSelected()) {
                 list.stream()
                         .filter(c -> c.isReleased())

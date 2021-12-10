@@ -6,12 +6,18 @@ import dawson.songtracker.back.types.roles.Role;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class Compilation extends SongComponent {
     private ArrayList<Segment<Compilation>> sampledCompilations;
     private ArrayList<Segment<Recording>> sampledRecordings;
+
+    public void setContributions(Map<CompilationRole, ArrayList<Contributor>> contributions) {
+        this.contributions = contributions;
+    }
+
     private Map<CompilationRole, ArrayList<Contributor>> contributions;
 
     public Compilation(int id, String name, Timestamp creationTime, double duration, boolean released, ArrayList<Segment<Compilation>> sampledCompilations, ArrayList<Segment<Recording>> sampledRecordings, Map<CompilationRole, ArrayList<Contributor>> contributions) {
@@ -23,6 +29,12 @@ public class Compilation extends SongComponent {
         this.sampledRecordings = sampledRecordings;
         this.contributions = contributions;
     }
+
+    @Override
+    public HashMap<CompilationRole, ArrayList<Contributor>> getContributorsRoleMap() {
+        return (HashMap<CompilationRole, ArrayList<Contributor>>) contributions;
+    }
+
 
     @Override
     public ArrayList<Contributor> getContributorsInRole(Role role) {

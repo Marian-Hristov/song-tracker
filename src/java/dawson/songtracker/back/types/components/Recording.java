@@ -4,6 +4,7 @@ import dawson.songtracker.back.types.roles.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -25,6 +26,17 @@ public class Recording extends SongComponent {
 
     public void setProductionContributions(Map<ProductionRole, ArrayList<Contributor>> productionContributions) {
         this.productionContributions = productionContributions;
+    }
+
+    public void setContributions(Map<Role, ArrayList<Contributor>> map) {
+        musicalContributions.clear();
+        productionContributions.clear();
+
+        map.forEach(((role, contributors) -> {
+            if (role instanceof MusicianRole) musicalContributions.put((MusicianRole) role, contributors);
+            else if (role instanceof ProductionRole) productionContributions.put((ProductionRole) role, contributors);
+        })
+        );
     }
 
     public Map<ProductionRole, ArrayList<Contributor>> getProductionContributions() {
@@ -53,6 +65,16 @@ public class Recording extends SongComponent {
 
     public void setDuration(double duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public HashMap<Role, ArrayList<Contributor>> getContributorsRoleMap() {
+        HashMap<Role, ArrayList<Contributor>> map = new HashMap<>();
+
+        map.putAll(this.musicalContributions);
+        map.putAll(this.productionContributions);
+
+        return map;
     }
 
     @Override

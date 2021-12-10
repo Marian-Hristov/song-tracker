@@ -3,6 +3,9 @@ package dawson.songtracker.front.controllers.assign;
 import dawson.songtracker.front.utils.Loader;
 import dawson.songtracker.front.utils.Popup;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 public abstract class AssignPopupController extends Popup {
 
     public void onAdd() {
@@ -10,6 +13,15 @@ public abstract class AssignPopupController extends Popup {
     }
 
     public AssignPopupController() {
-        Loader.LoadAndSet(this);
+        try {
+            var loader = Loader.Load("assignContributorController");
+            loader.setController(this);
+            loader.setRoot(this);
+            loader.load();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

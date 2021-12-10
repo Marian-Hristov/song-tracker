@@ -22,7 +22,7 @@
                 <Label fx:id="duration" layoutX="10.0" layoutY="27.0" text="Duration" />
             </children>
         </VBox>
-        <Button layoutX="526.0" layoutY="49.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Add" />
+        <Button layoutX="460.0" layoutY="49.0" mnemonicParsing="false" onAction="#onAddContributor" prefHeight="27.0" prefWidth="141.0" text="Add Contributor" />
         <TableView layoutX="25.0" layoutY="117.0" prefHeight="220.0" prefWidth="250.0" fx:id="rolesTable">
             <columns>
                 <TableColumn prefWidth="124.0" text="Name" />
@@ -39,5 +39,6 @@
         </TableView>
         <Label layoutX="26.0" layoutY="90.0" text="Contributors" />
         <Label layoutX="300.0" layoutY="90.0" text="Segments" />
+        <Button layoutX="313.0" layoutY="49.0" mnemonicParsing="false" onAction="#onAddSegment" prefHeight="27.0" prefWidth="141.0" text="Add Segment" />
     </children>
 </fx:root>

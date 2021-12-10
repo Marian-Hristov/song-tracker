@@ -3,12 +3,13 @@ package dawson.songtracker.front.controllers.paneControllers;
 import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
 import dawson.songtracker.front.controllers.assign.ContributorPopupController;
 import dawson.songtracker.front.controllers.add.AddSongController;
+import dawson.songtracker.front.controllers.detail.CompilationDetailController;
 import dawson.songtracker.front.controllers.searchPanel.SearchSongController;
 import dawson.songtracker.back.types.components.Recording;
 import dawson.songtracker.front.utils.Loader;
 
 public class RecordingController extends DefaultWithDetailsController
-        <Recording, SearchSongController, AddSongController, ContributorPopupController>
+        <Recording, SearchSongController, AddSongController, CompilationDetailController>
 {
 
     public RecordingController() {

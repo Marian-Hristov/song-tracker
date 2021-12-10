@@ -6,6 +6,7 @@ import dawson.songtracker.back.types.roles.Role;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class SongComponent extends DatabaseObject {
     protected int id;
@@ -70,6 +71,8 @@ public abstract class SongComponent extends DatabaseObject {
         return (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + "."
                 + (seconds < 10 ? "0" + seconds : seconds);
     }
+
+    public abstract HashMap<? extends Role, ArrayList<Contributor>> getContributorsRoleMap();
 
     public abstract ArrayList<Contributor> getContributorsInRole(Role role);
 }

@@ -11,7 +11,7 @@ public class ContributorAssignedEvent extends Event{
     public final Role role;
     public final Contributor contributor;
 
-    public ContributorAssignedEvent(Role role, Contributor contributor) {
+    public <T extends Role> ContributorAssignedEvent(T role, Contributor contributor) {
         super(CONTRIBUTOR_ASSIGNED_EVENT);
         this.role = role;
         this.contributor = contributor;

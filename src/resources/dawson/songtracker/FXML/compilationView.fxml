@@ -4,10 +4,14 @@
 <?import dawson.songtracker.front.controllers.add.AddSongController?>
 <?import dawson.songtracker.front.controllers.edit.CompilationDetailEditController?>
 <?import dawson.songtracker.front.controllers.detail.CompilationDetailController?>
+<?import dawson.songtracker.front.controllers.assign.AssignContributorController?>
+<?import dawson.songtracker.front.controllers.assign.AssignContributorToCompilationController?>
 <fx:root xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" type="Pane">
     <children>
         <SearchSongController fx:id="searchPanel"/>
         <CompilationDetailController fx:id="detailPane"/>
         <AddSongController fx:id="addPanel"/>
+        <AssignContributorToCompilationController fx:id="assignContributor"/>
+
     </children>
 </fx:root>
