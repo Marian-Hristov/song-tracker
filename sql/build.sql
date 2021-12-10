@@ -120,6 +120,7 @@ drop table compilationSamples;
 drop table distributions;
 drop table collectionCompilations;
 drop table compilationContributions;
+drop table collectionSets;
 
 drop table recordings;
 drop table contributors;
@@ -158,18 +159,18 @@ create table contributors (
 );
 
 create table productionContributions (
-    recording_id number(5),
-    contributor_id number(5),
-    role_id number(5),
+    recording_id number(5) not null,
+    contributor_id number(5) not null,
+    role_id number(5) not null,
     foreign key (recording_id) references recordings (recording_id),
     foreign key (contributor_id) references contributors (contributor_id),
     foreign key (role_id) references productionRoles (role_id)
 );
 
 create table musicalContributions (
-    recording_id number(5),
-    contributor_id number(5),
-    role_id number(5),
+    recording_id number(5) not null,
+    contributor_id number(5) not null,
+    role_id number(5) not null,
     foreign key (recording_id) references recordings (recording_id),
     foreign key (contributor_id) references contributors (contributor_id),
     foreign key (role_id) references musicianroles (role_id)
@@ -191,9 +192,9 @@ create table compilationRoles(
 );
 
 create table compilationContributions(
-    compilation_id number(5),
-    contributor_id number(5),
-    role_id number(5),
+    compilation_id number(5) not null,
+    contributor_id number(5) not null,
+    role_id number(5) not null,
     foreign key (compilation_id) references compilations (compilation_id),
     foreign key (contributor_id) references contributors (contributor_id),
     foreign key (role_id) references compilationRoles (role_id)
@@ -212,18 +213,18 @@ create table segment (
 );
 
 create table recordingsamples (
-    compilation_id number(5),
-    recording_id number(5),
-    segment_id number(5),
+    compilation_id number(5) not null,
+    recording_id number(5) not null,
+    segment_id number(5) not null,
     foreign key (compilation_id) references compilations (compilation_id),
     foreign key (recording_id) references recordings (recording_id),
     foreign key (segment_id) references segment (segment_id)
 );
 
 create table compilationsamples (
-    compilation_id number(5),
-    compilation_used number(5),
-    segment_id number(5),
+    compilation_id number(5) not null,
+    compilation_used number(5) not null,
+    segment_id number(5) not null,
     foreign key (compilation_id) references compilations (compilation_id),
     foreign key (compilation_used) references compilations (compilation_id),
     foreign key (segment_id) references segment (segment_id)
@@ -247,21 +248,28 @@ create table collections (
     collection_name varchar2(100) not null
 );
 
+create table collectionSets (
+    set_id number(5) not null,
+    collection_id number(5) not null,
+    foreign key (set_id) references collections (collection_id),
+    foreign key (collection_id) references collections (collection_id)
+);
+
 
 create table distributions (
     distribution_id number(5) default distribution_id_seq.nextval primary key,
-    collection_id number(5),
+    collection_id number(5) not null,
     release_date date not null,
-    label_id number(5),
-    market_id number(5),
+    label_id number(5) not null,
+    market_id number(5) not null,
     foreign key (collection_id) references collections (collection_id),
     foreign key (label_id) references recordlabels (label_id),
     foreign key (market_id) references markets (market_id)
 );
 
 create table collectioncompilations (
-    collection_id number(5),
-    compilation_id number(5),
+    collection_id number(5) not null,
+    compilation_id number(5) not null,
     foreign key (collection_id) references collections (collection_id),
     foreign key (compilation_id) references compilations (compilation_id)
 );
@@ -578,7 +586,6 @@ begin
         ', collection_name: '||:new.collection_name);
     end if;
     if updating then
-
         insert into STLogs (log_message) values (user ||
         ' updated table collections. Old values collection_id: '||:old.collection_id||
         ', collection_name: '||:old.collection_name||
@@ -829,6 +836,33 @@ begin
         insert into STLogs (log_message) values (user ||
         ' deleted from table musicianRoles values role_id: '||:old.role_id||
         ', role_name: '||:old.role_name);
+    end if;
+end;
+/
+create or replace trigger before_insert_update_delete_collectionSets
+before insert or update or delete
+on collectionSets
+for each row
+declare
+begin
+    if inserting then
+        insert into STLogs (log_message) values (user ||
+        ' inserted into table collectionSets values set_id: '||:new.set_id||
+        ', collection_id: '||:new.collection_id);
+    end if;
+    if updating then
+
+        insert into STLogs (log_message) values (user ||
+        ' updated table collectionSets. Old values set_id: '||:old.set_id||
+        ', collection_id: '||:old.collection_id||
+        '. New values set_id: '||:new.set_id||
+        ', collection_id: '||:new.collection_id);
+    end if;
+
+    if deleting then
+        insert into STLogs (log_message) values (user ||
+        ' deleted from table collectionSets values set_id: '||:old.set_id||
+        ', collection_id: '||:old.collection_id);
     end if;
 end;
 /

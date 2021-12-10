@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+<fx:root xmlns="http://javafx.com/javafx"
+            layoutY="416.0" prefHeight="17.0" prefWidth="641.0" style="-fx-background-color: blue;" text="Message"
+            xmlns:fx="http://javafx.com/fxml"
+            type="Label">
+
+
+</fx:root>

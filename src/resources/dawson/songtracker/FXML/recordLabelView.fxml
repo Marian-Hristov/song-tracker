@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import dawson.songtracker.front.controllers.edit.LabelDetailEditController?>
+<?import dawson.songtracker.front.controllers.searchPanel.LabelSearchController?>
+<?import dawson.songtracker.front.controllers.add.AddLabelController?>
+<fx:root type="Pane" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <LabelDetailEditController fx:id="detailPane"/>
+        <LabelSearchController fx:id="searchPanel"/>
+        <AddLabelController fx:id="addPanel"/>
+    </children>
+
+</fx:root>

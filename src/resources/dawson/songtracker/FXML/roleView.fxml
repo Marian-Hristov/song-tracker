@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import dawson.songtracker.front.controllers.add.AddRoleController?>
+<?import dawson.songtracker.front.controllers.searchPanel.RoleSearchController?>
+<?import dawson.songtracker.front.controllers.edit.RoleDetailEditController?>
+<fx:root type="Pane" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <RoleSearchController fx:id="searchPanel"/>
+        <AddRoleController fx:id="addPanel"/>
+        <RoleDetailEditController fx:id="detailPane"/>
+    </children>
+
+</fx:root>

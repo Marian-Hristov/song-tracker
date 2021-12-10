@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import dawson.songtracker.front.controllers.searchPanel.DistributionSearchController?>
+<?import dawson.songtracker.front.controllers.edit.DistributionDetailEditController?>
+<?import dawson.songtracker.front.controllers.add.AddDistributionController?>
+<fx:root type="Pane"
+         xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         prefHeight="400.0" prefWidth="600.0">
+
+    <children>
+        <DistributionSearchController fx:id="searchPanel"/>
+        <AddDistributionController fx:id="addPanel"/>
+        <DistributionDetailEditController fx:id="detailPane"/>
+    </children>
+
+</fx:root>

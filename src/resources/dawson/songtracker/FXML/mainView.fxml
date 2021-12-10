@@ -1,9 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.*?>
-
-<?import dawson.songtracker.controllers.RecordingController?>
-<Pane xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <RecordingController/>
-    </children>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import dawson.songtracker.front.controllers.assign.ContributorPopupController?>
+<?import javafx.scene.control.Label?>
+<?import dawson.songtracker.front.controllers.searchPanel.SearchSongController?>
+<?import dawson.songtracker.front.controllers.paneControllers.RecordingController?>
+<?import dawson.songtracker.front.controllers.paneControllers.CompilationController?>
+<?import dawson.songtracker.front.controllers.searchPanel.RoleSearchController?>
+<?import dawson.songtracker.front.controllers.paneControllers.RoleController?>
+<?import dawson.songtracker.front.controllers.searchPanel.ContributorSearchController?>
+<?import dawson.songtracker.front.controllers.paneControllers.ContributorController?>
+<?import dawson.songtracker.front.controllers.searchPanel.CollectionSearchController?>
+<?import dawson.songtracker.front.controllers.paneControllers.CollectionController?>
+<?import dawson.songtracker.front.controllers.paneControllers.DistributionController?>
+<?import dawson.songtracker.front.controllers.paneControllers.MarketController?>
+<?import dawson.songtracker.front.controllers.paneControllers.RecordLabelController?>
+<?import dawson.songtracker.front.messageLogger.MessageLoggerController?>
+<Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <TabPane >
+        <tabs>
+            <Tab closable="false" text="Recording">
+                <content>
+                   <RecordingController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Compilation">
+                <content>
+                    <CompilationController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Role">
+                <content>
+                    <RoleController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Distribution">
+                <content>
+                    <DistributionController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Contributor">
+                <content>
+                    <ContributorController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Market">
+                <content>
+                   <MarketController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Collection">
+                <content>
+                    <CollectionController/>
+                </content>
+            </Tab>
+            <Tab closable="false" text="Label">
+                <content>
+                    <RecordLabelController/>
+                </content>
+            </Tab>
+        </tabs>
+    </TabPane>
+    <MessageLoggerController/>
 </Pane>

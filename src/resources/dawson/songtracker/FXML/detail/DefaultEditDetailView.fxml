@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<fx:root xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         type="Pane"
+         prefHeight="274.0" prefWidth="518.0" style="-fx-background-color: white; -fx-border-style: solid;">
+
+
+    <children>
+
+        <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0">
+            <children>
+                <Label fx:id="popupName1" text="Add Role">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <HBox layoutY="51.0" prefHeight="187.0" prefWidth="518.0">
+            <children>
+                <VBox fx:id="leftCol" prefHeight="197.0" prefWidth="492.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="50.0">
+                            <children>
+                            </children>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                    <HBox.margin>
+                        <Insets left="25.0" />
+                    </HBox.margin>
+                </VBox>
+                <VBox fx:id="rightCol" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="197.0" prefWidth="492.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="171.0" spacing="50.0">
+                            <children>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <Button layoutX="142.0" layoutY="224.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="63.0" text="Close" onMouseClicked="#hide"/>
+        <Button layoutX="290.0" layoutY="224.0" mnemonicParsing="false" text="Update" onMouseClicked="#onUpdate"/>
+    </children>
+
+
+</fx:root>

@@ -2,7 +2,8 @@ create or replace package recording_mgmt as
     procedure addRecording(new_recording_name recordings.recording_name%type, recording_duration recordings.duration%type);
     procedure removeRecording(removed_recording_id recordings.recording_id%type);
     procedure updateRecording(changed_recording_id recordings.recording_id%type, new_recording_name recordings.recording_name%type, new_recording_duration recordings.duration%type);
-    procedure addContributorToRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char);
+    procedure addContributorFromRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char);
+    procedure removeContributorFromRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char);   
 end recording_mgmt;
 /
 commit;
@@ -48,7 +49,7 @@ create or replace package body recording_mgmt as
         where recording_id = changed_recording_id;
     end;
     -- Adding a contributor with a role to a recording
-    procedure addContributorToRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char) is
+    procedure addContributorFromRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char) is
     begin
         if (ref_recording_id is null or ref_contributor_id is null or ref_role_id is null or category is null) then
             raise_application_error(-20001, 'one or more arguments are null or empty');
@@ -61,6 +62,28 @@ create or replace package body recording_mgmt as
         elsif category = 'p' then
             insert into productionContributions
             values (ref_recording_id, ref_contributor_id, ref_role_id);
+        else
+            raise_application_error(-20002, 'specified category does not exist');
+        end if;
+    end;
+    -- Removing a contributor from a recording
+    procedure removeContributorFromRecording(ref_recording_id recordings.recording_id%type, ref_contributor_id number, ref_role_id number, category char) is
+    begin
+        if (ref_recording_id is null or ref_contributor_id is null or ref_role_id is null or category is null) then
+            raise_application_error(-20001, 'one or more arguments are null or empty');
+        elsif (ref_recording_id < 1 or ref_contributor_id < 1 or ref_role_id < 1) then
+            raise_application_error(-20001, 'one or more provided ids are not in the allowed range');
+        end if;
+        if category = 'm' then
+            delete from musicalContributions
+            where recording_id = ref_recording_id
+            and contributor_id = ref_contributor_id
+            and role_id = ref_role_id;
+        elsif category = 'p' then
+            delete from productionContributions
+            where recording_id = ref_recording_id
+            and contributor_id = ref_contributor_id
+            and role_id = ref_role_id;
         else
             raise_application_error(-20002, 'specified category does not exist');
         end if;
