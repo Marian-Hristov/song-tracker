@@ -1,6 +1,7 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.dowloader;
 
 import dawson.songtracker.back.types.components.Recording;
+import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.back.types.roles.Contributor;
 import dawson.songtracker.back.types.roles.MusicianRole;
 import dawson.songtracker.back.types.roles.ProductionRole;
@@ -29,6 +30,14 @@ class RecordingDownloader {
         Recording recording = new Recording(id, rs.getString("recording_name"), rs.getTimestamp("creation_time"), rs.getInt("duration"), isReleased(connection, id), musicalContributions, productionContributions);
         ps.close();
         return recording;
+    }
+
+    public static Recording loadLastRecording(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select recording_id from recordings order by recording_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("recording_id");
+        ps.close();
+        return loadRecording(connection, lastId);
     }
 
     public static ArrayList<Recording> loadFirstRecordings(Connection connection, int nbRows) throws SQLException{

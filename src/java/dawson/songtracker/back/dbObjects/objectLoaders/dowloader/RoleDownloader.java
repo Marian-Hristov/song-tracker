@@ -2,6 +2,7 @@ package dawson.songtracker.back.dbObjects.objectLoaders.dowloader;
 
 import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.back.types.components.Recording;
+import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.back.types.roles.CompilationRole;
 import dawson.songtracker.back.types.roles.Contributor;
 import dawson.songtracker.back.types.roles.MusicianRole;
@@ -26,6 +27,14 @@ class RoleDownloader {
         MusicianRole musicianRole = new MusicianRole(id, rs.getString("role_name"));
         ps.close();
         return musicianRole;
+    }
+
+    public static MusicianRole loadLastMusicianRole(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select role_id from musicianRoles order by role_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("role_id");
+        ps.close();
+        return loadMusicianRole(connection, lastId);
     }
 
     public static int totalMusicianRoles(Connection connection) throws SQLException{
@@ -77,6 +86,14 @@ class RoleDownloader {
         return productionRole;
     }
 
+    public static ProductionRole loadLastProductionRole(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select role_id from productionRoles order by role_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("role_id");
+        ps.close();
+        return loadProductionRole(connection, lastId);
+    }
+
     public static int totalProductionRoles(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from productionRoles");
         ResultSet rs = ps.executeQuery();
@@ -126,6 +143,14 @@ class RoleDownloader {
         return compilationRole;
     }
 
+    public static CompilationRole loadLastCompilationRole(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select role_id from compilationRoles order by role_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("role_id");
+        ps.close();
+        return loadCompilationRole(connection, lastId);
+    }
+
     public static int totalCompilationRoles(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select count(*) from compilationRoles");
         ResultSet rs = ps.executeQuery();
@@ -173,6 +198,14 @@ class RoleDownloader {
         Contributor contributor = new Contributor(id, rs.getString("contributor_name"));
         ps.close();
         return contributor;
+    }
+
+    public static Contributor loadLastContributor(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select contributor_id from contributors order by contributor_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("contributor_id");
+        ps.close();
+        return loadContributor(connection, lastId);
     }
 
     public static int totalContributors(Connection connection) throws SQLException{

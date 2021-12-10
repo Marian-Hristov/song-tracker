@@ -36,6 +36,10 @@ public class ObjectDownloader {
         return RoleDownloader.loadCompilationRole(this.connection, id);
     }
 
+    public CompilationRole loadLastCompilationRole() throws SQLException{
+        return RoleDownloader.loadLastCompilationRole(this.connection);
+    }
+
     public ArrayList<CompilationRole> loadCompilationRolesByName(String name) throws SQLException{
         return RoleDownloader.loadCompilationRoleByName(this.connection, name);
     }
@@ -51,6 +55,10 @@ public class ObjectDownloader {
 
     public ProductionRole loadProductionRole(int id) throws SQLException {
         return RoleDownloader.loadProductionRole(this.connection, id);
+    }
+
+    public ProductionRole loadLastProductionRole() throws SQLException{
+        return RoleDownloader.loadLastProductionRole(this.connection);
     }
 
     public ArrayList<ProductionRole> loadProductionRolesByName(String name) throws SQLException {
@@ -70,6 +78,10 @@ public class ObjectDownloader {
         return RoleDownloader.loadMusicianRole(this.connection, id);
     }
 
+    public MusicianRole loadLastMusicianRole() throws SQLException{
+        return RoleDownloader.loadLastMusicianRole(this.connection);
+    }
+
     public ArrayList<MusicianRole> loadMusicianRolesByName(String name) throws SQLException{
         return RoleDownloader.loadMusicianRolesByName(this.connection, name);
     }
@@ -85,6 +97,10 @@ public class ObjectDownloader {
 
     public Contributor loadContributor(int id) throws SQLException {
         return RoleDownloader.loadContributor(this.connection, id);
+    }
+
+    public Contributor loadLastContributor() throws SQLException{
+        return RoleDownloader.loadLastContributor(this.connection);
     }
 
     public ArrayList<Contributor> loadContributorsByName(String name) throws SQLException{
@@ -105,6 +121,10 @@ public class ObjectDownloader {
         return CompilationDownloader.loadCompilation(this.connection, id);
     }
 
+    public Compilation loadLastCompilation() throws SQLException{
+        return CompilationDownloader.loadLastCompilation(this.connection);
+    }
+
     public ArrayList<Compilation> loadCompilationsByName(String name) throws SQLException{
         return CompilationDownloader.loadCompilationsByName(this.connection, name);
     }
@@ -121,6 +141,10 @@ public class ObjectDownloader {
 
     public Recording loadRecording(int id) throws SQLException {
         return RecordingDownloader.loadRecording(this.connection, id);
+    }
+
+    public Recording loadLastRecording() throws SQLException{
+        return RecordingDownloader.loadLastRecording(this.connection);
     }
 
     public ArrayList<Recording> loadRecordingsByName(String name) throws SQLException{
@@ -141,6 +165,10 @@ public class ObjectDownloader {
         return CollectionDownloader.loadCollection(this.connection, id);
     }
 
+    public Collection loadLastCollection() throws SQLException{
+        return CollectionDownloader.loadLastCollection(this.connection);
+    }
+
     public ArrayList<Collection> loadFirstCollections(int nbRows) throws SQLException{
         return CollectionDownloader.loadFirstCollections(this.connection, nbRows);
     }
@@ -159,6 +187,10 @@ public class ObjectDownloader {
         return DistributionDownloader.loadDistribution(this.connection, id);
     }
 
+    public Distribution loadLastDistribution() throws SQLException{
+        return DistributionDownloader.loadLastDistribution(this.connection);
+    }
+
     public ArrayList<Distribution> loadFirstDistributions(int nbRows) throws SQLException{
         return DistributionDownloader.loadFirstDistributions(this.connection, nbRows);
     }
@@ -170,6 +202,10 @@ public class ObjectDownloader {
 
     public Market loadMarket(int id) throws SQLException {
         return DistributionDownloader.loadMarket(this.connection, id);
+    }
+
+    public Market loadLastMarket() throws SQLException{
+        return DistributionDownloader.loadLastMarket(this.connection);
     }
 
     public ArrayList<Market> loadMarketsByName(String name) throws SQLException{
@@ -187,6 +223,10 @@ public class ObjectDownloader {
 
     public RecordLabel loadRecordLabel(int id) throws SQLException {
         return DistributionDownloader.loadRecordLabel(this.connection, id);
+    }
+
+    public RecordLabel loadLastRecordLabel() throws SQLException{
+        return DistributionDownloader.loadLastRecordLabel(this.connection);
     }
 
     public ArrayList<RecordLabel> loadRecordLabelsByName(String name) throws SQLException{

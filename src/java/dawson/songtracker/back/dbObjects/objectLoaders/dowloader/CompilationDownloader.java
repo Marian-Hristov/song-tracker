@@ -3,6 +3,7 @@ package dawson.songtracker.back.dbObjects.objectLoaders.dowloader;
 import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.back.types.components.Recording;
 import dawson.songtracker.back.types.components.Segment;
+import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.back.types.roles.CompilationRole;
 import dawson.songtracker.back.types.roles.Contributor;
 
@@ -30,6 +31,14 @@ class CompilationDownloader {
         ps.close();
 
         return compilation;
+    }
+
+    public static Compilation loadLastCompilation(Connection connection) throws SQLException{
+        PreparedStatement ps = connection.prepareStatement("select compilation_id from compilations order by compilation_id desc fetch first row only");
+        ResultSet rs = ps.executeQuery();
+        int lastId = rs.getInt("compilation_id");
+        ps.close();
+        return loadCompilation(connection, lastId);
     }
 
     public static boolean isReleased(Connection connection, int compilationId) throws SQLException {
