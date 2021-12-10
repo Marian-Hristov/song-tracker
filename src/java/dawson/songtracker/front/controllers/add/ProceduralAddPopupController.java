@@ -153,10 +153,15 @@ public class ProceduralAddPopupController<T extends DatabaseObject, K extends Bu
 
     protected HBox multipleArrayListHBox(Method setter, Label label, Class type) {
 
+
         var pType = (ParameterizedType) setter.getGenericParameterTypes()[0];
         try {
             type = Class.forName(pType.getActualTypeArguments()[0].getTypeName());
         } catch (ClassNotFoundException e) {
+            // path.to.class.B<C> will throw an error.
+            // It is probably occuring because A<B<C>> and B<C> is not a class.
+            // So look for C
+
             e.printStackTrace();
         }
         Cache<DatabaseObject> cache = CacheManager.getCache(type);

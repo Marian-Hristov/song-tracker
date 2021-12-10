@@ -1,24 +1,11 @@
 package dawson.songtracker.front.controllers.add;
 
-import java.util.HashMap;
-
-public class AddSongController extends SimpleAddPopupController {
-    private static HashMap<String, Class> FIELDS = new HashMap<>();
-    static {
-        FIELDS.put("Name", String.class);
-    }
+import dawson.songtracker.back.types.components.Compilation;
+import dawson.songtracker.back.types.components.CompilationBuilder;
 
 
+public class AddSongController extends ProceduralAddPopupController<Compilation, CompilationBuilder> {
     public AddSongController() {
-        super();
-    }
-
-    @Override
-    public void setName() {
-        this.title.setText("Add track");
-    }
-
-    public void onAdd() {
-        System.out.println("On add not yet implemented.");
+        super(Compilation.class, new CompilationBuilder());
     }
 }

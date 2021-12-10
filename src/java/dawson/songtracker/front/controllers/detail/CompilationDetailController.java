@@ -4,6 +4,7 @@ import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.back.types.components.Segment;
 import dawson.songtracker.back.types.roles.Contributor;
 import dawson.songtracker.back.types.roles.Role;
+import dawson.songtracker.front.controllers.paneControllers.CompilationController;
 import dawson.songtracker.front.utils.Loader;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -48,21 +49,13 @@ public class CompilationDetailController extends DetailPopupController<Compilati
         this.duration.setText(duration);
     }
 
-    public void setCreation(String creation) {
-        this.creation.setText(creation);
-    }
-
-    public void populateTable(Map<Role, String> roleContributor, ArrayList<Segment> segments) {
-        //...
-    }
-
     public void populateRolesTable() {
         var contributions = this.entity.getContributions();
         TableColumn<ContributorRole, String> namesCol = (TableColumn) rolesTable.getColumns().get(0);
-        namesCol.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().contributor.getName()));
+        namesCol.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().contributor().getName()));
 
         TableColumn<ContributorRole, String> roleCol = (TableColumn)  rolesTable.getColumns().get(1);
-        roleCol.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().role.getName()));
+        roleCol.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().role().getName()));
 
         ObservableList<ContributorRole> cr = FXCollections.observableArrayList();
 
@@ -72,7 +65,6 @@ public class CompilationDetailController extends DetailPopupController<Compilati
             });
         });
 
-        System.out.println(cr);
         rolesTable.setItems(cr);
     }
 
@@ -98,6 +90,17 @@ public class CompilationDetailController extends DetailPopupController<Compilati
 
     }
 
+    @FXML
+    public void onAddContributor() {
+        CompilationController cc = (CompilationController) this.getParent();
+        cc.onAddContributor();
+    }
+
+    public void onAddSegment() {
+        CompilationController cc = (CompilationController) this.getParent();
+        cc.onAddSegment();
+    }
+
     @Override
     public void show(Compilation entity) {
         this.oldEntity = entity;
@@ -107,6 +110,5 @@ public class CompilationDetailController extends DetailPopupController<Compilati
         this.setVisible(true);
     }
 
-    private record ContributorRole(Contributor contributor, Role role){};
 
 }
