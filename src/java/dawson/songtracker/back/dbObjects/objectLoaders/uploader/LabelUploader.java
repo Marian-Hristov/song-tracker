@@ -14,7 +14,7 @@ class LabelUploader implements IDBUploader<RecordLabel> {
         this.connection = connection;
     }
 
-    public void addLabel(String name) throws Exception {
+    private void addLabel(String name) throws Exception {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -33,7 +33,7 @@ class LabelUploader implements IDBUploader<RecordLabel> {
         }
     }
 
-    public void removeLabel(int id) throws Exception {
+    private void removeLabel(int id) throws Exception {
         if (id < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -53,7 +53,7 @@ class LabelUploader implements IDBUploader<RecordLabel> {
         }
     }
 
-    public void updateLabel(String oldName, String newName) throws Exception {
+    private void updateLabel(String oldName, String newName) throws Exception {
         if (oldName == null || oldName.equals("") || newName == null || newName.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }

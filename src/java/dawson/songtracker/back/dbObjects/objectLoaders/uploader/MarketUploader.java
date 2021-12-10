@@ -16,7 +16,7 @@ class MarketUploader implements IDBUploader<Market> {
         this.dl = ObjectDownloader.getInstance();
     }
 
-    public void addMarket(String name) throws Exception {
+    private void addMarket(String name) throws Exception {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -35,7 +35,7 @@ class MarketUploader implements IDBUploader<Market> {
         }
     }
 
-    public void removeMarket(int id) throws Exception {
+    private void removeMarket(int id) throws Exception {
         if (id < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -54,7 +54,7 @@ class MarketUploader implements IDBUploader<Market> {
         }
     }
 
-    public void updateMarket(String oldName, String newName) throws Exception {
+    private void updateMarket(String oldName, String newName) throws Exception {
         if (oldName == null || oldName.equals("") || newName == null || newName.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }

@@ -1,6 +1,7 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
 import dawson.songtracker.back.types.components.Compilation;
+import dawson.songtracker.back.types.components.Segment;
 
 import java.sql.Connection;
 import java.sql.CallableStatement;
@@ -13,7 +14,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         this.connection = connection;
     }
 
-    public void addCompilation(String name) throws Exception {
+    private void addCompilation(String name) throws Exception {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -32,7 +33,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    public void addSampleToCompilation(int compilationId, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent, int sampleId, char sampleType) throws Exception {
+    private void addSampleToCompilation(int compilationId, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponent, int sampleId, char sampleType) throws Exception {
         if (compilationId < 1 || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 || durationOfComponent < 0 || sampleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         } else if (sampleType == 'c' || sampleType == 'r') {
@@ -60,7 +61,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    public void deleteSampleFromCompilation(int compilationId, int sampleId, int segmentId, char sampleType) throws Exception {
+    private void deleteSampleFromCompilation(int compilationId, int sampleId, int segmentId, char sampleType) throws Exception {
         if (compilationId < 1 || sampleId < 1 || segmentId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         } else if (sampleType == 'c' || sampleType == 'r') {
@@ -85,7 +86,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    public void updateSample(double id, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponentUsed) throws Exception{
+    private void updateSample(double id, double mainTrackOffset, double durationInMainTrack, double componentTrackOffset, double durationOfComponentUsed) throws Exception{
         if(id < 1 || mainTrackOffset < 0 || durationInMainTrack < 0 || componentTrackOffset < 0 || durationOfComponentUsed < 0){
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         } else {
@@ -109,7 +110,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    public void deleteCompilation(int id) throws Exception {
+    private void deleteCompilation(int id) throws Exception {
         if (id < 0) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -128,7 +129,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    public void updateCompilation(int id, String name) throws Exception {
+    private void updateCompilation(int id, String name) throws Exception {
         if (id < 0 || name == null || name.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -148,7 +149,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    public void addContributorToCompilation(int compilationId, int contributorId, int roleId) throws Exception {
+    private void addContributorToCompilation(int compilationId, int contributorId, int roleId) throws Exception {
         if (compilationId < 1 || contributorId < 1 || roleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -169,7 +170,7 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
-    public void removeContributorToCompilation(int compilationId, int contributorId, int roleId) throws Exception {
+    private void removeContributorToCompilation(int compilationId, int contributorId, int roleId) throws Exception {
         if (compilationId < 1 || contributorId < 1 || roleId < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -190,8 +191,22 @@ class CompilationUploader implements IDBUploader<Compilation> {
         }
     }
 
+    private void addAllContributions(Compilation compilation){
+        for(Segment<Compilation> compilationSegment : compilation.getSampledCompilations()){
+//            this.addSampleToCompilation(compilationSegment.getId(), compilationSegment.getMainTrackOffset(), compilationSegment.getDurationInMainTrack(), compilationSegment.getComponentTrackOffset(), compilationSegment.getComponentTrack().getDuration(), );
+        }
+    }
+
     private void removeAllContributions(Compilation compilation){
-//        for()
+
+    }
+
+    private void addAllSegments(Compilation compilation){
+
+    }
+
+    private void removeAllSegments(Compilation compilation){
+
     }
 
     @Override

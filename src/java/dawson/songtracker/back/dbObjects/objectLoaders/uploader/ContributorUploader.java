@@ -16,7 +16,7 @@ class ContributorUploader implements IDBUploader<Contributor>{
         this.dl = ObjectDownloader.getInstance();
     }
 
-    public void addContributor(String name) throws Exception {
+    private void addContributor(String name) throws Exception {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("Given name is empty or null");
         }
@@ -35,7 +35,7 @@ class ContributorUploader implements IDBUploader<Contributor>{
         }
     }
 
-    public void deleteContributor(int id) throws Exception {
+    private void deleteContributor(int id) throws Exception {
         if (id < 1) {
             throw new IllegalArgumentException("Given name is empty or null");
         }
@@ -54,7 +54,7 @@ class ContributorUploader implements IDBUploader<Contributor>{
         }
     }
 
-    public void updateContributor(String oldName, String newName) throws Exception {
+    private void updateContributor(String oldName, String newName) throws Exception {
         if (oldName == null || oldName.equals("") || newName == null || newName.equals("")) {
             throw new IllegalArgumentException("One or more given names are empty or null");
         }

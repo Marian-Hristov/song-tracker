@@ -20,7 +20,7 @@ class RecordingUploader implements IDBUploader<Recording> {
     }
 
 
-    public void addRecording(Recording recording) throws Exception {
+    private void addRecording(Recording recording) throws Exception {
         if (recording.getName() == null || recording.getName().equals("") || recording.getDuration() < 0 || recording.getId() < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -40,7 +40,7 @@ class RecordingUploader implements IDBUploader<Recording> {
         }
     }
 
-    public void removeRecording(int id) throws Exception {
+    private void removeRecording(int id) throws Exception {
         if (id < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -59,7 +59,7 @@ class RecordingUploader implements IDBUploader<Recording> {
         }
     }
 
-    public void updateRecording(int id, String newName, double newDuration) throws Exception {
+    private void updateRecording(int id, String newName, double newDuration) throws Exception {
         if (newName == null || newName.equals("") || newDuration < 0 || id < 1) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -81,7 +81,7 @@ class RecordingUploader implements IDBUploader<Recording> {
         }
     }
 
-    public void addContributorToRecording(Recording recording, Contributor contributor, Role role) throws Exception{
+    private void addContributorToRecording(Recording recording, Contributor contributor, Role role) throws Exception{
         if (recording.getName() == null || recording.getName().equals("") || recording.getDuration() < 0 || recording.getId() < 1 || contributor.getId() < 1 || contributor.getName() == null || contributor.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
@@ -124,7 +124,7 @@ class RecordingUploader implements IDBUploader<Recording> {
         }
     }
 
-    public void removeContributorFromRecording(Recording recording, Contributor contributor, Role role) throws Exception{
+    private void removeContributorFromRecording(Recording recording, Contributor contributor, Role role) throws Exception{
         if (recording.getName() == null || recording.getName().equals("") || recording.getDuration() < 0 || recording.getId() < 1 || contributor.getId() < 1 || contributor.getName() == null || contributor.equals("")) {
             throw new IllegalArgumentException("One or more arguments are invalid or null");
         }
