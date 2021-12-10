@@ -85,11 +85,15 @@ public abstract class DefaultController<
     @Override
     public void addNewEntry(Type entry) throws Exception{
         this.uploader.add(entry);
+        this.cache.update();
+        this.addPanel.hide();
     }
 
     @Override
     public void removeEntry(Type entry) throws Exception{
+        if(entry!=null)
         this.uploader.remove(entry);
+        this.cache.update();
     }
 
     @Override

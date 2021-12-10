@@ -4,6 +4,7 @@ import dawson.songtracker.front.controllers.detail.DetailPopupController;
 import dawson.songtracker.front.controllers.searchPanel.SearchPanelController;
 import dawson.songtracker.front.event.SearchEvent;
 import dawson.songtracker.back.types.DatabaseObject;
+import dawson.songtracker.front.event.UpdateTableEvent;
 import dawson.songtracker.front.utils.IDetailedInfo;
 import dawson.songtracker.front.utils.Popup;
 import dawson.songtracker.front.utils.PopupOwner;
@@ -51,5 +52,11 @@ public abstract class DefaultWithDetailsController<
     public void onAdd() {
         System.out.println("here.");
         this.addPanel.show();
+    }
+
+    @Override
+    public void updateEntry(Type old, Type entry) throws Exception {
+        super.updateEntry(old, entry);
+        this.detailPane.hide();
     }
 }
