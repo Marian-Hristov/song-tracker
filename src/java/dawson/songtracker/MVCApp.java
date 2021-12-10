@@ -23,9 +23,8 @@ public class MVCApp extends Application {
             e.printStackTrace();
         }
 
-        System.out.println("test.");
 
-
+        stage.setResizable(false);
         stage.setTitle("Test title.");
         stage.setScene(new Scene(root));
         stage.show();
