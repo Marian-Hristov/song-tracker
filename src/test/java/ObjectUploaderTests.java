@@ -6,6 +6,8 @@ import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.back.types.components.Recording;
 import dawson.songtracker.back.types.components.Segment;
 import dawson.songtracker.back.types.distributions.Collection;
+import dawson.songtracker.back.types.distributions.Market;
+import dawson.songtracker.back.types.distributions.RecordLabel;
 import dawson.songtracker.back.types.roles.*;
 import org.junit.Test;
 
@@ -455,6 +457,19 @@ public class ObjectUploaderTests {
         Contributor contributor2 = new Contributor(2, "Marley");
         ProductionRole pRole = new ProductionRole(1, "composer");
         MusicianRole mRole = new MusicianRole(1, "accordionist");
+//    @Test
+//    public void addContributorToRecording() throws Exception{
+//        ObjectDownloader dl = ObjectDownloader.getInstance();
+//        ObjectUploader ul = ObjectUploader.getInstance();
+//        IDBUploader<Recording> obRec = (IDBUploader<Recording>) ul.getUploader(Recording.class);
+//        IDBUploader<Contributor> obCon = (IDBUploader<Contributor>) ul.getUploader(Contributor.class);
+//        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
+//        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
+//        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
+//        Contributor contributor1 = new Contributor(1, "Bob");
+//        Contributor contributor2 = new Contributor(2, "Marley");
+//        ProductionRole pRole = new ProductionRole(1, "composer");
+//        MusicianRole mRole = new MusicianRole(1, "accordionist");
 //        ul.addContributor(contributor1);
 //        ul.addContributor(contributor2);
 //        ul.addRecording(recording);
@@ -470,6 +485,16 @@ public class ObjectUploaderTests {
         assertEquals("Bob", result.getProductionContributions().get(pRole).get(0).getName());
         assertEquals("Marley", result.getMusicalContributions().get(mRole).get(0).getName());
     }
+//        Recording result = dl.loadRecording(1);
+//        for ( ProductionRole role : result.getProductionContributions().keySet()) {
+//            assertEquals("composer", role.getName());
+//        }
+//        for( MusicianRole role : result.getMusicalContributions().keySet()) {
+//            assertEquals("accordionist", role.getName());
+//        }
+//        assertEquals("Bob", result.getProductionContributions().get(pRole).get(0).getName());
+//        assertEquals("Marley", result.getMusicalContributions().get(mRole).get(0).getName());
+//    }
 
 //    @Test
 //    public void removeContributorToRecording() throws Exception{
@@ -495,81 +520,76 @@ public class ObjectUploaderTests {
 //        assertEquals(0, result.getProductionContributions().size());
 //        assertEquals(0, result.getMusicalContributions().size());
 //    }
-//
-//    @Test
-//    public void TestAddMarket() throws Exception{
-//        
-//
-//        ObjectDownloader dl = ObjectDownloader.getInstance();
-//        ObjectUploader ul = ObjectUploader.getInstance();
-//        Market market = new Market(7, "Canada");
-//        ul.addMarket(market);
-//        Market result = dl.loadMarket(7);
-//        assertEquals("Canada", result.getName());
-//    }
-//
-//    @Test
-//    public void TestRemoveMarket() throws Exception{
-//        
-//
-//        ObjectDownloader dl = ObjectDownloader.getInstance();
-//        ObjectUploader ul = ObjectUploader.getInstance();
-//        Market market = new Market(7, "Canada");
-//        ul.addMarket(market);
-//        ul.removeMarket(market);
-//        assertNull(dl.loadMarket(7));
-//    }
-//
-//    @Test
-//    public void TestUpdateMarket() throws Exception{
-//        
-//
-//        ObjectDownloader dl = ObjectDownloader.getInstance();
-//        ObjectUploader ul = ObjectUploader.getInstance();
-//        Market market1 = new Market(7, "Canada");
-//        Market market2 = new Market(7, "USA");
-//        ul.addMarket(market1);
-//        ul.updateMarket(market1, market2);
-//        Market result = dl.loadMarket(7);
-//        assertEquals("USA", result.getName());
-//    }
-//
-//    @Test
-//    public void TestAddLabel() throws Exception{
-//        
-//
-//        ObjectDownloader dl = ObjectDownloader.getInstance();
-//        ObjectUploader ul = ObjectUploader.getInstance();
-//        RecordLabel label = new RecordLabel(1, "Aftermath");
-//        ul.addLabel(label);
-//        RecordLabel result = dl.loadRecordLabel(1);
-//        assertEquals("Aftermath", result.getName());
-//    }
-//
-//    @Test
-//    public void TestRemoveLabel() throws Exception{
-//        
-//
-//        ObjectDownloader dl = ObjectDownloader.getInstance();
-//        ObjectUploader ul = ObjectUploader.getInstance();
-//        RecordLabel label = new RecordLabel(1, "Aftermath");
-//        ul.addLabel(label);
-//        ul.removeLabel(label);
-//        assertNull(dl.loadRecordLabel(1));
-//    }
-//
-//    @Test
-//    public void TestUpdateLabel() throws Exception{
-//        
-//
-//        ObjectDownloader dl = ObjectDownloader.getInstance();
-//        ObjectUploader ul = ObjectUploader.getInstance();
-//        RecordLabel label1 = new RecordLabel(1, "Aftermath");
-//        RecordLabel label2 = new RecordLabel(1, "222 Records");
-//        ul.addLabel(label1);
-//        ul.updateLabel(label1, label2);
-//        assertEquals("222 Records", dl.loadRecordLabel(1).getName());
-//    }
+
+    @Test
+    public void TestAddMarket() throws Exception{
+
+        ObjectDownloader<Market> dl = (ObjectDownloader<Market>) Downloader.getInstance().getLoader(Market.class);
+        ObjectUploader ul = ObjectUploader.getInstance();
+        IDBUploader<Market> obMar = (IDBUploader<Market>) ul.getUploader(Market.class);
+        Market market = new Market(7, "Canada");
+        obMar.add(market);
+        Market result = dl.load(7);
+        assertEquals("Canada", result.getName());
+    }
+
+    @Test
+    public void TestRemoveMarket() throws Exception{
+        ObjectDownloader<Market> dl = (ObjectDownloader<Market>) Downloader.getInstance().getLoader(Market.class);
+        ObjectUploader ul = ObjectUploader.getInstance();
+        IDBUploader<Market> obMar = (IDBUploader<Market>) ul.getUploader(Market.class);
+        Market market = new Market(7, "Canada");
+        obMar.add(market);
+        obMar.remove(market);
+        assertNull(dl.load(7));
+    }
+
+    @Test
+    public void TestUpdateMarket() throws Exception{
+        ObjectDownloader<Market> dl = (ObjectDownloader<Market>) Downloader.getInstance().getLoader(Market.class);
+        ObjectUploader ul = ObjectUploader.getInstance();
+        IDBUploader<Market> obMar = (IDBUploader<Market>) ul.getUploader(Market.class);
+        Market market1 = new Market(7, "Canada");
+        Market market2 = new Market(7, "USA");
+        obMar.add(market1);
+        obMar.update(market2);
+        Market result = dl.load(7);
+        assertEquals("USA", result.getName());
+    }
+
+    @Test
+    public void TestAddLabel() throws Exception{
+        ObjectDownloader<RecordLabel> dl = (ObjectDownloader<RecordLabel>) Downloader.getInstance().getLoader(RecordLabel.class);
+        ObjectUploader ul = ObjectUploader.getInstance();
+        IDBUploader<RecordLabel> obLab = (IDBUploader<RecordLabel>) ul.getUploader(RecordLabel.class);
+        RecordLabel label = new RecordLabel(1, "Aftermath");
+        obLab.add(label);
+        RecordLabel result = dl.load(1);
+        assertEquals("Aftermath", result.getName());
+    }
+
+    @Test
+    public void TestRemoveLabel() throws Exception{
+        ObjectDownloader<RecordLabel> dl = (ObjectDownloader<RecordLabel>) Downloader.getInstance().getLoader(RecordLabel.class);
+        ObjectUploader ul = ObjectUploader.getInstance();
+        IDBUploader<RecordLabel> obLab = (IDBUploader<RecordLabel>) ul.getUploader(RecordLabel.class);
+        RecordLabel label = new RecordLabel(1, "Aftermath");
+        obLab.add(label);
+        obLab.remove(label);
+        assertNull(dl.load(1));
+    }
+
+    @Test
+    public void TestUpdateLabel() throws Exception{
+        ObjectDownloader<RecordLabel> dl = (ObjectDownloader<RecordLabel>) Downloader.getInstance().getLoader(RecordLabel.class);
+        ObjectUploader ul = ObjectUploader.getInstance();
+        IDBUploader<RecordLabel> obLab = (IDBUploader<RecordLabel>) ul.getUploader(RecordLabel.class);
+        RecordLabel label1 = new RecordLabel(1, "Aftermath");
+        RecordLabel label2 = new RecordLabel(1, "222 Records");
+        obLab.add(label1);
+        obLab.update(label2);
+        assertEquals("222 Records", dl.load(1).getName());
+    }
 //
 //    @Test
 //    public void TestAddDistribution() throws Exception{
