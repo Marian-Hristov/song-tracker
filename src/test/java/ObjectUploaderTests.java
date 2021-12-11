@@ -234,7 +234,7 @@ public class ObjectUploaderTests {
         Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         obCon.add(contributor);
         obCom.add(compilation);
-        compilation.getContributions(); // TODO this gives null?
+        compilation.addContribution(role, contributor);
         obCom.update(compilation);
         assertEquals(contributor.getName(), dl.load(1).getContributorsInRole(role).get(0).getName());
     }
@@ -252,12 +252,10 @@ public class ObjectUploaderTests {
         Map<CompilationRole, ArrayList<Contributor>> contributions = new HashMap<>();
         Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         obCon.add(contributor);
-        compilation.getContributorsRoleMap().get(role).add(contributor);
+        compilation.addContribution(role, contributor);
         obCom.add(compilation);
-        compilation.getContributorsRoleMap().get(role).remove(contributor); // TODO this also gives null?
+        compilation.removeContribution(role, contributor);
         obCom.update(compilation);
-//        ul.addContributorToCompilation(compilation, contributor, role);
-//        ul.removeContributorToCompilation(compilation, contributor, role);
         Map<CompilationRole, ArrayList<Contributor>> result = dl.load(1).getContributions();
         assertNull(result.get(role));
     }
@@ -447,31 +445,19 @@ public class ObjectUploaderTests {
         ObjectUploader ul = ObjectUploader.getInstance();
         IDBUploader<Recording> obRec = (IDBUploader<Recording>) ul.getUploader(Recording.class);
         IDBUploader<Contributor> obCon = (IDBUploader<Contributor>) ul.getUploader(Contributor.class);
+        Contributor contributor1 = new Contributor(1, "Bob");
+        Contributor contributor2 = new Contributor(2, "Marley");
         Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
         Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
         Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
-        Contributor contributor1 = new Contributor(1, "Bob");
-        Contributor contributor2 = new Contributor(2, "Marley");
         ProductionRole pRole = new ProductionRole(1, "composer");
         MusicianRole mRole = new MusicianRole(1, "accordionist");
-//    @Test
-//    public void addContributorToRecording() throws Exception{
-//        ObjectDownloader dl = ObjectDownloader.getInstance();
-//        ObjectUploader ul = ObjectUploader.getInstance();
-//        IDBUploader<Recording> obRec = (IDBUploader<Recording>) ul.getUploader(Recording.class);
-//        IDBUploader<Contributor> obCon = (IDBUploader<Contributor>) ul.getUploader(Contributor.class);
-//        Map<MusicianRole, ArrayList<Contributor>> musicalContributions = new HashMap<>();
-//        Map<ProductionRole, ArrayList<Contributor>> productionContributions = new HashMap<>();
-//        Recording recording = new Recording(1, "See You Again", new Timestamp(System.currentTimeMillis()), 203, true, musicalContributions, productionContributions);
-//        Contributor contributor1 = new Contributor(1, "Bob");
-//        Contributor contributor2 = new Contributor(2, "Marley");
-//        ProductionRole pRole = new ProductionRole(1, "composer");
-//        MusicianRole mRole = new MusicianRole(1, "accordionist");
-//        ul.addContributor(contributor1);
-//        ul.addContributor(contributor2);
-//        ul.addRecording(recording);
-//        ul.addContributorToRecording(recording, contributor1, pRole);
-//        ul.addContributorToRecording(recording, contributor2, mRole);
+        obCon.add(contributor1);
+        obCon.add(contributor2);
+        obRec.add(recording);
+        recording.addContribution(pRole, contributor1);
+        recording.addContribution(mRole, contributor2);
+        obRec.update(recording);
         Recording result = dl.load(1);
         for ( ProductionRole role : result.getProductionContributions().keySet()) {
             assertEquals("composer", role.getName());
@@ -482,16 +468,6 @@ public class ObjectUploaderTests {
         assertEquals("Bob", result.getProductionContributions().get(pRole).get(0).getName());
         assertEquals("Marley", result.getMusicalContributions().get(mRole).get(0).getName());
     }
-//        Recording result = dl.loadRecording(1);
-//        for ( ProductionRole role : result.getProductionContributions().keySet()) {
-//            assertEquals("composer", role.getName());
-//        }
-//        for( MusicianRole role : result.getMusicalContributions().keySet()) {
-//            assertEquals("accordionist", role.getName());
-//        }
-//        assertEquals("Bob", result.getProductionContributions().get(pRole).get(0).getName());
-//        assertEquals("Marley", result.getMusicalContributions().get(mRole).get(0).getName());
-//    }
 
 //    @Test
 //    public void removeContributorToRecording() throws Exception{

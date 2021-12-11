@@ -16,6 +16,7 @@ the new guitarist role is in the musician category instead of the production cat
 - A recording can only my 9999.9 seconds long
 - For the uploader tests, you need to reset the database for each test
 - For the downloader tests, you need to have the 3 sample songs on the database
+- The GUI needs a few moments to load everything from the database
 
 # Requirements
 
@@ -28,7 +29,7 @@ the new guitarist role is in the musician category instead of the production cat
     
     <code>
     private static String username = "ThisIsMyUsername";
-    
+    <br>
     private static String password = "ThisIsMyPassword";
     </code>
 2. Setup the database
@@ -58,3 +59,6 @@ the new guitarist role is in the musician category instead of the production cat
 
 #### Collections
 - Once a collection is distributed, it can no longer be deleted.
+
+# Usage
+Different panes are available to the user in order to modify the database. You can modify an item present in a table by double-clicking on it.
