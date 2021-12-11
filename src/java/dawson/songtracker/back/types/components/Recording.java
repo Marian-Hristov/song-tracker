@@ -28,6 +28,54 @@ public class Recording extends SongComponent {
         this.productionContributions = productionContributions;
     }
 
+    public void addContribution(Role role, Contributor contributor) {
+        if (role == null) throw new NullPointerException("the compilationRole is null");
+        if (contributor == null) throw new NullPointerException("the contributor is null");
+        if(role instanceof ProductionRole){
+            if (this.productionContributions.containsKey((ProductionRole) role)) {
+                this.productionContributions.get((ProductionRole) role).add(contributor);
+            } else {
+                ArrayList<Contributor> contributors = new ArrayList<>();
+                contributors.add(contributor);
+                this.productionContributions.put((ProductionRole) role, contributors);
+            }
+        } else if (role instanceof MusicianRole) {
+            if (this.musicalContributions.containsKey((MusicianRole) role)) {
+                this.musicalContributions.get((MusicianRole) role).add(contributor);
+            } else {
+                ArrayList<Contributor> contributors = new ArrayList<>();
+                contributors.add(contributor);
+                this.musicalContributions.put((MusicianRole) role, contributors);
+            }
+        } else {
+            throw new UnsupportedOperationException("Role not accepted");
+        }
+    }
+
+    public void removeContribution(Role role, Contributor contributor) {
+        if (role == null) throw new NullPointerException("the compilationRole is null");
+        if (contributor == null) throw new NullPointerException("the contributor is null");
+        if(role instanceof ProductionRole){
+            if (this.productionContributions.containsKey((ProductionRole) role)) {
+                if (!this.productionContributions.get((ProductionRole) role).remove(contributor)) {
+                    throw new NoSuchElementException("this contributor cannot be removed from this role because they are not assigned this role");
+                }
+            } else {
+                throw new NoSuchElementException("this role hasn't been added to this compilation");
+            }
+        } else if (role instanceof MusicianRole) {
+            if (this.musicalContributions.containsKey((MusicianRole) role)) {
+                if (!this.musicalContributions.get((MusicianRole) role).remove(contributor)) {
+                    throw new NoSuchElementException("this contributor cannot be removed from this role because they are not assigned this role");
+                }
+            } else {
+                throw new NoSuchElementException("this role hasn't been added to this compilation");
+            }
+        } else {
+            throw new UnsupportedOperationException("Role not accepted");
+        }
+    }
+
     public void setContributions(Map<Role, ArrayList<Contributor>> map) {
         musicalContributions.clear();
         productionContributions.clear();
