@@ -36,6 +36,7 @@ class CompilationDownloader {
     public static Compilation loadLastCompilation(Connection connection) throws SQLException{
         PreparedStatement ps = connection.prepareStatement("select compilation_id from compilations order by compilation_id desc fetch first row only");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int lastId = rs.getInt("compilation_id");
         ps.close();
         return loadCompilation(connection, lastId);

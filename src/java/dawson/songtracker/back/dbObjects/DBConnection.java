@@ -3,7 +3,7 @@ package dawson.songtracker.back.dbObjects;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
- 
+
 public class DBConnection {
     private static String username = "A2033348";
     private static String password = "6019@ria_database";

@@ -55,7 +55,6 @@ create or replace package body distribution_mgmt as
         end if;
         -- checking if the distribution exists
         select distribution_id into foundDistribution from distributions where distribution_id = deleted_distribution_id;
-        -- TODO should we check sql%notfound? or send all the arguments like adding procedure
         if sql%notfound then
             raise_application_error(-20003, 'cannot delete distribution that does not exist');
         end if;
