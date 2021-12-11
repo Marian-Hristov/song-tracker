@@ -1,7 +1,7 @@
 package dawson.songtracker.front.controllers.paneControllers;
 
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
 import dawson.songtracker.front.controllers.detail.CompilationDetailController;
 import dawson.songtracker.front.controllers.add.AddSongController;
 import dawson.songtracker.front.controllers.searchPanel.SearchSongController;
@@ -30,7 +30,7 @@ public class CompilationController extends DefaultWithDetailsController
 
     @Override
     public void setCacheUpdateMethod() {
-        this.cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllCompilations());
+        this.cache.setUpdateMethod(()-> (ArrayList<Compilation>) Downloader.getInstance().getLoader(Compilation.class).loadAll());
     }
 
 }

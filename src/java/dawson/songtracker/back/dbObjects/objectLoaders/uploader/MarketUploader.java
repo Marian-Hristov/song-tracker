@@ -1,6 +1,7 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.ObjectDownloader;
 import dawson.songtracker.back.types.distributions.Market;
 
 import java.sql.CallableStatement;
@@ -9,11 +10,9 @@ import java.sql.SQLException;
 
 class MarketUploader implements IDBUploader<Market> {
     private final Connection connection;
-    private final ObjectDownloader dl;
 
     public MarketUploader(Connection connection) throws Exception {
         this.connection = connection;
-        this.dl = ObjectDownloader.getInstance();
     }
 
     private void addMarket(String name) throws Exception {
@@ -95,7 +94,9 @@ class MarketUploader implements IDBUploader<Market> {
         if(newMarket == null){
             throw new Exception("Market is null");
         }
-        Market oldMarket = this.dl.loadMarket(newMarket.getId());
+        ObjectDownloader<Market> dl = (ObjectDownloader<Market>) Downloader.getInstance().getLoader(Market.class);
+
+        Market oldMarket = dl.load(newMarket.getId());
         if(!oldMarket.getName().equals(newMarket.getName())) this.updateMarket(oldMarket.getName(), newMarket.getName());
     }
 }

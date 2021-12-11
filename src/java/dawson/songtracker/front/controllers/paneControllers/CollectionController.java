@@ -1,11 +1,13 @@
 package dawson.songtracker.front.controllers.paneControllers;
 
 import dawson.songtracker.front.controllers.edit.CollectionDetailEditController;
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
 import dawson.songtracker.front.controllers.add.AddCollectionController;
 import dawson.songtracker.front.controllers.searchPanel.CollectionSearchController;
 import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.front.utils.Loader;
+
+import java.util.ArrayList;
 
 public class CollectionController extends DefaultWithDetailsController<
         Collection,
@@ -21,7 +23,7 @@ public class CollectionController extends DefaultWithDetailsController<
 
     @Override
     public void setCacheUpdateMethod() {
-        cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllCollections());
+        cache.setUpdateMethod(() -> (ArrayList<Collection>) Downloader.getInstance().getLoader(Collection.class).loadAll());
     }
 
     @Override

@@ -1,6 +1,8 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.ObjectDownloader;
+import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.back.types.roles.Contributor;
 
 import java.sql.CallableStatement;
@@ -9,11 +11,9 @@ import java.sql.SQLException;
 
 class ContributorUploader implements IDBUploader<Contributor>{
     private final Connection connection;
-    private final ObjectDownloader dl;
 
     public ContributorUploader(Connection connection) throws SQLException {
         this.connection = connection;
-        this.dl = ObjectDownloader.getInstance();
     }
 
     private void addContributor(String name) throws Exception {
@@ -95,7 +95,9 @@ class ContributorUploader implements IDBUploader<Contributor>{
         if(newContributor == null){
             throw new Exception("Contributor is null");
         }
-        Contributor oldContributor = this.dl.loadContributor(newContributor.getId());
+        ObjectDownloader<Contributor> dl = (ObjectDownloader<Contributor>) Downloader.getInstance().getLoader(Contributor.class);
+
+        Contributor oldContributor = dl.load(newContributor.getId());
         if(!oldContributor.getName().equals(newContributor.getName())) this.updateContributor(oldContributor.getName(), newContributor.getName());
     }
 }

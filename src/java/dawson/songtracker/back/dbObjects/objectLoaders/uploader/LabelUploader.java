@@ -1,6 +1,9 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.RecordLabelDownloader;
+import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.back.types.distributions.RecordLabel;
 
 import java.sql.Connection;
@@ -82,8 +85,9 @@ class LabelUploader implements IDBUploader<RecordLabel> {
     @Override
     public void update(RecordLabel recordLabel) throws Exception {
         if(recordLabel == null) throw new NullPointerException("the record label is null");
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        RecordLabel oldLabel = dl.loadRecordLabel(recordLabel.getId());
+        RecordLabelDownloader dl = (RecordLabelDownloader) Downloader.getInstance().getLoader(RecordLabel.class);
+
+        RecordLabel oldLabel = dl.load(recordLabel.getId());
         if(!oldLabel.getName().equals(recordLabel.getName())) this.updateLabel(oldLabel.getName(), recordLabel.getName());
     }
 

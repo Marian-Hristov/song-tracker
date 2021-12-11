@@ -1,12 +1,14 @@
 package dawson.songtracker.front.controllers.paneControllers;
 
 import dawson.songtracker.front.controllers.edit.ContributorDetailEditController;
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
 import dawson.songtracker.front.controllers.add.AddContributorController;
 import dawson.songtracker.front.controllers.searchPanel.ContributorSearchController;
 import dawson.songtracker.front.event.AddContributorEvent;
 import dawson.songtracker.back.types.roles.Contributor;
 import dawson.songtracker.front.utils.Loader;
+
+import java.util.ArrayList;
 
 public class ContributorController extends DefaultWithDetailsController<
         Contributor, ContributorSearchController, AddContributorController, ContributorDetailEditController>
@@ -19,7 +21,7 @@ public class ContributorController extends DefaultWithDetailsController<
 
     @Override
     public void setCacheUpdateMethod() {
-        cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllContributors());
+        cache.setUpdateMethod(()-> (ArrayList<Contributor>) Downloader.getInstance().getLoader(Contributor.class).loadAll());
     }
 
     @Override

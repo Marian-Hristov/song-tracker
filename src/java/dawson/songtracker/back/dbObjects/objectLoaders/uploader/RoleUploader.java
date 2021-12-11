@@ -1,6 +1,8 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.ObjectDownloader;
+import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.back.types.roles.CompilationRole;
 import dawson.songtracker.back.types.roles.MusicianRole;
 import dawson.songtracker.back.types.roles.ProductionRole;
@@ -12,11 +14,11 @@ import java.sql.SQLException;
 
 class RoleUploader implements IDBUploader<Role> {
     private final Connection connection;
-    private final ObjectDownloader dl;
+    private final Downloader dl;
 
     public RoleUploader(Connection connection) throws SQLException {
         this.connection = connection;
-        this.dl = ObjectDownloader.getInstance();
+        this.dl = Downloader.getInstance();
     }
 
     private void addRole(char category, String name) throws Exception {
@@ -127,13 +129,16 @@ class RoleUploader implements IDBUploader<Role> {
             throw new Exception("Role is null");
         }
         if(newRole instanceof CompilationRole){
-            CompilationRole oldRole = this.dl.loadCompilationRole(newRole.getId());
+            ObjectDownloader<CompilationRole> dl = (ObjectDownloader<CompilationRole>) Downloader.getInstance().getLoader(CompilationRole.class);
+            CompilationRole oldRole = dl.load(newRole.getId());
             if(!oldRole.getName().equals(newRole.getName())) this.updateRole('c', oldRole.getName(), newRole.getName());
         } else if (newRole instanceof ProductionRole){
-            ProductionRole oldRole = this.dl.loadProductionRole(newRole.getId());
+            ObjectDownloader<ProductionRole> dl = (ObjectDownloader<ProductionRole>) Downloader.getInstance().getLoader(ProductionRole.class);
+            ProductionRole oldRole = dl.load(newRole.getId());
             if(!oldRole.getName().equals(newRole.getName())) this.updateRole('p', oldRole.getName(), newRole.getName());
         } else if (newRole instanceof MusicianRole) {
-            MusicianRole oldRole = this.dl.loadMusicianRole(newRole.getId());
+            ObjectDownloader<MusicianRole> dl = (ObjectDownloader<MusicianRole>) Downloader.getInstance().getLoader(MusicianRole.class);
+            MusicianRole oldRole = dl.load(newRole.getId());
             if(!oldRole.getName().equals(newRole.getName())) this.updateRole('m', oldRole.getName(), newRole.getName());
         } else {
             throw new Exception("Type of role not supported");

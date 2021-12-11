@@ -32,4 +32,6 @@ module dawson.songtracker {
     opens dawson.songtracker.front.utils to javafx.fxml;
     exports dawson.songtracker.front;
     opens dawson.songtracker.front to javafx.fxml;
+    exports dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders;
+    opens dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders to javafx.fxml;
 }

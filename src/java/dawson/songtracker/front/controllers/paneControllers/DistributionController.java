@@ -3,10 +3,12 @@ package dawson.songtracker.front.controllers.paneControllers;
 import dawson.songtracker.front.controllers.add.AddDistributionController;
 import dawson.songtracker.front.controllers.edit.DistributionDetailEditController;
 import dawson.songtracker.front.controllers.searchPanel.DistributionSearchController;
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
 import dawson.songtracker.front.event.SearchEvent;
 import dawson.songtracker.back.types.distributions.Distribution;
 import dawson.songtracker.front.utils.Loader;
+
+import java.util.ArrayList;
 
 public class DistributionController extends DefaultWithDetailsController<
         Distribution, DistributionSearchController, AddDistributionController, DistributionDetailEditController>
@@ -19,7 +21,7 @@ public class DistributionController extends DefaultWithDetailsController<
 
     @Override
     public void setCacheUpdateMethod() {
-        this.cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllDistributions() );
+        this.cache.setUpdateMethod(()-> (ArrayList<Distribution>) Downloader.getInstance().getLoader(Distribution.class).loadAll());
     }
 
     @Override

@@ -1,11 +1,13 @@
 package dawson.songtracker.front.controllers.paneControllers;
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
 import dawson.songtracker.front.controllers.assign.ContributorPopupController;
 import dawson.songtracker.front.controllers.add.AddSongController;
 import dawson.songtracker.front.controllers.searchPanel.SearchSongController;
 import dawson.songtracker.back.types.components.Recording;
 import dawson.songtracker.front.utils.Loader;
+
+import java.util.ArrayList;
 
 public class RecordingController extends DefaultWithDetailsController
         <Recording, SearchSongController, AddSongController, ContributorPopupController>
@@ -18,7 +20,7 @@ public class RecordingController extends DefaultWithDetailsController
 
     @Override
     public void setCacheUpdateMethod() {
-        this.cache.setUpdateMethod(() -> ObjectDownloader.getInstance().loadAllRecordings());
+        this.cache.setUpdateMethod(()-> (ArrayList<Recording>) Downloader.getInstance().getLoader(Recording.class).loadAll());
     }
 
     public void initialize() {

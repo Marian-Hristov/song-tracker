@@ -1,5 +1,5 @@
-import dawson.songtracker.back.dbObjects.DBConnection;
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.ObjectDownloader;
 import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.back.types.components.Recording;
 import dawson.songtracker.back.types.distributions.Collection;
@@ -16,15 +16,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ObjectDownloaderTests {
-    private final String userName = "";
-    private final String password = "";
 
     @Test
     public void recordingByName() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Recording> recordings = dl.loadRecordingsByName("beat it vocals");
+        ObjectDownloader<Recording> dl = (ObjectDownloader<Recording>) Downloader.getInstance().getLoader(Recording.class);
+        ArrayList<Recording> recordings = dl.loadByName("beat it vocals");
         assertEquals("beat it vocals", recordings.get(0).getName());
         for (Recording recording :
                 recordings) {
@@ -34,10 +30,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void compilationsByName() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Compilation> compilations = dl.loadCompilationsByName("Leave the Door Open vocals comp");
+        ObjectDownloader<Compilation> dl = (ObjectDownloader<Compilation>) Downloader.getInstance().getLoader(Compilation.class);
+        ArrayList<Compilation> compilations = dl.loadByName("Leave the Door Open vocals comp");
         assertEquals("Leave the Door Open vocals comp", compilations.get(0).getName());
         for (Compilation compilation :
                 compilations) {
@@ -47,10 +41,9 @@ public class ObjectDownloaderTests {
 
     @Test
     public void contributorsByName() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Contributor> contributors = dl.loadContributorsByName("Michael Jackson");
+        ObjectDownloader<Contributor> dl = (ObjectDownloader<Contributor>) Downloader.getInstance().getLoader(Contributor.class);
+
+        ArrayList<Contributor> contributors = dl.loadByName("Michael Jackson");
         assertEquals("Michael Jackson", contributors.get(0).getName());
         for (Contributor contributor :
                 contributors) {
@@ -60,10 +53,9 @@ public class ObjectDownloaderTests {
 
     @Test
     public void productionRolesByName() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<ProductionRole> productionRoles = dl.loadProductionRolesByName("composer");
+        ObjectDownloader<ProductionRole> dl = (ObjectDownloader<ProductionRole>) Downloader.getInstance().getLoader(ProductionRole.class);
+
+        ArrayList<ProductionRole> productionRoles = dl.loadByName("composer");
         assertEquals("composer", productionRoles.get(0).getName());
         for (ProductionRole productionRole :
                 productionRoles) {
@@ -73,10 +65,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void musicalRolesByName() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<MusicianRole> roles = dl.loadMusicianRolesByName("bongosero");
+        ObjectDownloader<MusicianRole> dl = (ObjectDownloader<MusicianRole>) Downloader.getInstance().getLoader(MusicianRole.class);
+        ArrayList<MusicianRole> roles = dl.loadByName("bongosero");
         assertEquals("bongosero", roles.get(0).getName());
         for (MusicianRole role :
                 roles) {
@@ -86,10 +76,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void compilationRolesByName() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<CompilationRole> roles = dl.loadCompilationRolesByName("recording engineer");
+        ObjectDownloader<CompilationRole> dl = (ObjectDownloader<CompilationRole>) Downloader.getInstance().getLoader(CompilationRole.class);
+        ArrayList<CompilationRole> roles = dl.loadByName("recording engineer");
         assertEquals("recording engineer", roles.get(0).getName());
         for (CompilationRole role :
                 roles) {
@@ -99,10 +87,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void recordLabelsByName() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<RecordLabel> recordLabels = dl.loadRecordLabelsByName("Atlantic");
+        ObjectDownloader<RecordLabel> dl = (ObjectDownloader<RecordLabel>) Downloader.getInstance().getLoader(RecordLabel.class);
+        ArrayList<RecordLabel> recordLabels = dl.loadByName("Atlantic");
         assertEquals("Atlantic", recordLabels.get(0).getName());
         for (RecordLabel rl :
                 recordLabels) {
@@ -112,10 +98,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void marketsByName() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Market> markets = dl.loadMarketsByName("North-America");
+        ObjectDownloader<Market> dl = (ObjectDownloader<Market>) Downloader.getInstance().getLoader(Market.class);
+        ArrayList<Market> markets = dl.loadByName("North-America");
         assertEquals("North-America", markets.get(0).getName());
         for (Market market :
                 markets) {
@@ -125,10 +109,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void collectionsByName() throws SQLException {
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Collection> collections = dl.loadCollectionsByName("Believer");
+        ObjectDownloader<Collection> dl = (ObjectDownloader<Collection>) Downloader.getInstance().getLoader(Collection.class);
+        ArrayList<Collection> collections = dl.loadByName("Believer");
         assertEquals("Believer", collections.get(0).getName());
         for (Collection collection :
                 collections) {
@@ -138,10 +120,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void markets() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Market> markets = dl.loadFirstMarkets(50);
+        ObjectDownloader<Market> dl = (ObjectDownloader<Market>) Downloader.getInstance().getLoader(Market.class);
+        ArrayList<Market> markets = dl.loadFirst(50);
         System.out.println(markets.size());
         for(Market market : markets){
             System.out.println(market);
@@ -150,10 +130,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void recordLabels() throws SQLException {
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<RecordLabel> recordLabels = dl.loadFirstRecordLabels(50);
+        ObjectDownloader<RecordLabel> dl = (ObjectDownloader<RecordLabel>) Downloader.getInstance().getLoader(RecordLabel.class);
+        ArrayList<RecordLabel> recordLabels = dl.loadFirst(50);
         System.out.println(recordLabels.size());
         for(RecordLabel recordLabel : recordLabels){
             System.out.println(recordLabel);
@@ -162,10 +140,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void musicalRole() throws SQLException {
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<MusicianRole> musicianRoles = dl.loadFirstMusicianRoles(50);
+        ObjectDownloader<MusicianRole> dl = (ObjectDownloader<MusicianRole>) Downloader.getInstance().getLoader(MusicianRole.class);
+        ArrayList<MusicianRole> musicianRoles = dl.loadFirst(50);
         System.out.println(musicianRoles.size());
         for (MusicianRole mr :
                 musicianRoles) {
@@ -176,10 +152,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void productionRole() throws SQLException {
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<ProductionRole> productionRoles = dl.loadFirstProductionRoles(50);
+        ObjectDownloader<ProductionRole> dl = (ObjectDownloader<ProductionRole>) Downloader.getInstance().getLoader(ProductionRole.class);
+        ArrayList<ProductionRole> productionRoles = dl.loadFirst(50);
         System.out.println(productionRoles.size());
         for (ProductionRole productionRole :
                 productionRoles) {
@@ -189,10 +163,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void compilationRole() throws SQLException {
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<CompilationRole> compilationRoles = dl.loadFirstCompilationRoles(50);
+        ObjectDownloader<CompilationRole> dl = (ObjectDownloader<CompilationRole>) Downloader.getInstance().getLoader(CompilationRole.class);
+        ArrayList<CompilationRole> compilationRoles = dl.loadFirst(50);
         System.out.println(compilationRoles.size());
         for (CompilationRole compRole :
                 compilationRoles) {
@@ -202,10 +174,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void contributor() throws SQLException {
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Contributor> contributors = dl.loadFirstContributors(50);
+        ObjectDownloader<Contributor> dl = (ObjectDownloader<Contributor>) Downloader.getInstance().getLoader(Contributor.class);
+        ArrayList<Contributor> contributors = dl.loadFirst(50);
         System.out.println(contributors.size());
         for (Contributor contributor :
                 contributors) {
@@ -216,10 +186,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void compilation() throws SQLException {
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Compilation> compilations = dl.loadFirstCompilations(50);
+        ObjectDownloader<Compilation> dl = (ObjectDownloader<Compilation>) Downloader.getInstance().getLoader(Compilation.class);
+        ArrayList<Compilation> compilations = dl.loadFirst(50);
         System.out.println(compilations.size());
         for (Compilation compilation :
                 compilations) {
@@ -229,10 +197,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void recordings() throws SQLException {
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Recording> recordings = dl.loadFirstRecordings(50);
+        ObjectDownloader<Recording> dl = (ObjectDownloader<Recording>) Downloader.getInstance().getLoader(Recording.class);
+        ArrayList<Recording> recordings = dl.loadFirst(50);
         System.out.println(recordings.size());
         for (Recording recording :
                 recordings) {
@@ -242,10 +208,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void collections() throws SQLException {
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Collection> collections = dl.loadFirstCollections(50);
+        ObjectDownloader<Collection> dl = (ObjectDownloader<Collection>) Downloader.getInstance().getLoader(Collection.class);
+        ArrayList<Collection> collections = dl.loadFirst(50);
         System.out.println(collections.size());
         for (Collection collection :
                 collections) {
@@ -255,10 +219,8 @@ public class ObjectDownloaderTests {
 
     @Test
     public void distributions() throws SQLException{
-        DBConnection.setUsername(userName);
-        DBConnection.setPassword(password);
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        ArrayList<Distribution> distributions = dl.loadAllDistributions();
+        ObjectDownloader<Distribution> dl = (ObjectDownloader<Distribution>) Downloader.getInstance().getLoader(Distribution.class);
+        ArrayList<Distribution> distributions = dl.loadAll();
         System.out.println(distributions.size());
         for(Distribution distribution : distributions){
             System.out.println(distribution);

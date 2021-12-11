@@ -1,9 +1,11 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.ObjectDownloader;
 import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.back.types.components.Recording;
 import dawson.songtracker.back.types.components.Segment;
+import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.back.types.roles.CompilationRole;
 import dawson.songtracker.back.types.roles.Contributor;
 
@@ -214,10 +216,10 @@ class CompilationUploader implements IDBUploader<Compilation> {
 
     private void addAllSegments(Compilation compilation) throws SQLException {
         for(Segment<Compilation> compilationSegment : compilation.getSampledCompilations()){
-            this.addSampleToCompilation(compilationSegment.getId(), compilationSegment.getMainTrackOffset(), compilationSegment.getDurationInMainTrack(), compilationSegment.getComponentTrackOffset(), compilationSegment.getComponentTrack().getDuration(), compilationSegment.getComponentTrack().getId(), 'c');
+            this.addSampleToCompilation(compilationSegment.getId(), compilationSegment.getMainTrackOffset(), compilationSegment.getDurationInMainTrack(), compilationSegment.getComponentTrackOffset(), compilationSegment.getDurationOfComponentUsed(), compilationSegment.getComponentTrack().getId(), 'c');
         }
         for(Segment<Recording> segment : compilation.getSampledRecordings()){
-            this.addSampleToCompilation(segment.getId(), segment.getMainTrackOffset(), segment.getDurationInMainTrack(), segment.getComponentTrackOffset(), segment.getComponentTrack().getDuration(), segment.getComponentTrack().getId(), 'r');
+            this.addSampleToCompilation(segment.getId(), segment.getMainTrackOffset(), segment.getDurationInMainTrack(), segment.getComponentTrackOffset(), segment.getDurationOfComponentUsed(), segment.getComponentTrack().getId(), 'r');
         }
     }
 
@@ -236,8 +238,8 @@ class CompilationUploader implements IDBUploader<Compilation> {
     public void add(Compilation compilation) throws SQLException {
         if(compilation == null) throw new NullPointerException("the compilation is null");
         this.addCompilation(compilation.getName());
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        compilation.setId(dl.loadLastCompilation().getId());
+        ObjectDownloader<Compilation> dl = (ObjectDownloader<Compilation>) Downloader.getInstance().getLoader(Compilation.class);
+        compilation.setId(dl.loadLast().getId());
         addAllContributions(compilation);
         addAllSegments(compilation);
     }

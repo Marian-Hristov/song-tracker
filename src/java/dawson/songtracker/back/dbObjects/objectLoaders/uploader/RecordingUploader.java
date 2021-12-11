@@ -1,7 +1,9 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.ObjectDownloader;
 import dawson.songtracker.back.types.components.Recording;
+import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.back.types.roles.*;
 
 import java.sql.Connection;
@@ -12,11 +14,11 @@ import java.util.Map;
 
 class RecordingUploader implements IDBUploader<Recording> {
     private final Connection connection;
-    private ObjectDownloader dl;
+    private Downloader dl;
 
     public RecordingUploader(Connection connection) throws SQLException {
         this.connection = connection;
-        this.dl = ObjectDownloader.getInstance();
+        this.dl = Downloader.getInstance();
     }
 
 
@@ -227,8 +229,9 @@ class RecordingUploader implements IDBUploader<Recording> {
         if (newRecording == null) {
             throw new Exception("Recording is null");
         }
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        Recording oldRecording = dl.loadRecording(newRecording.getId());
+        ObjectDownloader<Recording> dl = (ObjectDownloader<Recording>) Downloader.getInstance().getLoader(Recording.class);
+
+        Recording oldRecording = dl.load(newRecording.getId());
         this.removeAllContributions(oldRecording);
         this.updateRecording(oldRecording.getId(), newRecording.getName(), newRecording.getDuration());
         this.addAllContributions(newRecording);

@@ -1,7 +1,7 @@
 package dawson.songtracker.front.controllers.paneControllers;
 
 import dawson.songtracker.front.controllers.edit.RoleDetailEditController;
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
 import dawson.songtracker.front.controllers.add.AddRoleController;
 import dawson.songtracker.front.controllers.searchPanel.RoleSearchController;
 import dawson.songtracker.front.event.AddRoleEvent;
@@ -33,9 +33,10 @@ public class RoleController extends DefaultWithDetailsController
     @Override
     public void setCacheUpdateMethod() {
         cache.setUpdateMethod(() -> {
-            var mr =  ObjectDownloader.getInstance().loadAllMusicianRoles();
-            var cr =  ObjectDownloader.getInstance().loadAllCompilationRoles();
-            var pr = ObjectDownloader.getInstance().loadAllProductionRoles();
+
+            var mr =  (ArrayList<MusicianRole>)Downloader.getInstance().getLoader(MusicianRole.class).loadAll();
+            var cr =  (ArrayList<CompilationRole>)Downloader.getInstance().getLoader(CompilationRole.class).loadAll();
+            var pr =  (ArrayList<ProductionRole>)Downloader.getInstance().getLoader(ProductionRole.class).loadAll();
 
             // Sub optimal
             ArrayList<Role> all = new ArrayList<>();

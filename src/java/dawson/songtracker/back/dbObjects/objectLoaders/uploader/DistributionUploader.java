@@ -1,6 +1,8 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.ObjectDownloader;
+import dawson.songtracker.back.types.distributions.Collection;
 import dawson.songtracker.back.types.distributions.Distribution;
 
 import java.sql.Connection;
@@ -100,8 +102,8 @@ class DistributionUploader implements IDBUploader<Distribution> {
         if(newDistribution == null){
             throw new Exception("Distribution is null");
         }
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        Distribution oldDistribution = dl.loadDistribution(newDistribution.getId());
+        ObjectDownloader<Distribution> dl = (ObjectDownloader<Distribution>) Downloader.getInstance().getLoader(Distribution.class);
+        Distribution oldDistribution = dl.load(newDistribution.getId());
         this.updateDistribution(oldDistribution.getId(), newDistribution.getCollection().getId(), newDistribution.getReleaseDate(), newDistribution.getLabel().getId(), newDistribution.getMarket().getId());
     }
 }

@@ -1,6 +1,7 @@
 package dawson.songtracker.back.dbObjects.objectLoaders.uploader;
 
-import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.Downloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.objectDownloaders.ObjectDownloader;
 import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.back.types.distributions.Collection;
 
@@ -203,8 +204,8 @@ class CollectionUploader implements IDBUploader<Collection> {
         if(newCollection == null){
             throw new Exception("Collection is null");
         }
-        ObjectDownloader dl = ObjectDownloader.getInstance();
-        Collection oldCollection = dl.loadCollection(newCollection.getId());
+        ObjectDownloader<Collection> dl = (ObjectDownloader<Collection>) Downloader.getInstance().getLoader(Collection.class);
+        Collection oldCollection = dl.load(newCollection.getId());
         this.removeAllCompilations(oldCollection);
         this.removeAllCollectionsFromSet(oldCollection);
         this.updateCollection(newCollection.getId(), newCollection.getName());
