@@ -11,9 +11,10 @@ the new guitarist role is in the musician category instead of the production cat
 # Limitations
 
 - For each type, there can only be 99999 different instance in total for each type
-  - Example: Recordings are a type. Only 99999 recordings can be created in total during the lifetime of the database
+- Example: Recordings are a type. Only 99999 recordings can be created in total during the lifetime of the database
 - A song can only be 9999.9 seconds long
 - A recording can only my 9999.9 seconds long
+- For the uploader tests, you need to reset the database for each test
 
 # Requirements
 
