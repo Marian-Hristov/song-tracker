@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<fx:root layoutX="66.0" layoutY="52.0" prefHeight="274.0" prefWidth="518.0"
+         style="-fx-background-color: white; -fx-border-style: solid;"
+         xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" type="Pane">
+    <children>
+        <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0">
+            <children>
+                <Label fx:id="name" text="Recording Name">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label fx:id="creation" layoutX="10.0" layoutY="10.0" text="Creation time" />
+                <Label fx:id="duration" layoutX="10.0" layoutY="27.0" text="Duration" />
+            </children>
+        </VBox>
+        <Button layoutX="412.0" layoutY="49.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="25.0" prefWidth="70.0" text="Add" />
+        <TableView fx:id="table" layoutX="25.0" layoutY="82.0" prefHeight="166.0" prefWidth="460.0">
+            <columns>
+                <TableColumn fx:id="contributorName" prefWidth="232.0" text="Name" />
+                <TableColumn fx:id="roleName" prefWidth="227.0" text="Role" />
+            </columns>
+        </TableView>
+        <Button layoutX="496.0" layoutY="4.0" minHeight="5.0" minWidth="5.0" mnemonicParsing="false" onAction="#hide" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red; -fx-background-radius: 100%;" />
+        <CheckBox fx:id="musicianCheck" layoutX="189.0" layoutY="53.0" mnemonicParsing="false" text="Musicians" id="musicianCheck"/>
+        <CheckBox fx:id="producerCheck" layoutX="293.0" layoutY="53.0" mnemonicParsing="false" text="Producers" id="producerCheck"/>
+        <Button layoutX="412.0" layoutY="19.0" mnemonicParsing="false" onAction="#onRemove" prefHeight="25.0" prefWidth="70.0" text="Remove" />
+
+    </children>
+
+</fx:root>

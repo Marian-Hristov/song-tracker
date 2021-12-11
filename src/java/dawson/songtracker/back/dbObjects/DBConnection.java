@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static String username = "A2041723";
-    private static String password = "ertatera";
+    private static String username = "A2033348";
+    private static String password = "6019@ria_database";
     private static Connection connection;
 
     public static Connection getConnection() throws SQLException {

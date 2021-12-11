@@ -1,18 +1,24 @@
 package dawson.songtracker.front.controllers.assign;
 
+import dawson.songtracker.front.CacheManager;
 import dawson.songtracker.front.event.ContributorAssignedEvent;
 import dawson.songtracker.back.types.components.Recording;
 import dawson.songtracker.back.types.roles.CompilationRole;
 import dawson.songtracker.back.types.roles.Contributor;
 import dawson.songtracker.back.types.roles.MusicianRole;
 import dawson.songtracker.back.types.roles.Role;
+import dawson.songtracker.front.utils.Loader;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class AssignContributorController extends AssignPopupController {
+public abstract class AssignContributorController extends AssignPopupController {
     @FXML
     ChoiceBox<Contributor> contributorBox;
 
@@ -20,9 +26,21 @@ public class AssignContributorController extends AssignPopupController {
     ChoiceBox<Role> roleBox;
 
     private Recording recording;
+    private List<Class<? extends Role>> acceptedClasses;
 
-    public AssignContributorController() {
+    public AssignContributorController(List<Class<? extends Role>> acceptedClasses) {
         super();
+        this.acceptedClasses = acceptedClasses;
+        try {
+            var loader = Loader.Load("assignContributorController");
+            loader.setController(this);
+            loader.setRoot(this);
+            loader.load();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -38,27 +56,33 @@ public class AssignContributorController extends AssignPopupController {
     }
 
     public void initialize() {
-       initializeContributorBox();
-       initializeRoleBox();
+//       initializeContributorBox();
+//       initializeRoleBox();
     }
 
     private void initializeContributorBox() {
-//        ObjectDownloader.getInstance().ge
+        List<Contributor> contributors = CacheManager.getContributors().getCachedItems();
+        this.contributorBox.getItems().addAll(contributors);
 
-//        this.contributorBox.setValue(contributors.get(1));
-//        contributors.forEach(contributor -> this.contributorBox.getItems().add(contributor));
+        this.contributorBox.setValue(contributors.get(0));
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        initializeContributorBox();
+        initializeRoleBox();
     }
 
     private void initializeRoleBox() {
-        ArrayList<Role> roles = new ArrayList<>(
-                Arrays.asList(
-                        new CompilationRole(1, "Compilation role example"),
-                        new MusicianRole(1, "Musician role example")
-                )
+        List<Role> roles = CacheManager.getRoles().getCachedItems();
 
-        );//ObjectDownloader.getAllContributors();
+        roles = roles.stream()
+                .filter(role -> acceptedClasses.contains(role.getClass()))
+                .collect(Collectors.toList());
+
         roles.forEach(role-> this.roleBox.getItems().add(role));
 
-        this.roleBox.setValue(roles.get(1));
+        this.roleBox.setValue(roles.get(0));
     }
 }

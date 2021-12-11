@@ -54,9 +54,4 @@ public abstract class DefaultWithDetailsController<
         this.addPanel.show();
     }
 
-    @Override
-    public void updateEntry(Type old, Type entry) throws Exception {
-        super.updateEntry(old, entry);
-        this.detailPane.hide();
-    }
 }

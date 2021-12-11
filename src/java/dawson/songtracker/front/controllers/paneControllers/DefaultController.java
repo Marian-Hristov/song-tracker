@@ -8,6 +8,8 @@ import dawson.songtracker.back.dbObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.front.event.SearchEvent;
 import dawson.songtracker.front.event.UpdateTableEvent;
 import dawson.songtracker.back.types.DatabaseObject;
+import dawson.songtracker.front.messageLogger.Message;
+import dawson.songtracker.front.messageLogger.MessageLoggerController;
 import dawson.songtracker.front.utils.ICrud;
 import dawson.songtracker.front.utils.ISearchPanelOwner;
 import dawson.songtracker.front.utils.Popup;
@@ -87,6 +89,9 @@ public abstract class DefaultController<
         this.uploader.add(entry);
         this.cache.update();
         this.addPanel.hide();
+        MessageLoggerController.getInstance().addMessage(
+                new Message("Added new entry. Fetching from database...")
+        );
     }
 
     @Override
@@ -94,11 +99,18 @@ public abstract class DefaultController<
         if(entry!=null)
         this.uploader.remove(entry);
         this.cache.update();
+        MessageLoggerController.getInstance().addMessage(
+                new Message("Removed entry. Fetching from database...")
+        );
     }
 
     @Override
     public void updateEntry(Type old, Type entry) throws Exception {
         this.uploader.update(entry);
+        this.addPanel.hide();
         this.cache.update();
+        MessageLoggerController.getInstance().addMessage(
+                new Message("Updated entry. Fetching from database...")
+        );
     }
 }

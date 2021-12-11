@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<fx:root layoutX="66.0" layoutY="52.0" prefHeight="274.0" prefWidth="518.0"
+         style="-fx-background-color: white; -fx-border-style: solid;"
+         xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" type="Pane">
+
+    <children>
+        <VBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0">
+            <children>
+                <Label fx:id="popupName1" text="Assign Segment">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+        <Button layoutX="194.0" layoutY="225.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="25.0" prefWidth="100.0" text="Add" />
+        <Button layoutX="496.0" layoutY="4.0" minHeight="5.0" minWidth="5.0" mnemonicParsing="false" onAction="#hide" prefHeight="15.0" prefWidth="15.0" style="-fx-background-color: red; -fx-background-radius: 100%;" />
+        <Label layoutX="31.0" layoutY="115.0" text="Main track offset" />
+        <ChoiceBox fx:id="componentTrack" layoutX="179.0" layoutY="78.0" prefWidth="150.0" />
+        <Label layoutX="197.0" layoutY="53.0" text="Component Track" />
+        <TextField fx:id="mainOffset" layoutX="21.0" layoutY="131.0" prefHeight="27.0" prefWidth="150.0" promptText="Number in seconds" />
+        <Label layoutX="35.0" layoutY="158.0" text="Duration in main" />
+        <TextField fx:id="mainDuration" layoutX="21.0" layoutY="175.0" prefHeight="27.0" prefWidth="150.0" promptText="Number in seconds" />
+        <Label layoutX="344.0" layoutY="115.0" text="Component offset" />
+        <TextField fx:id="componentOffset" layoutX="334.0" layoutY="131.0" prefHeight="27.0" prefWidth="150.0" promptText="Number in seconds" />
+        <Label layoutX="329.0" layoutY="158.0" text="Duration of component" />
+        <TextField fx:id="componentDuration" layoutX="334.0" layoutY="175.0" prefHeight="27.0" prefWidth="150.0" promptText="Number in seconds" />
+    </children>
+
+</fx:root>

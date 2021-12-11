@@ -20,7 +20,7 @@ public class CompilationDownloader extends ObjectDownloader<Compilation>{
     }
 
     public boolean isReleased(int compilationId) throws SQLException {
-        PreparedStatement ps = this.connection.prepareStatement("select * from collectionCompilations where compilation_id = ?");
+        PreparedStatement ps = connection.prepareStatement("select * from collectionCompilations where compilation_id = ?");
         ps.setInt(1, compilationId);
         ResultSet rs = ps.executeQuery();
         while(rs.next()){
