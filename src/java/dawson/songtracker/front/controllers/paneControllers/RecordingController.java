@@ -1,6 +1,7 @@
 package dawson.songtracker.front.controllers.paneControllers;
 
 import dawson.songtracker.back.dbObjects.objectLoaders.dowloader.ObjectDownloader;
+import dawson.songtracker.back.dbObjects.objectLoaders.uploader.ObjectUploader;
 import dawson.songtracker.back.types.roles.CompilationRole;
 import dawson.songtracker.back.types.roles.Contributor;
 import dawson.songtracker.back.types.roles.Role;
@@ -9,6 +10,7 @@ import dawson.songtracker.front.controllers.assign.AssignSegmentController;
 import dawson.songtracker.front.controllers.assign.ContributorPopupController;
 import dawson.songtracker.front.controllers.add.AddSongController;
 import dawson.songtracker.front.controllers.detail.CompilationDetailController;
+import dawson.songtracker.front.controllers.detail.ContributorRole;
 import dawson.songtracker.front.controllers.detail.RecordingDetailController;
 import dawson.songtracker.front.controllers.searchPanel.SearchSongController;
 import dawson.songtracker.back.types.components.Recording;
@@ -76,6 +78,22 @@ public class RecordingController extends DefaultWithDetailsController
 
     public void onAddContributor() {
         this.assignContributor.show();
+    }
+
+    public void onRemoveContributor(ContributorRole cr) {
+        var recording = this.searchPanel.getSelectedRow();
+
+        var roleMap = recording.getContributorsRoleMap();
+        var array = roleMap.get(cr.role());
+        array.remove(cr.contributor());
+        recording.setContributions(roleMap);
+
+        try {
+            this.updateEntry(recording, recording);
+            this.detailPane.hide();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

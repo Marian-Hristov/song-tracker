@@ -38,9 +38,6 @@ public class Contributor extends DatabaseObject {
 
     @Override
     public String toString() {
-        return "Contributor{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

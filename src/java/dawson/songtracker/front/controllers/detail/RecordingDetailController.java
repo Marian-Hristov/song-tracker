@@ -4,16 +4,23 @@ import dawson.songtracker.back.types.components.Recording;
 import dawson.songtracker.back.types.roles.Contributor;
 import dawson.songtracker.back.types.roles.ProductionRole;
 import dawson.songtracker.front.controllers.paneControllers.RecordingController;
+import dawson.songtracker.front.utils.IDetailedInfo;
 import dawson.songtracker.front.utils.Loader;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 public class RecordingDetailController extends DetailPopupController<Recording>{
+    @FXML
+    Label name;
+
+    @FXML
+    Label duration;
+
+    @FXML
+    Label creation;
 
     @FXML CheckBox musicianCheck;
     @FXML CheckBox producerCheck;
@@ -23,6 +30,7 @@ public class RecordingDetailController extends DetailPopupController<Recording>{
     @FXML TableColumn<ContributorRole, String> contributorName;
 
     ObservableList<ContributorRole> observableList = FXCollections.observableArrayList();
+    ContributorRole selectedRow;
 
     public void initialize() {
         this.setCols();
@@ -36,7 +44,17 @@ public class RecordingDetailController extends DetailPopupController<Recording>{
     private void setCols() {
         roleName.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().role().getName()));
         contributorName.setCellValueFactory(cellValue -> new SimpleObjectProperty<>(cellValue.getValue().contributor().getName()));
+        table.setRowFactory(tv -> {
+            TableRow<ContributorRole> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                ContributorRole clickedRow = row.getItem();
+                selectedRow = clickedRow;
+            });
+
+            return row;
+        });
     }
+
 
     private void populateProductionTable() {
         if (!producerCheck.isSelected()) return;
@@ -68,6 +86,9 @@ public class RecordingDetailController extends DetailPopupController<Recording>{
         this.entity = entity;
         this.set();
         this.setVisible(true);
+        this.name.setText(this.entity.getName());
+        this.duration.setText(entity.getDurationString());
+        this.creation.setText(entity.getCreationTime().toString());
     }
 
     private void set() {
@@ -86,5 +107,11 @@ public class RecordingDetailController extends DetailPopupController<Recording>{
         var parent = (RecordingController) this.getParent();
         parent.onAddContributor();
         this.hide();
+    }
+
+    public void onRemove() {
+        var parent = ((RecordingController) this.getParent());
+        parent.onRemoveContributor(selectedRow);
+
     }
 }
