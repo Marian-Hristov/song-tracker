@@ -2,7 +2,7 @@ create or replace package contributor_mgmt as
     function contributorExists(searched_contributor_name varchar2)
         return number;
     procedure addContributor(new_contributor_name varchar2);
-    procedure removeContributor(deleted_contributor_name varchar2);
+    procedure removeContributor(deleted_contributor_id number);
     procedure updateContributor(old_contributor_name varchar2, new_contributor_name varchar2);
 end contributor_mgmt;
 /
@@ -36,10 +36,8 @@ create or replace package body contributor_mgmt as
     -- Remove a contributor
     procedure removeContributor(deleted_contributor_id number) is
     begin
-        if deleted_contributor_name is null then
-            raise_application_error(-20001, 'one or more arguments are null or empty');
-        elsif (contributorExists(deleted_contributor_name) = 1) then
-            raise_application_error(-20003, 'cannot delete contributor that does not exist');
+        if deleted_contributor_id < 1 then
+            raise_application_error(-20001, 'one or more arguments are invalid');
         end if;
         -- Deleting the contributor from contribution tables
         delete from musicalContributions
