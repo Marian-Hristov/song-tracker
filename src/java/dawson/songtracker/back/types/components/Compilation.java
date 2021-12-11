@@ -62,6 +62,29 @@ public class Compilation extends SongComponent {
         return this.contributions;
     }
 
+    public void addContribution(CompilationRole compilationRole, Contributor contributor) {
+        if (compilationRole == null) throw new NullPointerException("the compilationRole is null");
+        if (contributor == null) throw new NullPointerException("the contributor is null");
+        if (this.contributions.containsKey(compilationRole)) {
+            this.contributions.get(compilationRole).add(contributor);
+        } else {
+            ArrayList<Contributor> contributors = new ArrayList<>();
+            contributors.add(contributor);
+            this.contributions.put(compilationRole, contributors);
+        }
+    }
+
+    public void removeContribution(CompilationRole compilationRole, Contributor contributor) {
+        if (compilationRole == null) throw new NullPointerException("the compilationRole is null");
+        if (contributor == null) throw new NullPointerException("the contributor is null");
+        if (this.contributions.get(compilationRole) == null)
+            throw new NoSuchElementException("this role hasn't been added to this compilation");
+        if (!this.contributions.get(compilationRole).remove(contributor))
+            throw new NoSuchElementException("this contributor cannot be removed from this role because they are not assigned this role");
+    }
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

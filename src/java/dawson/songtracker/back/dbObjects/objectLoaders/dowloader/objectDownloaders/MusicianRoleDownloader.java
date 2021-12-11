@@ -47,7 +47,8 @@ public class MusicianRoleDownloader extends ObjectDownloader<MusicianRole>{
 
     @Override
     public ArrayList<MusicianRole> loadAll() throws SQLException {
-        return null;
+        int total = totalMusicianRoles();
+        return loadFirst(total);
     }
 
     @Override
