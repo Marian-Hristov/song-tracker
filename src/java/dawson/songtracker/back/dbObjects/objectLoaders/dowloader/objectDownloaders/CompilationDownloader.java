@@ -175,6 +175,7 @@ public class CompilationDownloader extends ObjectDownloader<Compilation>{
     public Compilation loadLast() throws SQLException {
         PreparedStatement ps = this.connection.prepareStatement("select compilation_id from compilations order by compilation_id desc fetch first row only");
         ResultSet rs = ps.executeQuery();
+        rs.next();
         int lastId = rs.getInt("compilation_id");
         ps.close();
         return load(lastId);

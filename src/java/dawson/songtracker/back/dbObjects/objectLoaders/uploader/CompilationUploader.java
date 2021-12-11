@@ -209,8 +209,10 @@ class CompilationUploader implements IDBUploader<Compilation> {
 
     private void removeAllContributions(Compilation compilation) throws SQLException {
         if(compilation == null) throw new NullPointerException("the compilation is null");
-        for(Segment<Compilation> compilationSegment : compilation.getSampledCompilations()){
-            this.removeSampleFromCompilation(compilation.getId(), compilationSegment.getMainTrackId(), 'c');
+        for(Map.Entry<CompilationRole, ArrayList<Contributor>> entry : compilation.getContributions().entrySet()){
+            for(Contributor contributor : entry.getValue()){
+                this.removeContributorFromCompilation(compilation.getId(), contributor.getId(), entry.getKey().getId());
+            }
         }
     }
 
@@ -227,10 +229,8 @@ class CompilationUploader implements IDBUploader<Compilation> {
         for(Segment<Recording> segment : compilation.getSampledRecordings()){
             this.removeSampleFromCompilation(compilation.getId(), segment.getMainTrackId(), 'r');
         }
-        for(Map.Entry<CompilationRole, ArrayList<Contributor>> entry : compilation.getContributions().entrySet()){
-            for(Contributor contributor : entry.getValue()){
-                this.removeContributorFromCompilation(compilation.getId(), contributor.getId(), entry.getKey().getId());
-            }
+        for(Segment<Compilation> compilationSegment : compilation.getSampledCompilations()){
+            this.removeSampleFromCompilation(compilation.getId(), compilationSegment.getMainTrackId(), 'c');
         }
     }
 
@@ -245,13 +245,15 @@ class CompilationUploader implements IDBUploader<Compilation> {
     }
 
     @Override
-    public void update(Compilation compilation) throws SQLException {
-        if(compilation == null) throw new NullPointerException("the compilation is null");
-        removeAllSegments(compilation);
-        removeAllContributions(compilation);
-        addAllContributions(compilation);
-        addAllSegments(compilation);
-        updateCompilation(compilation.getId(), compilation.getName());
+    public void update(Compilation newCompilation) throws SQLException {
+        if(newCompilation == null) throw new NullPointerException("the compilation is null");
+        ObjectDownloader<Compilation> dl = (ObjectDownloader<Compilation>) Downloader.getInstance().getLoader(Compilation.class);
+        Compilation oldCompilation = dl.load(newCompilation.getId());
+        removeAllSegments(oldCompilation);
+        removeAllContributions(oldCompilation);
+        addAllContributions(newCompilation);
+        addAllSegments(newCompilation);
+        updateCompilation(newCompilation.getId(), newCompilation.getName());
     }
 
     @Override
