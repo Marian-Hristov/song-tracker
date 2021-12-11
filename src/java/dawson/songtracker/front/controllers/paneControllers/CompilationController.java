@@ -10,6 +10,7 @@ import dawson.songtracker.front.CacheManager;
 import dawson.songtracker.front.controllers.assign.AssignSegmentController;
 import dawson.songtracker.front.controllers.detail.CompilationDetailController;
 import dawson.songtracker.front.controllers.add.AddSongController;
+import dawson.songtracker.front.controllers.detail.ContributorRole;
 import dawson.songtracker.front.controllers.searchPanel.SearchSongController;
 import dawson.songtracker.back.types.components.Compilation;
 import dawson.songtracker.front.event.ContributorAssignedEvent;
@@ -83,6 +84,41 @@ public class CompilationController extends DefaultWithDetailsController
         this.assignSegment.show(this.searchPanel.getSelectedRow());
     }
 
+    public void onRemoveContributor(ContributorRole cr) {
+        if (cr == null) return;
+        var recording = this.searchPanel.getSelectedRow();
 
+        var roleMap = recording.getContributorsRoleMap();
+        var array = roleMap.get(cr.role());
+        array.remove(cr.contributor());
+        recording.setContributions(roleMap);
 
+        try {
+            this.updateEntry(recording, recording);
+            this.detailPane.hide();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onRemoveSegment(Segment segment) {
+        if (segment == null) return;
+        var compilation = searchPanel.getSelectedRow();
+        var a = compilation.getSampledCompilations();
+        var b = compilation.getSampledRecordings();
+
+        a.remove(segment);
+        b.remove(segment);
+
+        compilation.setSampledCompilations(a);
+        compilation.setSampledRecordings(b);
+
+        try {
+            this.updateEntry(compilation, compilation);
+            this.detailPane.hide();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

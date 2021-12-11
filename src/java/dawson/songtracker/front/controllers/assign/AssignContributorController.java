@@ -64,7 +64,7 @@ public abstract class AssignContributorController extends AssignPopupController 
         List<Contributor> contributors = CacheManager.getContributors().getCachedItems();
         this.contributorBox.getItems().addAll(contributors);
 
-        this.contributorBox.setValue(contributors.get(1));
+        this.contributorBox.setValue(contributors.get(0));
     }
 
     @Override
@@ -83,6 +83,6 @@ public abstract class AssignContributorController extends AssignPopupController 
 
         roles.forEach(role-> this.roleBox.getItems().add(role));
 
-        this.roleBox.setValue(roles.get(1));
+        this.roleBox.setValue(roles.get(0));
     }
 }
