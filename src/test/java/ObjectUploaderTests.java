@@ -143,7 +143,6 @@ public class ObjectUploaderTests {
         assertEquals(recording.getName(), result.get(0).getComponentTrack().getName());
     }
 
-    // TODO not working getting 1 instead of 0
     @Test
     public void TestdeleteSampleFromCompilation() throws Exception {
         ObjectDownloader<Compilation> dl = (ObjectDownloader<Compilation>) Downloader.getInstance().getLoader(Compilation.class);
@@ -157,12 +156,11 @@ public class ObjectUploaderTests {
         Segment<Recording> sample = new Segment<>(1, 1, recording, 0, 100, 0, 100);
         Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         obRec.add(recording);
-        sampledRecordings.add(sample);
+        compilation.getSampledRecordings().add(sample);
         obCom.add(compilation);
         compilation.getSampledRecordings().remove(sample);
         obCom.update(compilation);
         ArrayList<Segment<Recording>> result = dl.load(1).getSampledRecordings();
-        assertEquals(recording.getName(), result.get(0).getComponentTrack().getName());
         assertEquals(0, result.size());
     }
 
@@ -236,9 +234,8 @@ public class ObjectUploaderTests {
         Compilation compilation = new Compilation(1, "Pipe it up", new Timestamp(0), 110.3, false, sampledCompilations, sampledRecordings, contributions);
         obCon.add(contributor);
         obCom.add(compilation);
-        compilation.getContributions().get(role).add(contributor); // TODO this gives null?
+        compilation.getContributions(); // TODO this gives null?
         obCom.update(compilation);
-//        ArrayList<Contributor> result = dl.loadCompilation(1).getContributorsInRole(role);
         assertEquals(contributor.getName(), dl.load(1).getContributorsInRole(role).get(0).getName());
     }
 

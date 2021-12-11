@@ -15,6 +15,7 @@ the new guitarist role is in the musician category instead of the production cat
 - A song can only be 9999.9 seconds long
 - A recording can only my 9999.9 seconds long
 - For the uploader tests, you need to reset the database for each test
+- For the downloader tests, you need to have the 3 sample songs on the database
 
 # Requirements
 
