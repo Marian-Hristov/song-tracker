@@ -22,6 +22,15 @@ the new guitarist role is in the musician category instead of the production cat
 - Oracle Database 19C
 - Java 16
 
+#Install Process
+
+1. Clone the git repository from https://gitlab.com/marian.hristov/song-tracker into your local machine
+2. Open it using a preferred code editor (for this example it's vs code)
+3. Open the folder in vscode
+4. Make sure you have MicroSoft's "Extension pack for java" installed in your vs code extensions
+5. CTR + SHIFT + P => Create Java project and select maven as a build tool
+6. Select Maven as a build
+
 # Initial Setup
 
 1. Enter your database credentials in the <code>src/java/dawson/songtracker/back/dbObjects/DBConnection.java</code> file it should look like this:
@@ -45,7 +54,6 @@ the new guitarist role is in the musician category instead of the production cat
 1. Make sure the app is not running anymore
 2. Delete the database
     - Run uninstall.sql onto your database to remove the database needed for the app
-=======
 # Assumptions
 
 #### Recordings
