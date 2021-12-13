@@ -22,6 +22,7 @@ the new guitarist role is in the musician category instead of the production cat
 
 - Oracle Database 19C
 - Java 16
+- Intellij Idea Community Edition 2021.2.3
 
 #Install Process
 
@@ -32,7 +33,23 @@ the new guitarist role is in the musician category instead of the production cat
 5. CTR + SHIFT + P => Create Java project and select maven as a build tool
 6. Select Maven as a build
 
-# Initial Setup
+# Initial Setup of Intellij Idea Project
+
+
+- Open Get From VCS -> Repository URL, paste the url of the git repo and choose the folder in which you want to setup the project -> Clone
+- If prompt click Trust Project 
+- File -> Close Project -> Right click on project -> Remove from recent projects 
+- New Project -> JavaFX -> Select folder location to be the folder that you created previously -> click yes to the warning -> finish 
+- Delete src/main folder 
+- Click Project on the left to open the file explorer -> open the first java folder in src -> right click on it -> mark directory as -> source root 
+- Still in the file explorer -> right click on resources folder in src -> Mark directory as -> Resources root 
+- Navigate to this file: src/java/dawson/songtracker/back/dbObjects/DBConnection.java and open it 
+- Sent the username and password to your database credentials 
+- Project Structure -> Click + in the middle panel => Java => Go into your project folder -> lib -> select all the jar files by shift clicking the first and last one -> Ok -> Ok -> Ok 
+- Navigate to this file: src/java/dawson/songtracker/MVCApp.java 
+- Run MVCApp.java with the green triangle on the right of the line
+
+# Initial Setup of database
 
 1. Enter your database credentials in the <code>src/java/dawson/songtracker/back/dbObjects/DBConnection.java</code> file it should look like this:
     
