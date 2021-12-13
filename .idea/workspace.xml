@@ -128,9 +128,9 @@
     </configuration>
     <list>
       <item itemvalue="Application.Song Tracker" />
+      <item itemvalue="JUnit.ObjectDownloaderTests.compilationsByName" />
       <item itemvalue="JUnit.ObjectDownloaderTests" />
       <item itemvalue="JUnit.ObjectDownloaderTests.collections" />
-      <item itemvalue="JUnit.ObjectDownloaderTests.compilationsByName" />
       <item itemvalue="JUnit.ObjectDownloaderTests.distributions" />
       <item itemvalue="JUnit.ObjectDownloaderTests.musicalRole" />
       <item itemvalue="JUnit.ObjectDownloaderTests.recordingByName" />
