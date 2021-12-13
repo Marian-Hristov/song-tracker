@@ -9,7 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ebd9b5f-48b4-4260-92da-53ddba97a638" name="Changes" comment="" />
+    <list default="true" id="ad7e32bf-a44a-4c3b-8c07-06182fe33830" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/javafx-base-16-win.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javafx-controls-16-win.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javafx-fxml-16-win.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javafx-graphics-16-win.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -128,9 +135,9 @@
     </configuration>
     <list>
       <item itemvalue="Application.Song Tracker" />
+      <item itemvalue="JUnit.ObjectDownloaderTests.compilationsByName" />
       <item itemvalue="JUnit.ObjectDownloaderTests" />
       <item itemvalue="JUnit.ObjectDownloaderTests.collections" />
-      <item itemvalue="JUnit.ObjectDownloaderTests.compilationsByName" />
       <item itemvalue="JUnit.ObjectDownloaderTests.distributions" />
       <item itemvalue="JUnit.ObjectDownloaderTests.musicalRole" />
       <item itemvalue="JUnit.ObjectDownloaderTests.recordingByName" />
@@ -148,7 +155,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="5ebd9b5f-48b4-4260-92da-53ddba97a638" name="Changes" comment="" />
+      <changelist id="ad7e32bf-a44a-4c3b-8c07-06182fe33830" name="Changes" comment="" />
       <created>1638462964475</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
