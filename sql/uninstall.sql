@@ -38,3 +38,11 @@ drop table compilationRoles;
 
 commit;
 
+drop package collection_mgmt;
+drop package compilation_mgmt;
+drop package contributor_mgmt;
+drop package distribution_mgmt;
+drop package label_mgmt;
+drop package market_mgmt;
+drop package recording_mgmt;
+drop package role_mgmt;
