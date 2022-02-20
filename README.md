@@ -1,5 +1,8 @@
 # Our song tracker
 
+# READ FIRST
+This an old version of the setup instructions, new instructions are on the way!
+
 Important: They are predefined production roles and musicians roles. When the user wants to add a new role in either categories,
 the user must be vigilant that they are adding the new role in the appropriate category. Our application does not check
 if the user adds the role to the appropriate category.
