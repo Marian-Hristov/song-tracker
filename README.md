@@ -63,12 +63,6 @@ the new guitarist role is in the musician category instead of the production cat
     </code>
 2. Setup the database
     - Run install.sql onto your database server to install the database needed for the app
-3. Compile the app
-    - Open the folder of the project and run this command:  
-    <code>compiling command</code>
-4. Run the app with this command: 
-    - Still in the folder of the project, run this command:  
-    <code>running command</code>
 
 # Uninstall process
 
